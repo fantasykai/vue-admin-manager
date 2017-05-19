@@ -1,0 +1,12 @@
+{
+    "pipeline": [{
+        "$group": {
+            "_id": {
+                "channel": "$channel"
+            },
+            "num": {"$sum": 1}}
+    },
+        {"$sort": {"num": 1}}
+    ],
+    "collections":"xxx"
+}

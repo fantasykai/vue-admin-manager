@@ -1,0 +1,17 @@
+{
+    "pipeline": [
+        {
+            "$group": {
+                "_id": {
+                    "nickname": "$nickname",
+                    "seqid": "$seqid",
+                    "send": "$send",
+                    "recv": "$recv"
+                }
+            }
+        },
+        {"$sort": {"_id.send": -1}},
+        {"$limit": 10}
+    ],
+    "collections":"xxx"
+}

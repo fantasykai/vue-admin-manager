@@ -1,0 +1,14 @@
+{
+    "pipeline": [{
+        "$group": {
+            "_id": {
+                "deviceModel": "$deviceModel",
+                "deviceType": "$deviceType"
+            },
+            "num": {"$sum": 1}}
+    },
+        {"$sort": {"num": -1,"_id.deviceType":-1}},
+        {"$limit": 20}
+    ],
+    "collections":"xxx"
+}

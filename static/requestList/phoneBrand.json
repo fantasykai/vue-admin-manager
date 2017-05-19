@@ -1,0 +1,13 @@
+{
+    "pipeline": [{
+        "$group": {
+            "_id": {
+                "brand": "$brand"
+            },
+            "num": {"$sum": 1}}
+    },
+        {"$sort": {"num": -1}},
+        {"$limit": 20}
+    ],
+    "collections":"xxx"
+}
