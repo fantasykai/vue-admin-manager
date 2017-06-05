@@ -3,8 +3,6 @@
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
                 {{collapsed ? '' : sysName }}
-
-
             </el-col>
             <el-col :span="10">
                 <div class="tools" @click.prevent="collapse">
@@ -90,14 +88,15 @@
 </template>
 
 <script>
-    import {getNickname, getSTSToken} from '../../api';
+    import { mapGetters } from 'vuex';
+//    import {getNickname, getSTSToken} from '../../api';
     import avatar from '../../../static/img/avatar.gif';
     export default {
         data() {
             return {
                 sysName: 'Sys后台管理',
                 collapsed: false,
-                nickname: '',
+//                nickname: '',
                 sysUserAvatar: avatar,
                 form: {
                     name: '',
@@ -110,6 +109,11 @@
                     desc: ''
                 }
             }
+        },
+        computed: {
+            ...mapGetters([
+                'nickname'
+            ])
         },
         methods: {
             onSubmit() {
@@ -147,33 +151,47 @@
             },
             getUserInfo() {
 
-                let uid = localStorage.getItem('account');
+//                let uid = localStorage.getItem('account');
+//
+//                getNickname(uid).then((res) => {
+//                    let {nickname} = res;
+//                    if (nickname) {
+//                        this.nickname = nickname;
+//                        localStorage.setItem("nickname", nickname)
+//                    }
+//                });
 
-                getNickname(uid).then((res) => {
-                    let {nickname} = res;
-                    if (nickname) {
-                        this.nickname = nickname;
-                        localStorage.setItem("nickname", nickname)
-                    }
+                this.$store.dispatch('GetUserInfo').then(() => {
+                        // this.showDialog = true;
+                    this.$router.push({ path: '/' });
+                }).catch(err => {
+                    this.$message.error(err);
                 });
 
             },
             getStsToken() {
 
-                getSTSToken().then((data) => {
+//                getSTSToken().then((data) => {
+//
+//                    let {AccessKeySecret, SecurityToken, Expiration, AccessKeyId} = data;
+//
+//                    let ossSts = {
+//                        'AccessKeySecret': AccessKeySecret,
+//                        'SecurityToken': SecurityToken,
+//                        'Expiration': Expiration,
+//                        'AccessKeyId': AccessKeyId
+//                    };
+//
+//                    localStorage.removeItem('ossSts');
+//                    localStorage.setItem('ossSts', JSON.stringify(ossSts));
+//                });
 
-                    let {AccessKeySecret, SecurityToken, Expiration, AccessKeyId} = data;
-
-                    let ossSts = {
-                        'AccessKeySecret': AccessKeySecret,
-                        'SecurityToken': SecurityToken,
-                        'Expiration': Expiration,
-                        'AccessKeyId': AccessKeyId
-                    };
-
-                    localStorage.removeItem('ossSts');
-                    localStorage.setItem('ossSts', JSON.stringify(ossSts));
+                this.$store.dispatch('GetStsToken').then(() => {
+                }).catch(err => {
+                    this.$message.error(err);
                 });
+
+
             },
         },
         mounted() {

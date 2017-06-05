@@ -9,7 +9,12 @@ import AnchorMsgMass from './components/page/AnchorMsgMass.vue';
 import AnchorDataStat from './components/page/AnchorDataStat.vue';
 import AnchorDetail from './components/page/AnchorDetail.vue';
 import UserManage from './components/page/UserManage.vue';
-import FriendsManage from './components/page/FriendsManage.vue';
+import FriendsManage from './components/page/friends/FriendsManage.vue';
+import FirendInRow from './components/page/friends/FriendsInRow.vue';
+import OperatingAccountManage from './components/page/operation/OperatingAccountManage.vue';
+import AutoReplyCfg from './components/page/operation/AutoReplyCfg.vue';
+import NewsMassManage from './components/page/operation/NewsMassManage.vue';
+import FriendNumRanked from './components/page/friends/FriendNumRanked.vue';
 
 
 let routes = [
@@ -53,10 +58,17 @@ let routes = [
         iconCls: 'el-icon-star-off',
         children: [
             {path: '/userManage', component: UserManage, name: 'Sys用户管理'},
+            {path: '/friendNumRanked', component: FriendNumRanked, name: '好友数量 TOP50'},
             {
                 path: '/friendsManage',
                 component: FriendsManage,
                 name: 'Sys好友管理',
+                hidden: true
+            },
+            {
+                path: '/firendInRow',
+                component: FirendInRow,
+                name: '分组中的好友',
                 hidden: true
             }
         ]
@@ -75,7 +87,20 @@ let routes = [
                 component: AnchorDetail,
                 name: '主播详情',
                 hidden: true
-            }
+            },
+            {path: '/operatingAccountManage', component: OperatingAccountManage, name: '推广试验田'},
+            {
+                path: '/autoReplyCfg',
+                component: AutoReplyCfg,
+                name: '自动回复设置',
+                hidden: true
+            },
+            {
+                path: '/newsMassManage',
+                component: NewsMassManage,
+                name: '运营账号消息群发',
+                hidden: true
+            },
         ]
     },
     {

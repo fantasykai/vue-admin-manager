@@ -9,7 +9,7 @@
                     -
                     <el-input v-model="filters.endTime" :placeholder="filters.defaultEndTime"
                               style="width: 40%;"></el-input>
-                    <el-button type="primary" v-on:click="getChatMsgRecord">查询</el-button>
+                    <el-button type="primary" v-on:click="getChatMsgRecordAll">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -28,7 +28,9 @@
                     <el-popover title="执行结果" trigger="hover" placement="top">
                         <p> {{ scope.row.rets | formattedJson }}</p>
                         <div slot="reference" class="name-wrapper">
-                            <el-tag :type="scope.row.rets | formatResultType">{{ scope.row.fromUserId.nickname }} </el-tag>
+                            <el-tag :type="scope.row.rets | formatResultType">{{ scope.row.fromUserId.nickname }}
+
+                            </el-tag>
                         </div>
                     </el-popover>
                 </template>
@@ -40,7 +42,8 @@
             <!--<el-table-column prop="content" :formatter="showVideoPatch" label="消息内容" width="200" sortable>-->
             <el-table-column label="消息内容" width="400" sortable>
                 <template scope="scope">
-                    <show-video v-if="isVideo[scope.$index]" :src="videoSrc[scope.$index]"></show-video>
+                    <show-video v-if="isVideo[scope.$index]" :src="videoSrc[scope.$index]"
+                                :thumbnail="thumbnailSrc[scope.$index]"></show-video>
                     <img v-if="!isVideo[scope.$index]"
                          :src="videoSrc[scope.$index]">
                 </template>
@@ -114,6 +117,7 @@
                 listLoading: false,
                 isVideo: [],
                 videoSrc: [],
+                thumbnailSrc: [],
             };
         },
         filters: {
@@ -161,10 +165,10 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getChatMsgRecord();
+                this.getChatMsgRecordAll();
             },
             //获取消息记录信息
-            getChatMsgRecord() {
+            getChatMsgRecordAll() {
 
                 let dateParam = ('' != this.filters.beginTime && '' != this.filters.endTime ) ? ',"msgTimestamp":{"$gt":"' + this.filters.beginTime + '","$lt":"' + this.filters.endTime + '"}}' : '}';
 
@@ -183,10 +187,11 @@
                     this.records = res.data._items;
                     this.listLoading = false;
 
-                    for (let i = 0; this.records.length; i++) {
-//                        submitted
-                        //如果记录中已经存在task_id，且task_id不为空，则标志为已经提交,否则默认为false未提交
-                        if (this.records[i].task_id) {
+                    for (let i = 0; i < this.records.length; i++) {
+
+                        let record = this.records[i];
+
+                        if ("task_id" in record) {
                             this.submitted[i] = true;
                         } else {
                             this.submitted[i] = false;
@@ -194,14 +199,14 @@
 
                         // 判断objectName为app:image app:video
                         let contentType = 'video/mp4';
-                        if ('app:video' === this.records[i].objectName) {
+                        if ('app:video' === record.objectName) {
                             this.isVideo[i] = true;
                         } else {
                             this.isVideo[i] = false;
                             contentType = 'image/jpeg'
                         }
 
-                        let {path} = JSON.parse(this.records[i].content);
+                        let {path, thumbnail} = record.content;
 
                         if (path) {
 
@@ -218,9 +223,19 @@
 
                             this.videoSrc[i] = result;
                         }
+                        if (thumbnail) {
 
+                            thumbnail += '@!web_show_blu';
+
+                            var thumbnailResult = this.ossClient.signatureUrl(thumbnail, {
+                                response: {
+                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
+                                    'Content-Type': contentType
+                                }
+                            });
+                            this.thumbnailSrc[i] = thumbnailResult;
+                        }
                     }
-                    //NProgress.done();
                 });
             },
             /**
@@ -231,35 +246,31 @@
             submitTimingTask: function (messageId, index) {
 
                 // TODO 校验ID 是否为空，校验时间格式是否正确
-//                console.log("messageId: " + messageId);
-//                console.log("taskStartTime: " + (this.$refs.timingInput + index).value);
                 var taskTime = document.getElementsByName("timing-" + index)[0].value;
-//                console.log("taskStartDoc: " + taskTime);
 
                 let params = {
+                    "batch_process":"star_user_timer",
                     "message_id": messageId,
                     "task_starttime": taskTime
                 }
-                setMsgTimingTask(params)
-                    .then(data => {
+                setMsgTimingTask(params).then(data => {
 
-                        let {status, _status, _error} = data
+                    let {status, _status, _error} = data
 
-                        if (status) {
-                            this.$message({
-                                message: '提交成功',
-                                type: 'success'
-                            });
-//                            this.submitted[index] = true;
-                            this.handleCurrentChange(this.page);
+                    if (status) {
+                        this.$message({
+                            message: '提交成功',
+                            type: 'success'
+                        });
+                        this.handleCurrentChange(this.page);
 
-                        } else if (!_status) {
-                            this.$message({
-                                message: null != _error ? _error.message : 'Error!',
-                                type: 'error'
-                            });
-                        }
-                    }).catch((e) => {
+                    } else if (!_status) {
+                        this.$message({
+                            message: null != _error ? _error.message : 'Error!',
+                            type: 'error'
+                        });
+                    }
+                }).catch((e) => {
 
                     let {_error} = e
 
@@ -311,7 +322,7 @@
             this.filters.defaultEndTime = moment().format('YYYY-MM-DD 0:0:0');
 
             this.initOSSAuth();
-            this.getChatMsgRecord();
+            this.getChatMsgRecordAll();
         }
     };
 </script>

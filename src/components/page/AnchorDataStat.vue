@@ -10,7 +10,7 @@
                     <el-input v-model="filters.endTime" :placeholder="filters.defaultEndTime"
                               style="width: 25%;"></el-input>
                     |
-                    <el-input v-model="filters.userid" placeholder="userid/SeqId"
+                    <el-input v-model="filters.userId" placeholder="userId/SeqId"
                               style="width: 20%;"></el-input>
                     <el-button type="primary" v-on:click="getAnchorDataStatByParams">查询</el-button>
                 </el-form-item>
@@ -32,7 +32,7 @@
                     </router-link>
                 </template>
             </el-table-column>
-            <el-table-column prop="userid.userid" :formatter="showuserid" label="userid" width="" sortable>
+            <el-table-column prop="userid.userId" :formatter="showuserId" label="userId" width="" sortable>
             </el-table-column>
             <el-table-column prop="video_num" label="当日视频数量" width="" sortable>
             </el-table-column>
@@ -57,7 +57,7 @@
     //    import util from '../../common/js/util'
     //import NProgress from 'nprogress'
     import config from '../../config';
-    import {getAnchorDataStatPage, getUserUid} from '../../api';
+    import {getAnchorDataStatPage, getBluUid} from '../../api';
 
     export default {
 
@@ -66,12 +66,12 @@
                 filters: {
                     beginTime: '',
                     endTime: '',
-                    userid: '',
+                    userId: '',
                     defaultBeginTime: '',
                     defaultEndTime: '',
                 },
                 regex: {
-                    useridRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
+                    userIdRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
                     seqIdRe: /^\d{8,10}$/g,
                 },
                 records: [],
@@ -81,15 +81,15 @@
             };
         },
         watch: {
-            'filters.userid' (val, oldVal) {
+            'filters.userId' (val, oldVal) {
 //                console.log('new: %s, old: %s', val, oldVal)
             }
         },
         methods: {
-            // 展示userid或seqid
-            showuserid(row) {
-                if (row.userid.userid) {
-                    return row.userid.userid
+            // 展示userId或seqid
+            showuserId(row) {
+                if (row.userid.userId) {
+                    return row.userid.userId
                 }
                 return row.userid.seqid
             },
@@ -100,27 +100,27 @@
             // 获取主播信息
             getAnchorDataStatByParams() {
 
-                if (this.filters.userid) {
+                if (this.filters.userId) {
                     let queryParam = ''
-                    if (this.filters.userid.match(this.regex.useridRe)) {
-                        queryParam = '"userid":"' + this.filters.userid + '"'
-                    } else if (this.filters.userid.match(this.regex.seqIdRe)) {
-                        queryParam = '"seqid":' + this.filters.userid
+                    if (this.filters.userId.match(this.regex.userIdRe)) {
+                        queryParam = '"userId":"' + this.filters.userId + '"'
+                    } else if (this.filters.userId.match(this.regex.seqIdRe)) {
+                        queryParam = '"seqid":' + this.filters.userId
                     } else {
                         this.$message({
-                            message: 'userid格式校验失败',
+                            message: 'userId格式校验失败',
                             type: 'error'
                         });
                         return
                     }
-                    //  根据userid 获取用户的_id
+                    //  根据userId 获取用户的_id
 //                 /api/v1/users?where={"seqid":2090028357}&projection={"_id":1}
-                    let userid = {
+                    let userId = {
                         where: '{' + queryParam + '}',
                         projection: '{"_id":1}'
                     }
 
-                    getUserUid(userid).then((res) => {
+                    getBluUid(userId).then((res) => {
 
                         let items = res.data._items;
                         if (items.length > 0) {
@@ -134,7 +134,7 @@
                         }
                     }).catch(() => {
                         this.$message({
-                            message: '查询userid失败',
+                            message: '查询userId失败',
                             type: 'error'
                         });
                     });

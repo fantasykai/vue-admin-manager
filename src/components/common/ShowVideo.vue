@@ -27,7 +27,7 @@
             videoPlayer
         },
         name: 'showVideo',
-        props: ['src'],
+        props: ['src', 'thumbnail'],
         data() {
             return {
                 playerOptions: {
@@ -43,7 +43,7 @@
                         type: "video/mp4",
                         src: this.src
                     }],
-                    poster: videoBg,
+                    poster: this.thumbnail ? this.thumbnail : videoBg,
                 }
             }
         },

@@ -57,7 +57,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-blue" @click="statAll(1)"><i
+                    <span class="info-box-icon bg-blue" @click="statAll(11)"><i
                         class="ion-android-people"></i></span>
 
                     <div class="info-box-content">
@@ -68,7 +68,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-teal" @click="statAll(7)"><i class="ion ion-arrow-graph-up-right"></i></span>
+                    <span class="info-box-icon bg-teal" @click="statAll(17)"><i class="ion ion-arrow-graph-up-right"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">最近7天活跃</span>
@@ -78,7 +78,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-olive" @click="statAll(30)"><i class="fa fa-industry"></i></span>
+                    <span class="info-box-icon bg-olive" @click="statAll(130)"><i class="fa fa-industry"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">最近30天活跃</span>
@@ -162,7 +162,14 @@
     import channelReq from '../../../static/requestList/channel.json';
     import channelCode from '../../../static/channelCode.json';
     import phoneBrandReq from '../../../static/requestList/phoneBrand.json';
+    // 用户注册版本统计
     import appVersion from '../../../static/requestList/appVersion.json';
+
+    // 活跃信息统计
+    import activeDevType from '../../../static/requestList/activeDevType.json';
+    import activeAppVersion from '../../../static/requestList/activeAppVersion.json';
+    import activePhoneBrand from '../../../static/requestList/activePhoneBrand.json';
+    import activePhoneModel from '../../../static/requestList/activePhoneModel.json';
 
     // 时间处理
     import moment from 'moment';
@@ -173,6 +180,16 @@
         },
         data: () => ({
             total: {
+                androidNum: 0,
+                iosNum: 0,
+                android1Num: 0,
+                ios1Num: 0,
+                android7Num: 0,
+                ios7Num: 0,
+                android30Num: 0,
+                ios30Num: 0
+            },
+            activeTotal: {
                 androidNum: 0,
                 iosNum: 0,
                 android1Num: 0,
@@ -459,7 +476,7 @@
                     }
                 },
                 legend: {
-                    data: ['手机品牌']
+                    data: []
                 },
                 grid: {
                     left: '3%',
@@ -552,21 +569,33 @@
             {
                 // 计算属性: 用户总数
                 return this.total.androidNum + this.total.iosNum;
-            }
-            ,
+            },
             yesterdayTotal()
             {
                 // 计算属性: 昨天的用户总数
                 return this.total.android1Num + this.total.ios1Num;
-            }
-            ,
+            },
             weekTotal()
             {
                 // 计算属性: 7天内的用户总数
                 return this.total.android7Num + this.total.ios7Num;
-            }
-            ,
+            },
             monthTotal()
+            {
+                // 计算属性: 30天内的用户总数
+                return this.total.android30Num + this.total.ios30Num;
+            },
+            yesterdayActiveTotal()
+            {
+                // 计算属性: 昨天的用户总数
+                return this.total.android1Num + this.total.ios1Num;
+            },
+            weekActiveTotal()
+            {
+                // 计算属性: 7天内的用户总数
+                return this.total.android7Num + this.total.ios7Num;
+            },
+            monthActiveTotal()
             {
                 // 计算属性: 30天内的用户总数
                 return this.total.android30Num + this.total.ios30Num;

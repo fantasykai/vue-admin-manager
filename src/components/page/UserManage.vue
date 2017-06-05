@@ -10,7 +10,7 @@
                     <el-input v-model="filters.endTime" :placeholder="filters.defaultEndTime"
                               style="width: 25%;"></el-input>
                     |
-                    <el-input v-model="filters.userid" placeholder="tel/userid/SeqId"
+                    <el-input v-model="filters.userId" placeholder="tel/userId/SeqId"
                               style="width: 20%;"></el-input>
                     <el-button type="primary" v-on:click="getUserList">查询</el-button>
                 </el-form-item>
@@ -30,7 +30,16 @@
                     <img :src="avatarSrc[scope.$index]">
                 </template>
             </el-table-column>
-            <el-table-column prop="userid" :formatter="showuserid" label="userid" sortable>
+            <el-table-column
+                label="userId">
+                <template scope="scope">
+                    <el-popover title="接口报文" trigger="hover" placement="top">
+                        <p> {{ scope.row | formattedJson }}</p>
+                        <div slot="reference" class="name-wrapper">
+                            <el-tag type="gray">{{ scope.row | formatuserId }} </el-tag>
+                        </div>
+                    </el-popover>
+                </template>
             </el-table-column>
             <el-table-column label="昵称" sortable>
                 <template scope="scope">
@@ -50,7 +59,7 @@
                 label="手机"
                 width="">
                 <template scope="scope">
-                    <router-link :to="{ name: 'Sys好友管理',params: {userId : scope.row.telphone}}">
+                    <router-link :to="{ name: 'Sys好友管理',params: {userId : scope.row.telphone, currMenu: '/userManage'}}">
                         {{ scope.row.telphone }}
                     </router-link>
                 </template>
@@ -71,6 +80,7 @@
                         <p> {{ scope.row.constellation | formattedConstellation }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
+
                             </el-tag>
                         </div>
                     </el-popover>
@@ -160,12 +170,12 @@
                 filters: {
                     beginTime: '',
                     endTime: '',
-                    userid: '',
+                    userId: '',
                     defaultBeginTime: '',
                     defaultEndTime: ''
                 },
                 regex: {
-                    useridRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
+                    userIdRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
                     seqIdRe: /^\d{8,10}$/g,
                     tel: /^((1[3578][0-9])|(14[57])|(17[0678]))\d{8}$/g,
                 },
@@ -180,6 +190,21 @@
             };
         },
         filters: {
+            formatuserId(row) {
+                let userId = ''
+
+                let userInfo = JSON.stringify(row);
+
+                let {userId, seqid} = JSON.parse(userInfo);
+
+                if (userId) {
+                    userId = userId
+                } else {
+                    userId = seqid
+                }
+
+                return userId;
+            },
             // 格式化数字
             timingTime(time) {
                 return moment(time).add(1, 'days').format('YYYY-MM-DD 08:00:00');
@@ -416,9 +441,9 @@
         },
         methods: {
 
-            showuserid(row) {
-                if (row.userid) {
-                    return row.userid;
+            showuserId(row) {
+                if (row.userId) {
+                    return row.userId;
                 }
                 return row.seqid
             },
@@ -451,14 +476,14 @@
 
                 let userIdParam = ''
 
-                if (this.filters.userid) {
+                if (this.filters.userId) {
                     userIdParam = ''
-                    if (this.filters.userid.match(this.regex.useridRe)) {
-                        userIdParam = '"userid":"' + this.filters.userid + '"'
-                    } else if (this.filters.userid.match(this.regex.seqIdRe)) {
-                        userIdParam = '"seqid":' + this.filters.userid
-                    } else if (this.filters.userid.match(this.regex.tel)) {
-                        userIdParam = '"telphone":"' + this.filters.userid + '"'
+                    if (this.filters.userId.match(this.regex.userIdRe)) {
+                        userIdParam = '"userId":"' + this.filters.userId + '"'
+                    } else if (this.filters.userId.match(this.regex.seqIdRe)) {
+                        userIdParam = '"seqid":' + this.filters.userId
+                    } else if (this.filters.userId.match(this.regex.tel)) {
+                        userIdParam = '"telphone":"' + this.filters.userId + '"'
                     }
                     else {
                         this.$message({
@@ -492,7 +517,7 @@
                     this.records = res.data._items;
                     this.listLoading = false;
 
-                    for (let i = 0; this.records.length; i++) {
+                    for (let i = 0; i < this.records.length; i++) {
 //
                         let {avatar, from} = this.records[i];
 
@@ -516,12 +541,12 @@
 
                             if (user_id) {
                                 getNickname(user_id).then((res) => {
-                                    let {nickname, userid, seqid} = res;
+                                    let {nickname, userId, seqid} = res;
 
-                                    let shareUser = '昵称 : ' + nickname + ', userid : ';
+                                    let shareUser = '昵称 : ' + nickname + ', userId : ';
 
-                                    if (userid) {
-                                        shareUser += userid;
+                                    if (userId) {
+                                        shareUser += userId;
                                     } else {
                                         shareUser += seqid;
                                     }

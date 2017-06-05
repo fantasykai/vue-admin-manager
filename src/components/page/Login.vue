@@ -13,6 +13,7 @@
             </el-form-item>
             <div class="login-btn">
                 <el-button type="primary" style="width:100%;" @click="submitForm('ruleForm')" :loading="logining">登录
+
                 </el-button>
             </div>
             <p style="font-size:12px;line-height:30px;color:#999;">Tips : 只有管理员账号可以登录哦~</p>
@@ -22,8 +23,10 @@
 
 <script>
 
+    //错误码对应中文
     import errCodeCN from '../../../static/errCodeCN.json';
-    import {requestLogin}  from '../../api';
+    //    import {requestLogin}  from '../../api';
+    import {login}  from '../../api';
 
     export default {
         data: function () {
@@ -45,28 +48,28 @@
             }
         },
         methods: {
-//            getErrCodeAll() {
-//
-//                getErrCodeCn()
-//                    .then((res) => {
-//                        sessionStorage.setItem('errCodeCn', JSON.stringify(res.data));
-//                    });
-//            },
             submitForm(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.logining = true;
 
+                        let userAgent = navigator.userAgent
+
                         let params = {
                             credentials: {
                                 username: this.ruleForm.username,
                                 password: this.ruleForm.password
                             },
-                            deviceId: "SysAdmin"
+                            postBody: {
+                                deviceid: userAgent,
+                                src: 3
+                            }
+//                            deviceId: "SysAdmin"
                         }
 
-                        requestLogin(params).then((data) => {
+//                        requestLogin(params).then((data) => {
+                        login(params).then((data) => {
                             this.logining = false;
                             let {_status, _error, account, expiration, token} = data;
 
@@ -76,12 +79,22 @@
                                     type: 'error'
                                 });
                             } else {
+                                this.$store.commit('SET_ACCOUNT', account);
+                                this.$store.commit('SET_TOKEN', token);
                                 localStorage.removeItem('token');
                                 localStorage.setItem('token', token);
                                 localStorage.setItem('account', account);
                                 localStorage.setItem('expiration', expiration);
                                 self.$router.push('/dashboard');
                             }
+                        }).catch((e) => {
+
+                            let {_error} = e
+
+                            this.$message({
+                                message: null != _error ? _error.message : 'Error!',
+                                type: 'error'
+                            });
                         });
 //                        localStorage.setItem('ms_username', self.ruleForm.username);
 //                        self.$router.push('/dashboard');

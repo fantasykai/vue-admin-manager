@@ -171,8 +171,6 @@
 
                         let dateNum = moment(this.endTime).diff(moment(this.beginTime), 'days')
 
-                        console.log("dateNum: " + dateNum);
-
                         for (let j = dateNum; j > 0; j--) {
 
                             let tododay = moment().subtract(j, 'days').format('YYYY-MM-DD');

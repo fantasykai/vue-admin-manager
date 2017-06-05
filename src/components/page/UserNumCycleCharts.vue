@@ -171,8 +171,6 @@
 
                         let dateNum = moment(this.endTime).diff(moment(this.beginTime), 'days')
 
-                        console.log("dateNum: " + dateNum);
-
                         for (let j = dateNum; j > 0; j--) {
 
                             let tododay = moment().subtract(j, 'days').format('YYYY-MM-DD');
@@ -206,9 +204,7 @@
 
                             // android 及 ios的用户数
                             this.cycle_mix.series[2].data.push(androidNum + iosNum);
-
                         }
-
                     });
 
             },

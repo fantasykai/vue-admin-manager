@@ -47,6 +47,18 @@ export const requestLogin = params => {
     }).get().then(res => res.data);
 };
 
+/**
+ * 登录接口 POST
+ * @param params
+ * @returns {*}
+ */
+export const login = params => {
+    return axios.create({
+        auth: params.credentials,
+        timeout: 1000,
+    }).post(`${config.serverURI}/api/v1/tokens`,params.postBody).then(res => res.data);
+};
+
 
 /**
  * 获取token 消息头
@@ -56,9 +68,10 @@ function getToken() {
 
     let axiosConfig = {
         headers: {
+            // 'content-type': 'application/json',
             'token': 'Bearer ' + localStorage.getItem('token')
         }
-    }
+    };
 
     return axiosConfig;
 }
@@ -84,7 +97,7 @@ export const getSTSToken = params => {
  */
 export const getNickname = params => {
     return axios.create({
-        baseURL: `${config.serverURI}/api/v1/users/` + params + `?projection={"nickname":1,"userid":1,"seqid":1}`,
+        baseURL: `${config.serverURI}/api/v1/users/` + params + `?projection={"nickname":1,"userId":1,"seqid":1}`,
         headers: {'token': 'Bearer ' + localStorage.getItem('token')},
     }).get().then(res => res.data);
 };
@@ -102,11 +115,11 @@ export const aggregate = params => {
 // {{api2url}}/api/v1/messages?where={"fromUserId":"58b3a7bafd6614053052e823","msgTimestamp":{"$gt": "2017-04-16 0:0:0","$lt":"2017-04-17 18:30:0"}}&embedded={"fromUserId":1}&sort=-_updated&page=1&max_results=20
 
 /**
- * 根据用户userid/seqid 查询用户的uid
+ * 根据用户userId/seqid 查询用户的uid
  * @param params
  * @returns {AxiosPromise}
  */
-export const getUserUid = params => {
+export const getBluUid = params => {
     return axios.get(`${config.serverURI}/api/v1/users`, {
         params: params,
         headers: {'token': 'Bearer ' + localStorage.getItem('token')}
@@ -145,7 +158,33 @@ export const getUsersPage = params => {
 export const getFriendsPage = params => {
     return axios.create({
         baseURL: `${config.serverURI}/api/v1/users/` + params.userId + `/fris`,
-        headers: {'token': 'Bearer ' + localStorage.getItem('token')},
+        headers: {'token': 'Bearer ' + localStorage.getItem('token'), 'cache-control': 'max-age=0,no-cache'},
+        params: params.queryParams
+    }).get().then(res => res.data);
+};
+
+/**
+ * 获取好友分组
+ * @param params
+ * @returns {*}
+ */
+export const getFriendRows = params => {
+    return axios.create({
+        baseURL: `${config.serverURI}/api/v1/users/` + params.userId + `/rows`,
+        headers: {'token': 'Bearer ' + localStorage.getItem('token'), 'cache-control': 'max-age=0,no-cache'},
+        params: params.queryParams
+    }).get().then(res => res.data);
+};
+
+/**
+ * 获取分组内的好友信息
+ * @param params
+ * @returns {*}
+ */
+export const getFriendsInRow = params => {
+    return axios.create({
+        baseURL: `${config.serverURI}/api/v1/users/` + params.userId + `/fris`,
+        headers: {'token': 'Bearer ' + localStorage.getItem('token'), 'cache-control': 'max-age=0,no-cache'},
         params: params.queryParams
     }).get().then(res => res.data);
 };
@@ -169,7 +208,7 @@ export const getAnchorDataStatPage = params => {
  * @returns {Promise.<TResult>|Promise<R>|Promise<R2|R1>}
  */
 export const setMsgTimingTask = params => {
-    return axios.post(`${config.serverURI}/manage/v1/apschedul/sendtomany`, params, getToken()).then(res => res.data);
+    return axios.post(`${config.serverURI}/manage/v1/apschedul/sendtousera`, params, getToken()).then(res => res.data);
 };
 
 /**
@@ -179,5 +218,56 @@ export const setMsgTimingTask = params => {
  */
 export const cancelMsgTimingTask = params => {
     return axios.patch(params.uri, params.patchBody, getToken()).then(res => res.data);
+};
+
+/**
+ * 获取账号自动回复设置信息
+ * @param params
+ * @returns {AxiosPromise}
+ */
+export const getMsgConfigs = params => {
+    return axios.get(`${config.serverURI}/api/v1/msgconfigs`, {
+        params: params,
+        headers: {'token': 'Bearer ' + localStorage.getItem('token'), 'cache-control': 'max-age=0,no-cache'}
+    });
+};
+
+/**
+ * aggregate 设置自动回复配置
+ * @param params
+ * @returns {Promise.<TResult>|Promise<R>|Promise<R2|R1>}
+ */
+export const setMsgConfigs = params => {
+    return axios.post(`${config.serverURI}/api/v1/msgconfigs`, params, getToken()).then(res => res.data);
+};
+
+/**
+ * aggregate 触发消息发送任务
+ * @param params
+ * @returns {Promise.<TResult>|Promise<R>|Promise<R2|R1>}
+ */
+export const sendToUsersSchedul = params => {
+    return axios.post(`${config.serverURI}/manage/v1/apschedul/sendtousers`, params, getToken()).then(res => res.data);
+};
+
+/**
+ * aggregate 更新自动回复配置
+ * @param params
+ * @returns {Promise.<TResult>|Promise<R>|Promise<R2|R1>}
+ */
+export const updateMsgConfigs = params => {
+    return axios.patch(params.uri, params.patchBody, getToken()).then(res => res.data);
+};
+
+/**
+ * 删除自动回复配置信息
+ * @param params
+ * @returns {*}
+ */
+export const deleteMsgConfigs = params => {
+    return axios.create({
+        baseURL: `${config.serverURI}/api/v1/msgconfigs/` + params,
+        headers: {'token': 'Bearer ' + localStorage.getItem('token')},
+    }).delete().then(res => res.data);
 };
 

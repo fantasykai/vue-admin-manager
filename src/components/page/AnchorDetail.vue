@@ -68,14 +68,14 @@
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column prop="fromUserId.userid" :formatter="showuserid" label="userid" width="" sortable>
+            <el-table-column prop="fromUserId.userId" :formatter="showuserId" label="userId" width="" sortable>
             </el-table-column>
             <el-table-column prop="msgTimestamp" label="消息时间" sortable>
             </el-table-column>
             <!--<el-table-column prop="content" :formatter="showVideoPatch" label="消息内容" width="200" sortable>-->
             <el-table-column label="消息内容" width="400" sortable>
                 <template scope="scope">
-                    <show-video v-if="isVideo[scope.$index]" :src="videoSrc[scope.$index]"></show-video>
+                    <show-video v-if="isVideo[scope.$index]" :src="videoSrc[scope.$index]" :thumbnail="thumbnailSrc[scope.$index]"></show-video>
                     <img v-if="!isVideo[scope.$index]"
                          :src="videoSrc[scope.$index]">
                 </template>
@@ -134,6 +134,7 @@
                 listLoading: false,
                 isVideo: [],
                 videoSrc: [],
+                thumbnailSrc: [],
             };
         },
         filters: {
@@ -173,10 +174,10 @@
                     bucket: 'dianxinonline',
                 });
             },
-            // 展示userid或seqid
-            showuserid(row) {
-                if (row.fromUserId.userid) {
-                    return row.fromUserId.userid
+            // 展示userId或seqid
+            showuserId(row) {
+                if (row.fromUserId.userId) {
+                    return row.fromUserId.userId
                 }
                 return row.fromUserId.seqid
             },
@@ -212,7 +213,7 @@
                         this.personalMsgCount = this.records[0].fromUserId.send
                     }
 
-                    for (let i = 0; this.records.length; i++) {
+                    for (let i = 0; i < this.records.length; i++) {
                         //如果记录中已经存在task_id，且task_id不为空，则标志为已经提交,否则默认为false未提交
                         if (this.records[i].task_id) {
                             this.submitted[i] = true;
@@ -230,7 +231,7 @@
                             contentType = 'image/jpeg'
                         }
 
-                        let {path} = JSON.parse(this.records[i].content);
+                        let {path,thumbnail} = this.records[i].content;
 
                         if (path) {
 
@@ -244,9 +245,19 @@
                                     'Content-Type': contentType
                                 }
                             });
-
-                            console.log("result : " + result)
                             this.videoSrc[i] = result;
+                        }
+                        if (thumbnail) {
+
+                            thumbnail += '@!web_show_blu';
+
+                            var thumbnailResult = this.ossClient.signatureUrl(thumbnail, {
+                                response: {
+                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
+                                    'Content-Type': contentType
+                                }
+                            });
+                            this.thumbnailSrc[i] = thumbnailResult;
                         }
                     }
                 });
@@ -265,7 +276,7 @@
 
                     let items = res.data._items;
 
-                    for (let i = 0; items.length; i++) {
+                    for (let i = 0; i < items.length; i++) {
                         this.pullNewsCount += items[i].fri_num
                         this.activeUserCount += items[i].friact_num
                         this.byBluTimerMsgCount += items[i].video_num

@@ -164,7 +164,7 @@
                     this.records = res.data._items;
                     this.listLoading = false;
 
-                    for (let i = 0; this.records.length; i++) {
+                    for (let i = 0; i < this.records.length; i++) {
 //                        submitted
                         //如果记录中已经存在task_id，且task_id不为空，则标志为已经提交,否则默认为false未提交
                         if (this.records[i].task_id === undefined) {

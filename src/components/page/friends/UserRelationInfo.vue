@@ -1,17 +1,19 @@
 <template>
     <section>
         <!--工具条-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters">
-                <el-form-item>
-                    <el-input v-model="filters.userid" placeholder="tel/userid/SeqId"
-                              style="width: 50%;"></el-input>
-                    <el-button type="primary" v-on:click="getProfileUser">查询</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
+        <!--<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">-->
+            <!--<el-form :inline="true" :model="filters">-->
+                <!--<el-form-item>-->
+                    <!--<el-input v-model="filters.userId" placeholder="tel/userId/SeqId"-->
+                              <!--style="width: 50%;"></el-input>-->
+                    <!--<el-button type="primary" v-on:click="getProfileUser">查询</el-button>-->
+                    <!--<el-button type="primary" icon="arrow-left"></el-button>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+        <!--</el-col>-->
         <p></p>
-        <P><strong>个人资料</strong></P>
+        <P><strong>个人资料</strong> / <router-link :to="{ path: filters.previousPage }">返回
+                    </router-link></P>
         <!--列表-->
         <el-table :data="profileRecords" highlight-current-row v-loading="profileLoading"
                   style="width: 100%;">
@@ -24,7 +26,7 @@
                     <img :src="profileAvatarSrc[scope.$index]">
                 </template>
             </el-table-column>
-            <el-table-column prop="userid" :formatter="showuserid" label="userid" sortable>
+            <el-table-column prop="userId" :formatter="showuserId" label="userId" sortable>
             </el-table-column>
             <el-table-column label="昵称" sortable>
                 <template scope="scope">
@@ -128,15 +130,26 @@
                             <img :src="friendAvatarSrc[scope.$index]">
                         </template>
                     </el-table-column>
-                    <el-table-column prop="fri_id.userid" :formatter="showFrienduserid" label="userid" sortable>
+                    <el-table-column prop="fri_id.userId" :formatter="showFrienduserId" label="userId" sortable>
                     </el-table-column>
-                    <el-table-column prop="fri_id.nickname" label="昵称" sortable>
+                    <el-table-column
+                        label="昵称">
+                        <template scope="scope">
+                            <el-popover title="接口报文" trigger="hover" placement="top">
+                                <p> {{ scope.row | formattedJson }}</p>
+                                <div slot="reference" class="name-wrapper">
+                                    <el-tag type="gray">{{ scope.row.fri_id.nickname }} </el-tag>
+                                </div>
+                            </el-popover>
+                        </template>
                     </el-table-column>
                     <el-table-column prop="remark" label="备注" sortable>
                     </el-table-column>
-                    <el-table-column prop="how" label="添加好友的方式" sortable>
+                    <el-table-column prop="how" :formatter="formatHowFriend" label="添加好友的方式" sortable>
                     </el-table-column>
                     <el-table-column prop="why" label="成为好友的理由" sortable>
+                    </el-table-column>
+                    <el-table-column prop="_created" :formatter="formatBeijingDate" label="创建好友关系的时间" sortable>
                     </el-table-column>
                 </el-table>
                 <!--工具条-->
@@ -160,7 +173,7 @@
 
     export default {
         name: 'userRelation',
-        props: ['userid', 'where','relationName'],
+        props: ['userId', 'where','relationName','previousPage'],
         data() {
             return {
                 ossClient: Object,
@@ -168,14 +181,15 @@
                 filters: {
                     beginTime: '',
                     endTime: '',
-                    userid: this.userid,
+                    userId: this.userId,
                     where: this.where,
                     relationName: this.relationName,
+                    previousPage: this.previousPage,
                     defaultBeginTime: '',
                     defaultEndTime: ''
                 },
                 regex: {
-                    useridRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
+                    userIdRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
                     seqIdRe: /^\d{8,10}$/g,
                     tel: /^((1[3578][0-9])|(14[57])|(17[0678]))\d{8}$/g,
                 },
@@ -445,16 +459,30 @@
             },
         },
         methods: {
+            formatBeijingDate(row) {
 
-            showuserid(row) {
-                if (row.userid) {
-                    return row.userid;
+                let beijingDate = ''
+                if (row._created) {
+                    beijingDate = moment(row._created).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
+                }
+                return beijingDate;
+            },
+            formatHowFriend(row) {
+
+                let howStrings = ["查找手机号","查找userId","扫一扫","通讯录好友","兴趣最搭","附近好友","好友邀请超时","好友推荐"];
+
+                return howStrings[row.how];
+
+            },
+            showuserId(row) {
+                if (row.userId) {
+                    return row.userId;
                 }
                 return row.seqid
             },
-            showFrienduserid(row) {
-                if (row.fri_id.userid) {
-                    return row.fri_id.userid;
+            showFrienduserId(row) {
+                if (row.fri_id.userId) {
+                    return row.fri_id.userId;
                 }
                 return row.fri_id.seqid
             },
@@ -481,14 +509,14 @@
 
                 let userIdParam = ''
 
-                if (this.filters.userid) {
+                if (this.filters.userId) {
                     userIdParam = ''
-                    if (this.filters.userid.match(this.regex.useridRe)) {
-                        userIdParam = '"userid":"' + this.filters.userid + '"'
-                    } else if (this.filters.userid.match(this.regex.seqIdRe)) {
-                        userIdParam = '"seqid":' + this.filters.userid
-                    } else if (this.filters.userid.match(this.regex.tel)) {
-                        userIdParam = '"telphone":"' + this.filters.userid + '"'
+                    if (this.filters.userId.match(this.regex.userIdRe)) {
+                        userIdParam = '"userId":"' + this.filters.userId + '"'
+                    } else if (this.filters.userId.match(this.regex.seqIdRe)) {
+                        userIdParam = '"seqid":' + this.filters.userId
+                    } else if (this.filters.userId.match(this.regex.tel)) {
+                        userIdParam = '"telphone":"' + this.filters.userId + '"'
                     }
                     else {
                         this.$message({
@@ -515,7 +543,7 @@
                     this.profileRecords = res.data._items;
                     this.profileLoading = false;
 
-                    for (let i = 0; this.profileRecords.length; i++) {
+                    for (let i = 0; i < this.profileRecords.length; i++) {
 //
                         let {_id, avatar, from} = this.profileRecords[i];
 
@@ -543,12 +571,12 @@
 
                             if (user_id) {
                                 getNickname(user_id).then((res) => {
-                                    let {nickname, userid, seqid} = res;
+                                    let {nickname, userId, seqid} = res;
 
-                                    let shareUser = '昵称 : ' + nickname + ', userid : ';
+                                    let shareUser = '昵称 : ' + nickname + ', userId : ';
 
-                                    if (userid) {
-                                        shareUser += userid;
+                                    if (userId) {
+                                        shareUser += userId;
                                     } else {
                                         shareUser += seqid;
                                     }
@@ -581,7 +609,7 @@
                     this.friendsRecords = data._items;
                     this.listLoading = false;
 
-                    for (let i = 0; this.friendsRecords.length; i++) {
+                    for (let i = 0; i < this.friendsRecords.length; i++) {
 //
                         let {fri_id} = this.friendsRecords[i];
 
