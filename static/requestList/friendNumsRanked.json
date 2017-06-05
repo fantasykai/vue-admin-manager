@@ -1,0 +1,31 @@
+{
+    "pipeline": [
+        {
+            "$match": {
+                "state": 3,
+                "secret": {
+                    "$ne": 1
+                }
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                    "userId": "$user_id"
+                },
+                "num": {
+                    "$sum": 1
+                }
+            }
+        },
+        {
+            "$sort": {
+                "num": -1
+            }
+        },
+        {
+            "$limit": 50
+        }
+    ],
+    "collections": "fris"
+}
