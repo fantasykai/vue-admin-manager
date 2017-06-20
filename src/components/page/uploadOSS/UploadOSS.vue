@@ -8,7 +8,6 @@
 
 <script>
     import moment from 'moment';
-    import uuidV4 from 'uuid/v4'
     export default{
         name: 'uploadAliOSS',
         props: {

@@ -13,7 +13,6 @@
             </el-form-item>
             <div class="login-btn">
                 <el-button type="primary" style="width:100%;" @click="submitForm('ruleForm')" :loading="logining">登录
-
                 </el-button>
             </div>
             <p style="font-size:12px;line-height:30px;color:#999;">Tips : 只有管理员账号可以登录哦~</p>
@@ -22,7 +21,6 @@
 </template>
 
 <script>
-
     //错误码对应中文
     import errCodeCN from '../../../static/errCodeCN.json';
     //    import {requestLogin}  from '../../api';
@@ -33,8 +31,8 @@
             return {
                 logining: false,
                 ruleForm: {
-                    username: '',
-                    password: ''
+                    username: 'admin',
+                    password: '123456'
                 },
                 rememberMe: true,
                 rules: {

@@ -2,18 +2,20 @@
     <section>
         <!--工具条-->
         <!--<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">-->
-            <!--<el-form :inline="true" :model="filters">-->
-                <!--<el-form-item>-->
-                    <!--<el-input v-model="filters.userId" placeholder="tel/userId/SeqId"-->
-                              <!--style="width: 50%;"></el-input>-->
-                    <!--<el-button type="primary" v-on:click="getProfileUser">查询</el-button>-->
-                    <!--<el-button type="primary" icon="arrow-left"></el-button>-->
-                <!--</el-form-item>-->
-            <!--</el-form>-->
+        <!--<el-form :inline="true" :model="filters">-->
+        <!--<el-form-item>-->
+        <!--<el-input v-model="filters.userId" placeholder="tel/userId/SeqId"-->
+        <!--style="width: 50%;"></el-input>-->
+        <!--<el-button type="primary" v-on:click="getProfileUser">查询</el-button>-->
+        <!--<el-button type="primary" icon="arrow-left"></el-button>-->
+        <!--</el-form-item>-->
+        <!--</el-form>-->
         <!--</el-col>-->
         <p></p>
-        <P><strong>个人资料</strong> / <router-link :to="{ path: filters.previousPage }">返回
-                    </router-link></P>
+        <P><strong>个人资料</strong> /
+            <router-link :to="{ path: filters.previousPage }">返回
+            </router-link>
+        </P>
         <!--列表-->
         <el-table :data="profileRecords" highlight-current-row v-loading="profileLoading"
                   style="width: 100%;">
@@ -60,6 +62,7 @@
                         <p> {{ scope.row.constellation | formattedConstellation }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
+
                             </el-tag>
                         </div>
                     </el-popover>
@@ -117,7 +120,7 @@
         <template>
             <section>
                 <p></p>
-                <P><strong>{{ relationName }}</strong></P>
+                <P><strong>{{ relationName }}</strong>({{this.friendTotal}})</P>
                 <!--列表-->
                 <el-table :data="friendsRecords" highlight-current-row v-loading="listLoading"
                           style="width: 100%;">
@@ -169,11 +172,11 @@
     import moment from 'moment';
     import channelCode from '../../../../static/channelCode.json';
     import config from '../../../config';
-    import {getUsersPage, getNickname, getFriendsPage} from '../../../api';
+    import {getUsersPage, getNickname, getFriendsPage} from '../../../api/users';
 
     export default {
         name: 'userRelation',
-        props: ['userId', 'where','relationName','previousPage'],
+        props: ['userId', 'where', 'relationName', 'previousPage'],
         data() {
             return {
                 ossClient: Object,
@@ -469,7 +472,7 @@
             },
             formatHowFriend(row) {
 
-                let howStrings = ["查找手机号","查找userId","扫一扫","通讯录好友","兴趣最搭","附近好友","好友邀请超时","好友推荐"];
+                let howStrings = ["查找手机号", "查找userId", "扫一扫", "通讯录好友", "兴趣最搭", "附近好友", "好友邀请超时", "好友推荐", "黑名单"];
 
                 return howStrings[row.how];
 

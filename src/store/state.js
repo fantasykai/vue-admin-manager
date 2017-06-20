@@ -1,7 +1,7 @@
 export default {
   callingAPI: false,
   searching: '',
-  serverURI: 'https://api2.blubluapp.com',
+  serverURI: 'https://api-prod.com',
   // user: null,
   // token: null,
   // userInfo: {

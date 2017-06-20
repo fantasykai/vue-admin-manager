@@ -57,7 +57,9 @@
     //    import util from '../../common/js/util'
     //import NProgress from 'nprogress'
     import config from '../../config';
-    import {getAnchorDataStatPage, getBluUid} from '../../api';
+//    import {getAnchorDataStatPage, getBluUid} from '../../api';
+    import {getBluUid} from '../../api/users';
+    import {getAnchorDataStatPage} from '../../api/userstats';
 
     export default {
 
@@ -95,7 +97,7 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getAnchorDataStatRecord();
+                this.getAnchorDataStatRecord('');
             },
             // 获取主播信息
             getAnchorDataStatByParams() {

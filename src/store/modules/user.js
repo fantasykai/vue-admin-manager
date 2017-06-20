@@ -1,7 +1,9 @@
 /**
  * Created by kai.fantasy on 2017/5/22 0022.
  */
-import {getSTSToken, getNickname} from '../../api';
+// import {getSTSToken, getNickname} from '../../api';
+import {getNickname} from '../../api/users';
+import {getSTSToken} from '../../api/sts';
 
 const user = {
     state: {
@@ -56,7 +58,7 @@ const user = {
         GetUserInfo({commit, state}) {
 
             return new Promise((resolve, reject) => {
-                getNickname(state.account).then((res) => {
+                 getNickname(state.account).then((res) => {
                     let {nickname} = res;
                     if (nickname) {
                         commit('SET_NICKNAME', nickname);

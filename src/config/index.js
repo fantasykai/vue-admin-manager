@@ -3,12 +3,15 @@
  */
 export default {
     serverURI: '',
-    // serverURI: 'https://xxx.xxxx.xxx',
+    // serverURI: 'https://api-sit.com',
+    // serverURI: 'https://api-prod.com',
 
-    msgStatToUserId: 'xdadada',
+    msgStatToUserId: 'msgStatToUserId',
+
 
     promoteMain: {
-        main1: 'asdfa',
-        main2: 'asd',
+        main0: 'main0',
+        main1: 'main1',
+        main2: 'main2',
     }
 };

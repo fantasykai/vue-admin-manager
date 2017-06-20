@@ -15,7 +15,8 @@
     </div>
 </template>
 <script>
-    import {getNickname} from '../../api';
+//    import {getNickname} from '../../api';
+    import {getNickname} from 'api/users';
     export default {
         data() {
             return {

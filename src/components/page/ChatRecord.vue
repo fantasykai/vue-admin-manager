@@ -83,11 +83,14 @@
     //    import util from '../../common/js/util'
     //import NProgress from 'nprogress'
     import config from '../../config';
-    import {
-        getChatRecordPage,
-        setMsgTimingTask,
-        cancelMsgTimingTask
-    } from '../../api';
+//    import {
+//        getChatRecordPage,
+//        setMsgTimingTask,
+//        cancelMsgTimingTask
+//    } from '../../api';
+
+    import { getChatRecordPage } from '../../api/messages';
+    import { setMsgTimingTask,cancelMsgTimingTask } from '../../api/manage';
 
     export default {
 

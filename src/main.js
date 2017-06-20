@@ -10,6 +10,9 @@ import routes from './routes'
 import {sync} from 'vuex-router-sync'
 import VueVideoPlayer from 'vue-video-player'
 
+import Mock from './mock';
+Mock.bootstrap();
+
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

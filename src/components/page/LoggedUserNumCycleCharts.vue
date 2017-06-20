@@ -1,12 +1,5 @@
 <template>
     <section>
-        <!--<div class="crumbs">-->
-        <!--<el-breadcrumb separator="/">-->
-        <!--<el-breadcrumb-item><i class="el-icon-date"></i> 数据趋势</el-breadcrumb-item>-->
-        <!--<el-breadcrumb-item>7天数据趋势</el-breadcrumb-item>-->
-        <!--</el-breadcrumb>-->
-        <!--</div>-->
-        <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true">
                 <el-form-item>
@@ -44,8 +37,9 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-    import {aggregate}  from '../../api';
-    import loggedUserNumsReq from '../../../static/requestList/cycleLoggedUserNum.json';
+//    import {aggregate}  from '../../api';
+    import {aggregate} from 'api/aggregate';
+    import loggedUserNumsReq from 'static/requestList/cycleLoggedUserNum.json';
     // 时间处理
     import moment from 'moment';
     export default {

@@ -2,23 +2,20 @@
     "pipeline": [
         {
             "$match": {
-                "operate": "getToken"
+
             }
         },
         {
             "$group": {
                 "_id": {
-                    "ver": "$ver",
-                    "deviceType": "$deviceType",
-                    "userId": "$userId"
+
                 }
             }
         },
         {
             "$group": {
                 "_id": {
-                    "Ver": "$Ver",
-                    "deviceType": "$deviceType"
+
                 },
                 "num": {
                     "$sum": 1
@@ -27,13 +24,12 @@
         },
         {
             "$sort": {
-                "num": -1,
-                "_id.deviceType": -1
+
             }
         },
         {
             "$limit": 20
         }
     ],
-    "collections": "xxx"
+    "collections": "collections"
 }

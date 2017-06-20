@@ -1,5 +1,6 @@
 import Login from './components/page/Login.vue';
-import NotFoundView from './components/common/404.vue';
+import NotFoundView from './components/common/error/404.vue';
+import NotPermission from './components/common/error/401.vue';
 import Home from './components/common/HomeMenu.vue';
 import Dashboard from './components/page/Dashboard.vue';
 import CycleCharts from './components/page/UserNumCycleCharts.vue';
@@ -15,6 +16,9 @@ import OperatingAccountManage from './components/page/operation/OperatingAccount
 import AutoReplyCfg from './components/page/operation/AutoReplyCfg.vue';
 import NewsMassManage from './components/page/operation/NewsMassManage.vue';
 import FriendNumRanked from './components/page/friends/FriendNumRanked.vue';
+import FrisNumCycleCharts from './components/page/friends/stat/FrisNumCycleCharts.vue';
+import MsgNumCycleCharts from './components/page/msg/stat/MsgNumCycleCharts.vue';
+import SendMsgNumRanked from './components/page/msg/SendMsgNumRanked.vue';
 
 
 let routes = [
@@ -27,6 +31,12 @@ let routes = [
     {
         path: '/404',
         component: NotFoundView,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/401',
+        component: NotPermission,
         name: '',
         hidden: true
     },
@@ -48,7 +58,9 @@ let routes = [
         iconCls: 'el-icon-menu',
         children: [
             {path: '/cycleCharts', component: CycleCharts, name: '注册用户趋势'},
-            {path: '/loggedUserNumCharts', component: LoggedUserNumCharts, name: '活跃用户趋势'}
+            {path: '/loggedUserNumCharts', component: LoggedUserNumCharts, name: '活跃用户趋势'},
+            {path: '/frisNumCycleCharts', component: FrisNumCycleCharts, name: '用户关系趋势'},
+            {path: '/msgNumCycleCharts', component: MsgNumCycleCharts, name: '用户聊天消息数量趋势'}
         ]
     },
     {
@@ -59,6 +71,7 @@ let routes = [
         children: [
             {path: '/userManage', component: UserManage, name: 'Sys用户管理'},
             {path: '/friendNumRanked', component: FriendNumRanked, name: '好友数量 TOP50'},
+            {path: '/sendMsgNumRanked', component: SendMsgNumRanked, name: '发送消息数量 TOP50'},
             {
                 path: '/friendsManage',
                 component: FriendsManage,

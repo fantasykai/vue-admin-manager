@@ -1,11 +1,12 @@
-var path = require('path')
-var utils = require('./utils')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
+var path = require('path');
+var utils = require('./utils');
+var config = require('../config');
+var vueLoaderConfig = require('./vue-loader.conf');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
+var src = path.resolve(__dirname, '../src');
 
 module.exports = {
   entry: {
@@ -14,16 +15,20 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV !== 'development' ?  config.build.assetsPublicPath: config.dev.assetsPublicPath
+
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'scss_vars': '@/styles/vars.scss'
+      'src': path.resolve(__dirname, '../src'),
+      'scss_vars': '@/styles/vars.scss',
+      'assets': path.resolve(__dirname, '../src/assets'),
+      'api': path.resolve(__dirname, '../src/api'),
+      'utils': path.resolve(__dirname, '../src/utils'),
+      'static': path.resolve(__dirname, '../static'),
     }
   },
   module: {

@@ -13,7 +13,6 @@
         <p></p>
         <P><strong>个人资料</strong> /
             <router-link :to="{ path: filters.previousPage }">返回
-
             </router-link>
         </P>
         <!--列表-->
@@ -62,7 +61,6 @@
                         <p> {{ scope.row.constellation | formattedConstellation }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
-
                             </el-tag>
                         </div>
                     </el-popover>
@@ -133,7 +131,7 @@
                         width="">
                         <template scope="scope">
                             <router-link
-                                :to="{ name: '分组中的好友',params: {userId : scope.row.user_id, rowName : scope.row.name ,friendIds : scope.row.fris}}">
+                                :to="{ name: '分组中的好友',params: {userId : scope.row.user_id, rowName : scope.row.name ,friendIds : scope.row.fris, userId : phone}}">
                                 {{ scope.row.name }}
                             </router-link>
                         </template>
@@ -158,7 +156,7 @@
     import moment from 'moment';
     import channelCode from '../../../../static/channelCode.json';
     import config from '../../../config';
-    import {getUsersPage, getNickname, getFriendRows} from '../../../api';
+    import {getUsersPage, getNickname, getFriendRows} from '../../../api/users';
 
     export default {
         name: 'userRows',
@@ -183,6 +181,7 @@
                 },
                 timing: [],
                 userId: '',
+                phone: '',
                 profileRecords: [],
                 friRows: [],
                 shareNames: '',
@@ -521,12 +520,15 @@
 
                     for (let i = 0; i < this.profileRecords.length; i++) {
 //
-                        let {_id, avatar, from} = this.profileRecords[i];
+                        let {_id,telphone, avatar, from} = this.profileRecords[i];
 
                         if (_id) {
                             this.userId = _id;
                         }
 
+                        if(telphone) {
+                            this.phone = telphone;
+                        }
                         if (avatar) {
 
                             avatar += '@!blu_web_show_avatar';

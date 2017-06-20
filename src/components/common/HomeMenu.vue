@@ -29,12 +29,10 @@
                             <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
                             <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
                                           v-if="!child.hidden">{{child.name}}
-
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i
                             :class="item.iconCls"></i>{{item.children[0].name}}
-
                         </el-menu-item>
                     </template>
                 </el-menu>
@@ -50,7 +48,6 @@
                                     class="el-menu-item" style="padding-left: 40px;"
                                     :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">
                                     {{child.name}}
-
                                 </li>
                             </ul>
                         </template>
@@ -71,8 +68,6 @@
                         <el-breadcrumb separator="/" class="breadcrumb-inner">
                             <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
                                 {{ item.name }}
-
-
                             </el-breadcrumb-item>
                         </el-breadcrumb>
                     </el-col>

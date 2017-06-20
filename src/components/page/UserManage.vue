@@ -4,12 +4,26 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
                 <el-form-item>
-                    <el-input v-model="filters.beginTime" :placeholder="filters.defaultBeginTime"
-                              style="width: 25%;"></el-input>
+                    <el-date-picker
+                        v-model="filters.beginTime"
+                        type="date"
+                        placeholder="选择日期时间"
+                        align="right"
+                        format="yyyy-MM-dd 0:0:0"
+                        :picker-options="pickerOptions2">
+                    </el-date-picker>
                     -
-                    <el-input v-model="filters.endTime" :placeholder="filters.defaultEndTime"
-                              style="width: 25%;"></el-input>
+
+                    <el-date-picker
+                        v-model="filters.endTime"
+                        type="date"
+                        placeholder="选择日期时间"
+                        align="right"
+                        format="yyyy-MM-dd 0:0:0"
+                        :picker-options="pickerOptions2">
+                    </el-date-picker>
                     |
+
                     <el-input v-model="filters.userId" placeholder="tel/userId/SeqId"
                               style="width: 20%;"></el-input>
                     <el-button type="primary" v-on:click="getUserList">查询</el-button>
@@ -17,7 +31,6 @@
             </el-form>
         </el-col>
         <p></p>
-
         <!--列表-->
         <el-table :data="records" highlight-current-row v-loading="listLoading"
                   style="width: 100%;">
@@ -59,8 +72,10 @@
                 label="手机"
                 width="">
                 <template scope="scope">
-                    <router-link :to="{ name: 'Sys好友管理',params: {userId : scope.row.telphone, currMenu: '/userManage'}}">
+                    <router-link
+                        :to="{ name: 'Sys好友管理',params: {userId : scope.row.telphone, currMenu: '/userManage'}}">
                         {{ scope.row.telphone }}
+
                     </router-link>
                 </template>
             </el-table-column>
@@ -86,9 +101,17 @@
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column prop="send" label="发气泡" sortable>
+            <el-table-column
+                label="发气泡">
+                <template scope="scope">
+                    <router-link
+                        :to="{ name: '用户聊天消息数量趋势',params: {userIds : scope.row._id, nickname: scope.row.nickname, previousPage: '/userManage'}}">
+                        {{ scope.row.send | formatSendNum }}
+
+                    </router-link>
+                </template>
             </el-table-column>
-            <el-table-column prop="recv" label="收气泡" sortable>
+            <el-table-column prop="recv" :formatter="formatRecvNum" label="收气泡" sortable>
             </el-table-column>
             <el-table-column label="客户端信息" sortable>
                 <template scope="scope">
@@ -148,8 +171,15 @@
 
         <!--工具条-->
         <el-col :span="24" class="toolbar">
-            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20"
-                           :total="total" style="float:right;">
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="pageSizeCfg"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total"
+                style="float:right;">
             </el-pagination>
         </el-col>
     </section>
@@ -160,11 +190,38 @@
     import moment from 'moment';
     import channelCode from '../../../static/channelCode.json';
     import config from '../../config';
-    import {getUsersPage, getNickname} from '../../api';
+    //    import {getUsersPage, getNickname} from '../../api';
+    import {getUsersPage, getNickname} from '../../api/users';
 
     export default {
         data() {
             return {
+                pickerOptions2: {
+                    shortcuts: [{
+                        text: '今天',
+                        onClick(picker) {
+                            picker.$emit('pick', new Date());
+                        }
+                    }, {
+                        text: '昨天',
+                        onClick(picker) {
+                            const date = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '7天前',
+                        onClick(picker) {
+                            const date = moment().subtract(7, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '30天前',
+                        onClick(picker) {
+                            const date = moment().subtract(30, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }]
+                },
                 ossClient: Object,
                 submitted: [],
                 filters: {
@@ -184,26 +241,32 @@
                 shareNames: '',
                 total: 0,
                 page: 1,
+                pageSize: 20,
+                pageSizeCfg: [10, 20, 30, 40, 50],
+                currentPage: 1,
                 listLoading: false,
                 avatarSrc: [],
                 shareUsers: [],
             };
         },
         filters: {
+            formatSendNum (sendNum) {
+                return sendNum ? sendNum : 0;
+            },
             formatuserId(row) {
-                let userId = ''
+                let f_userId = ''
 
                 let userInfo = JSON.stringify(row);
 
                 let {userId, seqid} = JSON.parse(userInfo);
 
                 if (userId) {
-                    userId = userId
+                    f_userId = userId
                 } else {
-                    userId = seqid
+                    f_userId = seqid
                 }
 
-                return userId;
+                return f_userId;
             },
             // 格式化数字
             timingTime(time) {
@@ -440,7 +503,9 @@
             },
         },
         methods: {
-
+            formatRecvNum (row) {
+                return row.recv ? row.recv : 0;
+            },
             showuserId(row) {
                 if (row.userId) {
                     return row.userId;
@@ -464,6 +529,10 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
+                this.getUserList();
+            },
+            handleSizeChange(val) {
+                this.pageSize = val;
                 this.getUserList();
             },
             //显示编辑界面
@@ -493,13 +562,14 @@
                         return
                     }
                 }
-                let dateParam = ('' != this.filters.beginTime && '' != this.filters.endTime ) ? '"_created":{"$gt":"' + this.filters.beginTime + '","$lt":"' + this.filters.endTime + '"}' : '}';
+
+                let dateParam = ('' != this.filters.beginTime && '' != this.filters.endTime ) ? '"_created":{"$gt":"' + moment(this.filters.beginTime).format('YYYY-MM-DD 0:0:0') + '","$lt":"' + moment(this.filters.endTime).format('YYYY-MM-DD 0:0:0') + '"}}' : '}';
 
                 if ('' !== userIdParam) {
                     if ('}' === dateParam) {
                         dateParam = userIdParam + dateParam
                     } else {
-                        dateParam = userIdParam + ',' + dateParam + '}'
+                        dateParam = userIdParam + ',' + dateParam
                     }
                 }
 
@@ -507,7 +577,7 @@
                     para = {
                         where: '{' + dateParam,
                         sort: '-_created',
-                        max_results: '20',
+                        max_results: this.pageSize,
                         page: this.page
                     };
                 this.listLoading = true;

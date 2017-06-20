@@ -4,7 +4,7 @@
             <section class="toolbar">
                 <p></p>
                 <P><strong>分组名称 : {{ this.rowName }}</strong> /
-                    <router-link :to="{ name: 'Sys好友管理',params: {userId : '13905150196',activeName : 'rows'}}">
+                    <router-link :to="{ name: 'Sys好友管理',params: {userId : this.userId,activeName : 'rows'}}">
                         返回
                     </router-link>
                 </P>
@@ -59,12 +59,14 @@
     // 时间处理
     import moment from 'moment';
     import config from '../../../config';
-    import {getFriendsInRow} from '../../../api';
+//    import {getFriendsInRow} from '../../../api';
+    import {getFriendsInRow} from '../../../api/users';
 
     export default {
         data() {
             return {
                 ossClient: Object,
+                userId: this.$route.params.userId,
                 userId: this.$route.params.userId,
                 rowName: this.$route.params.rowName,
                 friendIds: this.$route.params.friendIds,
@@ -83,7 +85,17 @@
                 whyList: [],
             };
         },
-        filters: {},
+        filters: {
+            formattedJson(str) {
+                let jsonStr
+                if (str) {
+                    jsonStr = JSON.stringify(str)
+                } else {
+                    jsonStr = '无'
+                }
+                return jsonStr;
+            },
+        },
         methods: {
             formatBeijingDate(row) {
 
@@ -95,7 +107,7 @@
             },
             formatHowFriend(row) {
 
-                let howStrings = ["查找手机号","查找userId","扫一扫","通讯录好友","兴趣最搭","附近好友","好友邀请超时","好友推荐"];
+                let howStrings = ["查找手机号","查找userId","扫一扫","通讯录好友","兴趣最搭","附近好友","好友邀请超时","好友推荐","黑名单"];
 
                 return howStrings[row.how];
 

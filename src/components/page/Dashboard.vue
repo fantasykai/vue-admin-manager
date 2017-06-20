@@ -47,11 +47,11 @@
         <section class="content">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-light-blue" @click="statAll(0)"><i
+                    <span class="info-box-icon bg-light-blue" @click="statAll(190)"><i
                         class="ion ion-ios-people-outline"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">总用户数</span>
-                        <span class="info-box-number">{{ userTotal | numFormat }}</span>
+                        <span class="info-box-text">近90天活跃</span>
+                        <span class="info-box-number">{{ threeMonthsActiveTotal | numFormat }}</span>
                     </div>
                 </div>
             </div>
@@ -62,17 +62,18 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">昨日活跃用户</span>
-                        <span class="info-box-number">{{ yesterdayTotal | numFormat }}</span>
+                        <span class="info-box-number">{{ yesterdayActiveTotal | numFormat }}</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-teal" @click="statAll(17)"><i class="ion ion-arrow-graph-up-right"></i></span>
+                    <span class="info-box-icon bg-teal" @click="statAll(17)"><i
+                        class="ion ion-arrow-graph-up-right"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">最近7天活跃</span>
-                        <span class="info-box-number">{{ weekTotal | numFormat }}</span>
+                        <span class="info-box-number">{{ weekActiveTotal | numFormat }}</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +83,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">最近30天活跃</span>
-                        <span class="info-box-number">{{ monthTotal | numFormat }}</span>
+                        <span class="info-box-number">{{ monthActiveTotal | numFormat }}</span>
                     </div>
                 </div>
             </div>
@@ -150,12 +151,23 @@
                 </el-card>
             </el-col>
         </el-row>
+        <p/>
+        <el-row :gutter="20">
+            <el-col :xs="45" :sm="45" :md="24" :lg="24">
+                <el-card class="box-card">
+                    <div class="c-charts">
+                        <IEcharts :option="app_use_version"></IEcharts>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </section>
 </template>
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-    import {aggregate}  from '../../api';
+//    import {aggregate}  from '../../api';
+    import {aggregate} from '../../api/aggregate';
     import devTypebyDate from '../../../static/requestList/devType.json';
     import phoneModel from '../../../static/requestList/phoneModel.json';
     import sendMsgCountReq from '../../../static/requestList/sendMsgCount.json';
@@ -190,8 +202,8 @@
                 ios30Num: 0
             },
             activeTotal: {
-                androidNum: 0,
-                iosNum: 0,
+                android90Num: 0,
+                ios90Num: 0,
                 android1Num: 0,
                 ios1Num: 0,
                 android7Num: 0,
@@ -249,7 +261,7 @@
                 },
                 series: [
                     {
-                        name: '昨日Android/ios用户占比',
+                        name: 'Android/ios用户占比',
                         type: 'pie',
                         radius: ['40%', '60%'],
                         data: [],
@@ -503,7 +515,55 @@
             app_version: {
                 title: {
                     text: '',
-                    subtext: 'android/ios各个版本',
+                    subtext: 'android/ios各个版本(注册版本)',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    data: []
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {show: true},
+                        dataView: {show: true, readOnly: false},
+                        magicType: {
+                            show: true,
+                            type: ['pie', 'funnel']
+                        },
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
+                calculable: true,
+                series: [
+                    {
+                        name: 'android',
+                        type: 'pie',
+                        radius: [30, 110],
+                        center: ['25%', '50%'],
+                        roseType: 'radius',
+                        data: []
+                    },
+                    {
+                        name: 'ios',
+                        type: 'pie',
+                        radius: [30, 110],
+                        center: ['75%', '50%'],
+                        roseType: 'area',
+                        data: []
+                    },
+                ]
+            },
+            app_use_version: {
+                title: {
+                    text: '',
+                    subtext: 'android/ios各个版本(在用版本)',
                     x: 'center'
                 },
                 tooltip: {
@@ -587,18 +647,23 @@
             },
             yesterdayActiveTotal()
             {
-                // 计算属性: 昨天的用户总数
-                return this.total.android1Num + this.total.ios1Num;
+                // 计算属性: 昨天的活跃用户总数
+                return this.activeTotal.android1Num + this.activeTotal.ios1Num;
             },
             weekActiveTotal()
             {
-                // 计算属性: 7天内的用户总数
-                return this.total.android7Num + this.total.ios7Num;
+                // 计算属性: 7天内的活跃用户总数
+                return this.activeTotal.android7Num + this.activeTotal.ios7Num;
             },
             monthActiveTotal()
             {
-                // 计算属性: 30天内的用户总数
-                return this.total.android30Num + this.total.ios30Num;
+                // 计算属性: 30天内的活跃用户总数
+                return this.activeTotal.android30Num + this.activeTotal.ios30Num;
+            },
+            threeMonthsActiveTotal()
+            {
+                // 计算属性: 90天内的活跃用户总数
+                return this.activeTotal.android90Num + this.activeTotal.ios90Num;
             }
         },
         methods: {
@@ -608,8 +673,8 @@
              * @param endTime
              * @param type 0 : all,1 : yesterday, 7 : week,30 : month
              */
-            devTypeStat: function (beginTime = null, endTime = null, type = 0) {
-                let params = devTypebyDate;
+            devTypeStat: function (activeStat = false, beginTime = null, endTime = null, type = 0) {
+                let params = activeStat ? activeDevType : devTypebyDate;
                 // Object.assign 类似于java的继承
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
@@ -634,6 +699,18 @@
                                     case 30:
                                         this.total.android30Num = value
                                         break;
+                                    case 190:
+                                        this.activeTotal.android90Num = value
+                                        break;
+                                    case 11:
+                                        this.activeTotal.android1Num = value
+                                        break;
+                                    case 17:
+                                        this.activeTotal.android7Num = value
+                                        break;
+                                    case 130:
+                                        this.activeTotal.android30Num = value
+                                        break;
                                     default:
                                         this.total.androidNum = value
                                 }
@@ -653,6 +730,18 @@
                                     case 30:
                                         this.total.ios30Num = value
                                         break;
+                                    case 190:
+                                        this.activeTotal.ios90Num = value
+                                        break;
+                                    case 11:
+                                        this.activeTotal.ios1Num = value
+                                        break;
+                                    case 17:
+                                        this.activeTotal.ios7Num = value
+                                        break;
+                                    case 130:
+                                        this.activeTotal.ios30Num = value
+                                        break;
                                     default:
                                         this.total.iosNum = value
                                 }
@@ -666,8 +755,6 @@
                                 this.pie_radius.legend.data.push(devType);
                                 this.pie_radius.series[0].data.push({'name': devType, 'value': value})
                             }
-
-
                         }
                     });
             },
@@ -680,16 +767,16 @@
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
                 } else {
                     // 渠道统计从4月1号开始
-                    params = Object.assign({'starttime': "2017-4-1 0:0:0"}, params)
+                    params = Object.assign({'starttime': "2017-6-1 0:0:0"}, params)
                 }
 
                 aggregate(params)
                     .then(data => {
+                        this.chartBar.title.text = '渠道统计' + statInterval;
                         for (let i = 0; i < data.length; i++) {
                             let value = data[i].num;
                             let name = data[i]._id.channel;
                             // 取不到的，则直接展示渠道编码
-                            this.chartBar.title.text = '渠道统计' + statInterval;
                             this.chartBar.yAxis.data.push(null == channelCode[name] ? name : channelCode[name]);
                             this.chartBar.series[0].data.push(value)
                         }
@@ -723,8 +810,8 @@
             /**
              * 按手机型号统计
              */
-            phoneModelStat: function (beginTime = null, endTime = null, statInterval) {
-                let params = phoneModel;
+            phoneModelStat: function (activeStat = false, beginTime = null, endTime = null, statInterval) {
+                let params = activeStat ? activePhoneModel : phoneModel;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
                 }
@@ -732,7 +819,8 @@
                     .then(data => {
                         let androidNum = 0;
                         let iosNum = 0;
-                        this.pie_class.title.text = '手机型号用户数统计' + statInterval + ' TOP20'
+                        let activeUser = activeStat ? '活跃' : ''
+                        this.pie_class.title.text = '手机型号' + activeUser + '用户数统计' + statInterval + ' TOP20'
                         for (let i = 0; i < data.length; i++) {
                             let value = data[i].num;
                             let deviceModel = data[i]._id.deviceModel;
@@ -768,14 +856,15 @@
             /**
              * 按手机品牌统计
              */
-            phoneBrandStat: function (beginTime = null, endTime = null, statInterval) {
-                let params = phoneBrandReq;
+            phoneBrandStat: function (activeStat = false, beginTime = null, endTime = null, statInterval) {
+                let params = activeStat ? activePhoneBrand : phoneBrandReq;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
                 }
                 aggregate(params)
                     .then(data => {
-                        this.phoneBrand_chartBar.title.text = '手机品牌' + statInterval;
+                        let activeUser = activeStat ? '(活跃用户)' : ''
+                        this.phoneBrand_chartBar.title.text = '手机品牌' + activeUser + statInterval;
                         for (let i = data.length - 1; i >= 0; i--) {
                             let value = data[i].num;
                             let name = data[i]._id.brand;
@@ -795,7 +884,7 @@
                 }
                 aggregate(params)
                     .then(data => {
-                        this.app_version.title.text = 'APP版本统计' + statInterval;
+                        this.app_version.title.text = 'APP 注册版本统计' + statInterval;
                         for (let i = 0; i < data.length; i++) {
                             let value = data[i].num;
                             let bluVer = data[i]._id.bluVer;
@@ -808,6 +897,38 @@
                                 this.app_version.series[1].data.push({value: value, name: deviceType + ' ' + bluVer})
                             }
                             this.app_version.legend.data.push(deviceType + ' ' + bluVer);
+                        }
+                    });
+            },
+            /**
+             * 按APP版本分布统计
+             */
+            appUseVersionlStat: function (beginTime = null, endTime = null, statInterval) {
+                let params = activeAppVersion;
+                if (null != beginTime && null != endTime) {
+                    params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
+                }
+                aggregate(params)
+                    .then(data => {
+                        this.app_use_version.title.text = 'APP 在用版本统计' + statInterval;
+                        for (let i = 0; i < data.length; i++) {
+                            let value = data[i].num;
+                            let bluVer = data[i]._id.bluVer;
+                            let deviceType = data[i]._id.deviceType;
+                            if (1 == deviceType) {
+                                deviceType = 'android';
+                                this.app_use_version.series[0].data.push({
+                                    value: value,
+                                    name: deviceType + ' ' + bluVer
+                                });
+                            } else if (2 == deviceType) {
+                                deviceType = 'ios'
+                                this.app_use_version.series[1].data.push({
+                                    value: value,
+                                    name: deviceType + ' ' + bluVer
+                                })
+                            }
+                            this.app_use_version.legend.data.push(deviceType + ' ' + bluVer);
                         }
                     });
             },
@@ -838,6 +959,10 @@
                 this.app_version.series[1].data = []
                 this.app_version.legend.data = []
 
+                this.app_use_version.series[0].data = []
+                this.app_use_version.series[1].data = []
+                this.app_use_version.legend.data = []
+
             },
             statAll: function (statType) {
 
@@ -845,23 +970,21 @@
                 this.initData();
 
                 // Android和ios的总数占比
-                this.devTypeStat(null, null, 0);
+                this.devTypeStat(false, null, null, 0);
 
-                // Android和ios 昨天的占比
                 let starttime1 = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
+
                 let endtime = moment().format('YYYY-MM-DD 0:0:0');
-                this.devTypeStat(starttime1, endtime, 1);
 
-                // Android和ios 一周内的占比
                 let starttime7 = moment().subtract(7, 'days').format('YYYY-MM-DD 0:0:0');
-                this.devTypeStat(starttime7, endtime, 7);
 
-                // Android和ios 一个月的占比
                 let starttime30 = moment().subtract(30, 'days').format('YYYY-MM-DD 0:0:0');
-                this.devTypeStat(starttime30, endtime, 30);
+
+                let starttime90 = moment().subtract(90, 'days').format('YYYY-MM-DD 0:0:0');
 
                 let beginDate = null;
                 let currentDate = null;
+                let activeStat = false;
 
                 let statInterval = '';
 
@@ -883,24 +1006,74 @@
                         currentDate = endtime;
                         statInterval = '(30天)'
                         break;
+                    case 190:
+                        activeStat = true;
+                        beginDate = starttime90;
+                        currentDate = endtime;
+                        statInterval = '(90天)'
+                        break;
+                    case 11:
+                        activeStat = true;
+                        beginDate = starttime1;
+                        currentDate = endtime;
+                        statInterval = '(昨天)'
+                        break;
+                    case 17:
+                        activeStat = true;
+                        beginDate = starttime7;
+                        currentDate = endtime;
+                        statInterval = '(7天)'
+                        break;
+                    case 130:
+                        activeStat = true;
+                        beginDate = starttime30;
+                        currentDate = endtime;
+                        statInterval = '(30天)'
+                        break;
                     default:
                         break;
                 }
+
+                // Android和ios 昨天的占比
+                this.devTypeStat(false, starttime1, endtime, 1);
+
+                // Android和ios 一周内的占比
+                this.devTypeStat(false, starttime7, endtime, 7);
+
+                // Android和ios 一个月的占比
+                this.devTypeStat(false, starttime30, endtime, 30);
+
+                // Android和ios 90天的活跃用户统计
+                this.devTypeStat(true, starttime90, endtime, 190);
+
+                // Android和ios 昨天的活跃用户统计
+                this.devTypeStat(true, starttime1, endtime, 11);
+
+                // Android和ios 一周内的活跃用户统计
+                this.devTypeStat(true, starttime7, endtime, 17);
+
+                // Android和ios 一个月的活跃用户统计
+                this.devTypeStat(true, starttime30, endtime, 130);
+
+//                ------------------------------------------------------------------------
 
                 // 注册渠道占比统计 渠道统计最早从4-1日开始
                 this.channalStat(beginDate, currentDate, statInterval);
 
                 // 手机型号TOP 20
-                this.phoneModelStat(beginDate, currentDate, statInterval);
+                this.phoneModelStat(activeStat, beginDate, currentDate, statInterval);
 
                 // 按发送消息数最多的 TOP 10
                 this.sendMsgCountRank(beginDate, currentDate, statInterval);
 
                 // 手机品牌统计 TOP 20
-                this.phoneBrandStat(beginDate, currentDate, statInterval);
+                this.phoneBrandStat(activeStat, beginDate, currentDate, statInterval);
 
-                // app版本统计
+                // app 注册版本统计
                 this.appVersionlStat(beginDate, currentDate, statInterval);
+
+                // app 在用版本统计
+                this.appUseVersionlStat(beginDate, currentDate, statInterval);
             }
         },
         mounted: function () {

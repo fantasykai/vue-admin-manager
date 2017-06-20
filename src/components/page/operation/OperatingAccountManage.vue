@@ -5,7 +5,6 @@
             <el-form :inline="true" :model="filters">
                 <el-form-item>
                     活动定义 :
-
                     <el-input v-model="filters.beginTime" :placeholder="filters.defaultBeginTime"
                               style="width: 25%;"></el-input>
                     /
@@ -43,16 +42,21 @@
                         to="/userManage">
                         账号每日详情
 
+
                     </router-link>
                     |
+
                     <router-link
                         :to="{ name: '自动回复设置',params: {userId : scope.row._id}}">
                         自动回复设置
+
                     </router-link>
                     |
+
                     <router-link
                         :to="{ name: '运营账号消息群发',params: {userId : scope.row._id ,nickname : scope.row.nickname}}">
                         消息群发
+
                     </router-link>
                 </template>
             </el-table-column>
@@ -72,7 +76,7 @@
     import moment from 'moment';
     import channelCode from '../../../../static/channelCode.json';
     import config from '../../../config';
-    import {getUsersPage, getNickname} from '../../../api';
+    import {getUsersPage, getNickname} from '../../../api/users';
 
     export default {
         data() {
@@ -103,19 +107,19 @@
         },
         filters: {
             formatuserId(row) {
-                let userId = ''
+                let f_userId = ''
 
                 let userInfo = JSON.stringify(row);
 
                 let {userId, seqid} = JSON.parse(userInfo);
 
                 if (userId) {
-                    userId = userId
+                    f_userId = userId
                 } else {
-                    userId = seqid
+                    f_userId = seqid
                 }
 
-                return userId;
+                return f_userId;
             },
             // 格式化数字
             timingTime(time) {
@@ -390,15 +394,15 @@
 
                 let currAccount = localStorage.getItem('account');
 
-                if ('58ff28b4b818164c58ae680c' == currAccount) {
+                if ('58ff28b4b818164c58ae680c' == currAccount || '58871627fd661412c8492d98' == currAccount) {
                     userType = 3
                 }
                 if (`${config.promoteMain.main1}` === currAccount) {
                     userType = 3
                 } else if (`${config.promoteMain.main2}` === currAccount) {
                     userType = 4
-                } else {
-//                    return;
+                } else if (`${config.promoteMain.main0}` === currAccount) {
+                    userType = 3
                 }
 
                 let query = '{"usertype":' + userType + '}',

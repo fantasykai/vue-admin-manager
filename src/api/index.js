@@ -15,7 +15,7 @@ export default {
         }
 
         if (!uri) {
-            console.error('API function call requires uri argument')
+            console.error('API function call requires uri argument');
             return
         }
 
@@ -55,10 +55,9 @@ export const requestLogin = params => {
 export const login = params => {
     return axios.create({
         auth: params.credentials,
-        timeout: 1000,
+        timeout: 2000,
     }).post(`${config.serverURI}/api/v1/tokens`,params.postBody).then(res => res.data);
 };
-
 
 /**
  * 获取token 消息头
@@ -87,8 +86,6 @@ export const getSTSToken = params => {
         headers: {'token': 'Bearer ' + localStorage.getItem('token')},
     }).get().then(res => res.data);
 };
-
-
 
 /**
  * 获取用户昵称

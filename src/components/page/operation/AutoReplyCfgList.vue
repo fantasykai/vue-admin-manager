@@ -313,7 +313,9 @@
 </template>
 
 <script>
-    import {getMsgConfigs, setMsgConfigs, updateMsgConfigs, deleteMsgConfigs} from '../../../api';
+//    import {getMsgConfigs, setMsgConfigs, updateMsgConfigs, deleteMsgConfigs} from '../../../api';
+    import {getMsgConfigs, setMsgConfigs, updateMsgConfigs, deleteMsgConfigs} from '../../../api/manage';
+    import uuidV4 from 'uuid/v4';
     import config from '../../../config';
     import UploadAliOSS from '../uploadOSS/UploadOSS.vue';
     import showVideo from '../../common/ShowVideo.vue';
@@ -334,6 +336,7 @@
                     userId: this.userId,
                 },
                 listLoading: false,
+                total: 0,
                 settings: [],
                 isVideo: [],
                 videoSrc: [],
@@ -359,8 +362,8 @@
                         path: '',
                         thumbnail: '',
                         receiptId: '',
-                        burnSecond: 0,
-                        duration: 0,
+                        burnSecond: 10,
+                        duration: 10,
                     },
                     enable: true,
                     type: '',
@@ -693,15 +696,15 @@
                     content: {
                         path: '',
                         thumbnail: '',
-                        receiptId: '',
+                        receiptId: uuidV4(),
                         burnSecond: 10,
                         duration: 10,
                     },
                     enable: true,
                     type: '',
                     period: {
-                        start: '08:00',
-                        end: '20:00'
+                        start: '00:00',
+                        end: '23:59'
 
                     },
                     interval: {

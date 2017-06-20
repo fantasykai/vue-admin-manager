@@ -1,14 +1,11 @@
 {
-    "pipeline": [{
-        "$group": {
-            "_id": {
-                "version": "$version",
-                "deviceType": "$deviceType"
-            },
-            "num": {"$sum": 1}}
-    },
-        {"$sort": {"num": -1,"deviceType":-1}}
-
+    "pipeline": [
+        {
+            "$group": {
+                "_id": {
+                }
+            }
+        }
     ],
-    "collections":"xxx"
+    "collections": "collections"
 }

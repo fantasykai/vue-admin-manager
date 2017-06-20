@@ -3,10 +3,34 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <div id="friendsRankTitle">
-                <div id="titleText"><strong>好友数量 TOP 50</strong></div>
+                <div id="titleText"><strong>{{ title }}</strong></div>
             </div>
         </el-col>
         <p></p>
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-form :inline="true">
+                <el-form-item>
+                    <el-date-picker
+                        v-model="beginTime"
+                        type="date"
+                        placeholder="选择日期时间"
+                        align="right"
+                        format="yyyy-MM-dd 0:0:0"
+                        :picker-options="pickerOptions1">
+                    </el-date-picker>
+                    -
+                    <el-date-picker
+                    v-model="endTime"
+                    type="date"
+                    placeholder="选择日期时间"
+                    align="right"
+                    format="yyyy-MM-dd 0:0:0"
+                    :picker-options="pickerOptions1">
+                </el-date-picker>
+                    <el-button type="primary" v-on:click="getFriendNumRanked">查询</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
         <!--列表-->
         <el-table :data="records" highlight-current-row v-loading="listLoading"
                   style="width: 100%;">
@@ -34,16 +58,45 @@
 <script>
     // 时间处理
     import moment from 'moment';
-    import {aggregate, getUsersPage}  from '../../../api';
+//    import {aggregate, getUsersPage}  from '../../../api';
+    import {aggregate} from 'api/aggregate';
+    import {getUsersPage} from 'api/users';
     import friendNumsRanked from '../../../../static/requestList/friendNumsRanked.json';
 
     export default {
         data() {
             return {
+                title: '好友数量 TOP 50',
+                pickerOptions1: {
+                    shortcuts: [{
+                        text: '今天',
+                        onClick(picker) {
+                            picker.$emit('pick', new Date());
+                        }
+                    }, {
+                        text: '昨天',
+                        onClick(picker) {
+                            const date = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '7天前',
+                        onClick(picker) {
+                            const date = moment().subtract(7, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }, {
+                        text: '30天前',
+                        onClick(picker) {
+                            const date = moment().subtract(30, 'days').format('YYYY-MM-DD 0:0:0');
+                            picker.$emit('pick', date);
+                        }
+                    }]
+                },
+                beginTime: '',
+                endTime: '',
                 records: [],
                 userIds: [],
-                friNum: [],
-                shareNames: '',
                 total: 0,
                 page: 1,
                 listLoading: false,
@@ -51,19 +104,19 @@
         },
         filters: {
             formatuserId(row) {
-                let userId = ''
+                let f_userId = ''
 
                 let userInfo = JSON.stringify(row);
 
                 let {userId, seqid} = JSON.parse(userInfo);
 
                 if (userId) {
-                    userId = userId
+                    f_userId = userId
                 } else {
-                    userId = seqid
+                    f_userId = seqid
                 }
 
-                return userId;
+                return f_userId;
             },
             formattedJson(str) {
                 let jsonStr
@@ -83,11 +136,23 @@
                 }
                 return row.seqid
             },
+            initDate: function () {
+                this.userIds = [];
+                this.records = [];
+                this.total= 0;
+            },
             //获取消息记录信息
             getFriendNumRanked() {
 
                 this.listLoading = true;
                 let params = friendNumsRanked;
+                if ('' != this.beginTime && '' != this.endTime) {
+
+                    let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
+                    let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
+                    params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
+                }
+                this.initDate();
                 aggregate(params)
                     .then(data => {
                         this.listLoading = false;
@@ -104,13 +169,10 @@
                                 'friNum': data[i].num,
                                 'telphone': '',
                             });
-
                         }
-
                         let ids = ''
 
                         if (this.userIds) {
-
                             for (let i = 0; i < this.userIds.length; i++) {
                                 ids += '"' + this.userIds[i] + '"'
 

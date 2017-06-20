@@ -163,7 +163,9 @@
 <script>
     // 时间处理
     import moment from 'moment';
-    import {getMsgConfigs, setMsgConfigs, deleteMsgConfigs} from '../../../api';
+    import uuidV4 from 'uuid/v4';
+//    import {getMsgConfigs, setMsgConfigs, deleteMsgConfigs} from '../../../api';
+    import {getMsgConfigs, setMsgConfigs, deleteMsgConfigs} from '../../../api/manage';
     import config from '../../../config';
     import UploadAliOSS from '../uploadOSS/UploadOSS.vue';
     import showVideo from '../../common/ShowVideo.vue';
@@ -184,6 +186,7 @@
                     userId: this.userId,
                 },
                 listLoading: false,
+                total: 0,
                 settings: [],
                 isVideo: [],
                 videoSrc: [],
@@ -483,15 +486,15 @@
                     content: {
                         path: '',
                         thumbnail: '',
-                        receiptId: '',
+                        receiptId: uuidV4(),
                         burnSecond: 10,
                         duration: 10,
                     },
                     enable: true,
                     type: '',
                     period: {
-                        start: '08:00',
-                        end: '20:00'
+                        start: '00:00',
+                        end: '23:59'
 
                     },
                     interval: {

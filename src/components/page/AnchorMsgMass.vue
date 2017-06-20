@@ -90,11 +90,14 @@
     import moment from 'moment';
     import config from '../../config';
     import showVideo from '../common/ShowVideo.vue';
-    import {
-        getChatRecordPage,
-        setMsgTimingTask,
-        cancelMsgTimingTask
-    } from '../../api';
+//    import {
+//        getChatRecordPage,
+//        setMsgTimingTask,
+//        cancelMsgTimingTask
+//    } from '../../api';
+
+    import { getChatRecordPage } from '../../api/messages';
+    import { setMsgTimingTask,cancelMsgTimingTask } from '../../api/manage';
 
     export default {
         components: {
@@ -191,7 +194,7 @@
 
                         let record = this.records[i];
 
-                        if ("task_id" in record) {
+                        if ("task_id" in record && '' !== record.task_id) {
                             this.submitted[i] = true;
                         } else {
                             this.submitted[i] = false;

@@ -16,6 +16,10 @@ restful接口，统计功能非常方便，在前端封装好aggregate,mapReduce
 
 类似于前端组装好查询条件，后端直接吐对应的结果。
 
+## 项目架构
+
+![](static/img/jiagou.png)
+
 ## Build Setup
 
 ``` bash
@@ -30,6 +34,13 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
+
+# 发布测试环境 带webpack ananalyzer
+npm run build:sit-preview
+
+# 构建生成环境
+npm run build:prod
+
 ```
 
 ## 目录结构

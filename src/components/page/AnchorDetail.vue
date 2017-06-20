@@ -98,10 +98,14 @@
     //import NProgress from 'nprogress'
     import config from '../../config';
     import showVideo from '../common/ShowVideo.vue';
-    import {
-        getChatRecordPage,
-        getAnchorDataStatPage
-    } from '../../api';
+//    import {
+//        getChatRecordPage,
+//        getAnchorDataStatPage
+//    } from '../../api';
+
+    import { getChatRecordPage} from '../../api/messages';
+    import { getAnchorDataStatPage} from '../../api/userstats';
+
 
     export default {
         components: {

@@ -9,7 +9,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-var env = config.build.env
+var env = process.env.NODE_ENV === 'production' ? config.build.prodEnv : config.build.sitEnv
+
+function resolveApp(relativePath) {
+    return path.resolve(relativePath);
+}
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {

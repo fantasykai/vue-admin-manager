@@ -3,7 +3,7 @@
         {
             "$group": {
                 "_id": {
-                    "deviceType": "$deviceType"
+
                 },
                 "num": {
                     "$sum": 1
@@ -16,5 +16,5 @@
             }
         }
     ],
-    "collections":"xxx"
+    "collections": "collections"
 }

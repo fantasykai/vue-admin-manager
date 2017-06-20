@@ -1,9 +1,10 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
-var path = require('path')
+var path = require('path');
 
 module.exports = {
     build: {
-        env: require('./prod.env'),
+        sitEnv: require('./sit.env'),
+        prodEnv: require('./prod.env'),
         index: path.resolve(__dirname, '../dist/index.html'),
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
@@ -28,25 +29,25 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/charts/v1': {
-                target: 'https://api2dev.blubluapp.com/charts/v1',
+            '/charts': {
+                target: 'https://api.fantasykai.com/charts/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/charts/v1': ''
+                    '/charts': ''
                 }
             },
-            '/manage/v1': {
-                target: 'https://api2dev.blubluapp.com/manage/v1',
+            '/manage': {
+                target: 'https://api.fantasykai.com/manage/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/manage/v1': ''
+                    '/manage': ''
                 }
             },
-            '/api/v1': {
-                target: 'https://api2dev.blubluapp.com/api/v1',
+            '/api': {
+                target: 'https://api.fantasykai.com/api/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/api/v1': ''
+                    '/api': ''
                 }
             }
         },
