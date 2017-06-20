@@ -9,11 +9,9 @@ const Token = {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 };
 
-const LoginUsers = [{
-    username: 'admin',
-    password: '123456',
-    _id: "56abcdef12345678",
-    nickname: "Sys管理员",
-}];
+const LoginUsers = {
+    "_id": "56abcdef12345678",
+    "nickname": "Sys管理员",
+};
 
 export {Token, LoginUsers};

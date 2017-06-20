@@ -14,37 +14,24 @@ export default  {
         let mock = new MockAdapter(axios);
 
         //登录
-        mock.onPost('/login').reply(config => {
-            let {username, password} = JSON.parse(config.data);
-            return new Promise((resolve, reject) => {
-                let user = null;
-                setTimeout(() => {
-                    let hasUser = LoginUsers.some(u => {
-                        if (u.username === username && u.password === password) {
-                            user = JSON.parse(JSON.stringify(u));
-                            user.password = undefined;
-                            return true;
-                        }
-                    });
+        mock.onPost('/api/v1/tokens').reply(config => {
 
-                    console.log("hasUser : " + hasUser);
-                    if (hasUser) {
-                        resolve([200, Token]);
-                    } else {
-                        resolve([200, {"_status": false, "_error": {"message": "pwd_error", "code": "601101"}}]);
-                    }
+            console.log("用户登录。。。。。。。。。。。。。。");
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, Token]);
                 }, 1000);
             });
         });
 
-        //获取用户列表
-        mock.onGet(`/api/v1/users/56abcdef12345678?projection={"nickname":1}`).reply(config => {
+        //获取用户昵称
+        mock.onGet(`/v1/users/56abcdef12345678?projection={%22nickname%22:1}`).reply(config => {
+
+            console.log("获取用户昵称。。。。。。。。。。。。。。");
 
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, {
-                        users: LoginUsers[0]
-                    }]);
+                    resolve([200, LoginUsers]);
                 }, 1000);
             });
         });
