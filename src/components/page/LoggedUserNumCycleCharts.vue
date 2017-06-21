@@ -37,7 +37,7 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-//    import {aggregate}  from '../../api';
+    //    import {aggregate}  from '../../api';
     import {aggregate} from 'api/aggregate';
     import loggedUserNumsReq from 'static/requestList/cycleLoggedUserNum.json';
     // 时间处理
@@ -45,6 +45,7 @@
     export default {
         data: function () {
             return {
+                mock: true,
                 pickerOptions1: {
                     shortcuts: [{
                         text: '今天',
@@ -63,7 +64,7 @@
                             const date = moment().subtract(7, 'days').format('YYYY-MM-DD 0:0:0');
                             picker.$emit('pick', date);
                         }
-                    },{
+                    }, {
                         text: '30天前',
                         onClick(picker) {
                             const date = moment().subtract(30, 'days').format('YYYY-MM-DD 0:0:0');
@@ -149,11 +150,14 @@
                 let params = loggedUserNumsReq;
                 if (null != this.beginTime && null != this.endTime) {
 
-                   let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
-                   let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
+                    let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
+                    let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
 
 
                     params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'cycleLoggedUserNumsStat', 'type': 0}, params)
                 }
                 this.initDate();
                 aggregate(params)

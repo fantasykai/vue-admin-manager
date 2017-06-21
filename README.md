@@ -54,6 +54,7 @@ npm run build:prod
 │   ├── config                 // 配置项
 │   ├── directive              // 全局指令
 │   ├── filtres                // 全局filter
+│   ├── mock                   // mock数据
 │   ├── router                 // 路由
 │   ├── store                  // 全局store管理
 │   ├── styles                 // 全局样式
@@ -109,9 +110,9 @@ npm run build:prod
 
 - [x] 已完成 支持视频播放
 
-- []  vuex状态管理
+- [x]  vuex状态管理 （目前只记录了用户token信息）
 
-- []  Dashboard中的echart图标，组件化重构
+- []  Dashboard中的echart图标，组件化重构 （第一次使用时，写的，代码比较冗余，后续拆成组件）
 
 - []  404页面组件（目前空白），考虑使用自己博客上的腾讯公益
 

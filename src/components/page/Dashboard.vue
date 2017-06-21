@@ -166,7 +166,7 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-//    import {aggregate}  from '../../api';
+    //    import {aggregate}  from '../../api';
     import {aggregate} from '../../api/aggregate';
     import devTypebyDate from '../../../static/requestList/devType.json';
     import phoneModel from '../../../static/requestList/phoneModel.json';
@@ -191,6 +191,7 @@
             IEcharts
         },
         data: () => ({
+            mock: true, //设置为true时，展示mock展示数据
             total: {
                 androidNum: 0,
                 iosNum: 0,
@@ -679,6 +680,9 @@
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
                 }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'devTypeStat', 'type': type}, params)
+                }
                 aggregate(params)
                     .then(data => {
                         for (let i = 0; i < data.length; i++) {
@@ -770,6 +774,10 @@
                     params = Object.assign({'starttime': "2017-6-1 0:0:0"}, params)
                 }
 
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'channalStat', 'type': 0}, params)
+                }
+
                 aggregate(params)
                     .then(data => {
                         this.chartBar.title.text = '渠道统计' + statInterval;
@@ -790,6 +798,9 @@
                 let params = sendMsgCountReq;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'sendMsgCountRank', 'type': 0}, params)
                 }
                 aggregate(params)
                     .then(data => {
@@ -814,6 +825,9 @@
                 let params = activeStat ? activePhoneModel : phoneModel;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'phoneModelStat', 'type': 0}, params)
                 }
                 aggregate(params)
                     .then(data => {
@@ -861,6 +875,9 @@
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
                 }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'phoneBrandStat', 'type': 0}, params)
+                }
                 aggregate(params)
                     .then(data => {
                         let activeUser = activeStat ? '(活跃用户)' : ''
@@ -881,6 +898,9 @@
                 let params = appVersion;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'appVersionlStat', 'type': 0}, params)
                 }
                 aggregate(params)
                     .then(data => {
@@ -907,6 +927,9 @@
                 let params = activeAppVersion;
                 if (null != beginTime && null != endTime) {
                     params = Object.assign({'starttime': beginTime, 'endtime': endTime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'appUseVersionlStat', 'type': 0}, params)
                 }
                 aggregate(params)
                     .then(data => {

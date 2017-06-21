@@ -19,6 +19,8 @@
                         :picker-options="pickerOptions1">
                     </el-date-picker>
                     -
+
+
                     <el-date-picker
                         v-model="endTime"
                         type="date"
@@ -44,7 +46,7 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-//    import {aggregate}  from '../../api';
+    //    import {aggregate}  from '../../api';
     import {aggregate} from 'api/aggregate';
     import monthUserNumsReq from '../../../static/requestList/cycleUserNum.json';
     // 时间处理
@@ -52,6 +54,7 @@
     export default {
         data: function () {
             return {
+                mock: true,
                 pickerOptions1: {
                     shortcuts: [{
                         text: '今天',
@@ -70,7 +73,7 @@
                             const date = moment().subtract(7, 'days').format('YYYY-MM-DD 0:0:0');
                             picker.$emit('pick', date);
                         }
-                    },{
+                    }, {
                         text: '30天前',
                         onClick(picker) {
                             const date = moment().subtract(30, 'days').format('YYYY-MM-DD 0:0:0');
@@ -131,7 +134,7 @@
                         },
                     ]
                 }
-            }
+            };
         },
         components: {
             IEcharts
@@ -156,11 +159,14 @@
                 let params = monthUserNumsReq;
                 if (null != this.beginTime && null != this.endTime) {
 
-                   let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
-                   let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
+                    let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
+                    let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
 
 
                     params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'cycleUserNumsStat', 'type': 0}, params)
                 }
                 this.initDate();
                 aggregate(params)

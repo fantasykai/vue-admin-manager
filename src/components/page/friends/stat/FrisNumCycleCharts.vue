@@ -45,6 +45,7 @@
     export default {
         data: function () {
             return {
+                mock: true,
                 pickerOptions1: {
                     shortcuts: [{
                         text: '今天',
@@ -174,6 +175,9 @@
                     let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
                     let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
                     params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
+                }
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'cycleFrisNumStat', 'type': 0}, params)
                 }
                 this.initDate();
                 aggregate(params)

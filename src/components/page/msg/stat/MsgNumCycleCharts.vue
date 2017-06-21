@@ -25,8 +25,10 @@
             </el-form>
         </el-col>
         <div v-show="showReturnButton">
-            <strong>用户聊天消息趋势</strong> / <router-link :to="{ path: previousPage }">返回
-                </router-link>
+            <strong>用户聊天消息趋势</strong> /
+            <router-link :to="{ path: previousPage }">返回
+
+            </router-link>
         </div>
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-card class="box-card">
@@ -40,7 +42,7 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-//    import {aggregate}  from '../../../../api';
+    //    import {aggregate}  from '../../../../api';
     import {aggregate} from 'api/aggregate';
     import cycleMsgNumReq from '../../../../../static/requestList/cycleMsgNum.json';
     // 时间处理
@@ -48,6 +50,7 @@
     export default {
         data: function () {
             return {
+                mock: true,
                 pickerOptions3: {
                     shortcuts: [{
                         text: '今天',
@@ -173,7 +176,7 @@
 
                     params.pipeline = Object.assign(params.pipeline, [{
                         "$match": {
-                            "fromUserId": {"$in":[this.queryUser.userIds]}
+                            "fromUserId": {"$in": [this.queryUser.userIds]}
                         }
                     }, {
                         "$group": {
@@ -220,7 +223,9 @@
                     params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
                 }
 
-
+                if (this.mock) {
+                    params = Object.assign({'statFunc': 'cycleMsgNumStat', 'type': 0}, params)
+                }
                 this.initDate();
                 aggregate(params)
                     .then(data => {
