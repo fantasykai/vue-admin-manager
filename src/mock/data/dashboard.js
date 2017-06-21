@@ -3,3 +3,7 @@
  */
 import Mock from 'mockjs';
 
+const TotalALL = {"result": [{"_id": {"deviceType": 1}, "num": 30421}, {"_id": {"deviceType": 2}, "num": 51251}]};
+
+
+export  {TotalALL};

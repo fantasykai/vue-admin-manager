@@ -29,25 +29,25 @@ module.exports = {
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/charts': {
-                target: 'https://api.fantasykai.com/charts/v1',
+            '/charts/v1': {
+                target: 'https://api.fantasykai.cc/charts/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/charts': ''
+                    '/charts/v1': ''
                 }
             },
-            '/manage': {
-                target: 'https://api.fantasykai.com/manage/v1',
+            '/manage/v1': {
+                target: 'https://api.fantasykai.cc/manage/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/manage': ''
+                    '/manage/v1': ''
                 }
             },
             '/api': {
-                target: 'https://api.fantasykai.com/api/v1',
+                target: 'https://api.fantasykai.cc/api/v1',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/api': ''
+                    '/api/v1': ''
                 }
             }
         },
