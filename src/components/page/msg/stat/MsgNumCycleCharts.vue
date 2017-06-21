@@ -237,7 +237,7 @@
 
                         for (let j = dateNum; j > 0; j--) {
 
-                            let tododay = moment().subtract(j, 'days').format('YYYY-MM-DD');
+                            let tododay = moment(this.endTime).subtract(j, 'days').format('YYYY-MM-DD');
 
                             this.cycle_mix.xAxis.data.push(tododay);
 
