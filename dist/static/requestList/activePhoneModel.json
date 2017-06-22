@@ -1,0 +1,21 @@
+{
+    "pipeline": [
+        {
+            "$match": {
+
+            }
+        },{
+            "$group": {
+                "_id": {
+
+                }}
+        },
+        {
+            "$group": {
+                "_id": {
+
+                }}
+        }
+    ],
+    "collections":"collections"
+}

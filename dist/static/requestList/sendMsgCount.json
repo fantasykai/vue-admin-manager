@@ -1,0 +1,11 @@
+{
+    "pipeline": [
+        {
+            "$group": {
+                "_id": {
+                }
+            }
+        }
+    ],
+    "collections": "collections"
+}

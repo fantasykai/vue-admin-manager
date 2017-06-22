@@ -1,0 +1,20 @@
+{
+    "pipeline": [
+        {
+            "$group": {
+                "_id": {
+
+                },
+                "num": {
+                    "$sum": 1
+                }
+            }
+        },
+        {
+            "$sort": {
+                "num": -1
+            }
+        }
+    ],
+    "collections": "collections"
+}

@@ -1,0 +1,31 @@
+{
+    "pipeline": [
+        {
+            "$match": {
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                }
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                },
+                "num": {
+                    "$sum": 1
+                }
+            }
+        },
+        {
+            "$sort": {
+            }
+        },
+        {
+            "$limit": 20
+        }
+    ],
+    "collections": "collections"
+}
