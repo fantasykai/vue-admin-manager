@@ -15,7 +15,7 @@
                 <el-button type="primary" style="width:100%;" @click="submitForm('ruleForm')" :loading="logining">登录
                 </el-button>
             </div>
-            <p style="font-size:12px;line-height:30px;color:#999;">Tips : 只有管理员账号可以登录哦~</p>
+            <p style="font-size:12px;line-height:30px;color:#999;">Tips : 账号,密码随意了~</p>
         </el-form>
     </div>
 </template>
