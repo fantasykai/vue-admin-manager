@@ -5,7 +5,8 @@
 import axios from 'axios';
 import fetch from '../utils/fetch';
 import MockAdapter from 'axios-mock-adapter';
-import {Token, LoginUsers} from './data/users';
+import {Token, LoginUsers, Users} from './data/users';
+let _Users = Users;
 import {StsToken} from './data/ststoken';
 import {
     TotalALL,
@@ -146,6 +147,35 @@ export default  {
                 setTimeout(() => {
                     resolve([200, StsToken]);
                 }, 1000);
+            });
+        });
+
+        // 用户分页查询
+        mock_fetch.onGet('/api/v1/users').reply(config => {
+            let {page, where} = config.params;
+
+            let {telphone, bluid, seqid} = JSON.parse(where);
+
+            let mockUsers = _Users.filter(user => {
+                if (telphone && user.name.indexOf(telphone) == -1 &&
+                    bluid && user.name.indexOf(bluid) == -1 &&
+                    seqid && user.name.indexOf(seqid) == -1
+                ) return false;
+                return true;
+            });
+            let total = mockUsers.length;
+            mockUsers = mockUsers.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        _meta: {
+                            max_results: 20,
+                            total: total,
+                            page: page
+                        },
+                        _items: mockUsers
+                    }]);
+                }, 5000);
             });
         });
     }

@@ -426,7 +426,7 @@
 
                         if (avatar) {
 
-                            avatar += '@!blu_web_show_avatar';
+                            avatar += '@!web_show_avatar';
 
                             var result = this.ossClient.signatureUrl(avatar, {
                                 response: {
