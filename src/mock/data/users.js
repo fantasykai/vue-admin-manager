@@ -71,6 +71,10 @@ for (let i = 0; i < 99; i++) {
                 "region": Mock.Random.county()
             }
         },
+        firsNum: Mock.Random.integer(100, 10000),
+        newActiveNum: Mock.Random.integer(200, 20000),
+        sendNum: Mock.Random.integer(1000, 999999),
+        receNum: Mock.Random.integer(1000, 999999),
     }));
 }
 

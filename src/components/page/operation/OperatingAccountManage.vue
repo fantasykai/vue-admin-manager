@@ -5,7 +5,6 @@
             <el-form :inline="true" :model="filters">
                 <el-form-item>
                     活动定义 :
-
                     <el-input v-model="filters.beginTime" :placeholder="filters.defaultBeginTime"
                               style="width: 25%;"></el-input>
                     /
@@ -73,7 +72,6 @@
         data() {
             return {
                 ossClient: Object,
-                submitted: [],
                 filters: {
                     beginTime: '',
                     endTime: '',
@@ -81,19 +79,10 @@
                     defaultBeginTime: '',
                     defaultEndTime: ''
                 },
-                regex: {
-                    userIdRe: /^[a-zA-Z][a-zA-Z0-9_-]{5,20}$/g,
-                    seqIdRe: /^\d{8,10}$/g,
-                    tel: /^((1[3578][0-9])|(14[57])|(17[0678]))\d{8}$/g,
-                },
-                timing: [],
                 records: [],
-                shareNames: '',
                 total: 0,
                 page: 1,
                 listLoading: false,
-                avatarSrc: [],
-                shareUsers: [],
             };
         },
         filters: {
@@ -118,31 +107,21 @@
                 this.page = val;
                 this.GetOperatingAccount();
             },
-            //显示编辑界面
-            handleEdit: function (index, row) {
-                this.editFormVisible = true;
-                this.editForm = Object.assign({}, row);
-            },
-            //获取消息记录信息
             GetOperatingAccount() {
 
-                let userType = 100
+                let userType = 100;
 
                 let currAccount = localStorage.getItem('account');
 
-                if ('58ff28b4b818164c58ae680c' == currAccount || '58871627fd661412c8492d98' == currAccount) {
-                    userType = 3
-                }
                 if (`${config.promoteMain.main1}` === currAccount) {
-                    userType = 3
+                    userType = 10921
                 } else if (`${config.promoteMain.main2}` === currAccount) {
-                    userType = 4
+                    userType = 10922
                 } else if (`${config.promoteMain.main0}` === currAccount) {
-                    userType = 3
+                    userType = 10920
                 }
 
                 let query = '{"usertype":' + userType + '}',
-
                     para = {
                         where: query,
                         sort: '-_created',
@@ -155,54 +134,10 @@
                     this.total = res.data._meta.total;
                     this.records = res.data._items;
                     this.listLoading = false;
-
-                    for (let i = 0; i < this.records.length; i++) {
-//
-                        let {avatar, from} = this.records[i];
-
-                        if (avatar) {
-
-                            avatar += '@!web_show_avatar';
-
-                            var result = this.ossClient.signatureUrl(avatar, {
-                                response: {
-                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
-                                    'Content-Type': 'image/jpeg'
-                                }
-                            });
-
-                            this.avatarSrc[i] = result;
-                        }
-
-                        if (from) {
-
-                            let {user_id} = from
-
-                            if (user_id) {
-                                getNickname(user_id).then((res) => {
-                                    let {nickname, userId, seqid} = res;
-
-                                    let shareUser = '昵称 : ' + nickname + ', userId : ';
-
-                                    if (userId) {
-                                        shareUser += userId;
-                                    } else {
-                                        shareUser += seqid;
-                                    }
-
-                                    this.shareUsers[i] = shareUser;
-                                });
-                            }
-                        }
-                    }
-                    //NProgress.done();
                 });
             },
         },
         mounted() {
-//            this.filters.defaultBeginTime = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
-//            this.filters.defaultEndTime = moment().format('YYYY-MM-DD 0:0:0');
-
             this.initOSSAuth();
             this.GetOperatingAccount();
         }
