@@ -70,12 +70,12 @@
                 let Oss = OSS.Wrapper;
 
                 this.ossClient = new Oss({
-                    region: 'oss-cn-beijing',
+                    region: 'test',
                     accessKeyId: ossSts.AccessKeyId,
                     accessKeySecret: ossSts.AccessKeySecret,
                     stsToken: ossSts.SecurityToken,
-                    bucket: 'dianxinonline',
-                    endpoint: 'https://oss-cn-beijing.aliyuncs.com',
+                    bucket: 'test',
+                    endpoint: 'https://test.aliyuncs.com',
                 });
             },
             doUpload(){

@@ -154,11 +154,11 @@
                 let Oss = OSS.Wrapper;
 
                 this.ossClient = new Oss({
-                    region: 'oss-cn-beijing',
+                    region: 'test',
                     accessKeyId: ossSts.AccessKeyId,
                     accessKeySecret: ossSts.AccessKeySecret,
                     stsToken: ossSts.SecurityToken,
-                    bucket: 'dianxinonline',
+                    bucket: 'test',
                 });
             },
             // 展示视频路径
@@ -177,8 +177,7 @@
 
                 let
                     para = {
-                        where: `{"$or": [{"objectName": "app:image"}, {"objectName": "app:video"}],"toUserId":"${config.msgStatToUserId}"` + dateParam,
-                        embedded: '{"fromUserId":1}',
+                        where: `{"toUserId":"${config.msgStatToUserId}"` + dateParam,
                         sort: '-msgTimestamp',
                         max_results: '20',
                         page: this.page
