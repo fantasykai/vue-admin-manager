@@ -1,8 +1,14 @@
+# DEMO
+
+展示数据通过mock.js 构造
+
+[Demo 地址](https://fantasykai.github.io/vue-admin-manager)
+
 # vue-admin-manager
 
-> 后端研发一枚，公司没有web端开发，逐步需要做运维，运营的页面，想要快速开展工作，
+> 后端研发一枚，初创公司，目前没有web端开发，逐步需要做运维，运营的页面，想要快速开展工作，
 
-> 就去了解了下目前比较火的，react vue angular，对比之后，感觉目前vue是最合适的，
+> 就去了解了下目前比较火的，react 、vue 、angular，对比之后，感觉目前vue是最合适的，
 
 > 去官网熟悉了一下，写了几个demo，就开始做这个后台，借鉴很多github上的优秀作品，自己也
 
@@ -29,13 +35,7 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# 发布测试环境 带webpack ananalyzer
+# 发布测试环境 包含 webpack ananalyzer
 npm run build:sit-preview
 
 # 构建生成环境
@@ -123,19 +123,9 @@ npm run build:prod
 
 ### 备注
 
-#### 不可折叠的导航栏主题
+Dashboard 页面使用了vue-echarts-v3组件，是刚开始熟悉vue时，硬撸出来的，无美感可言啊。后面逐步熟悉及应用起来组件的思想才，
 
-BluSidebar.vue
-
-Header.vue
-
-Home.vue
-
-App-default.vue
-
-main-default.js
-
-router/index.js
+代码尚需逐步优化，哈哈
 
 
 - [个人博客](https://fantasykai.cc)
