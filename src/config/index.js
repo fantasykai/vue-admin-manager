@@ -8,7 +8,6 @@ export default {
 
     msgStatToUserId: 'msgStatToUserId',
 
-
     promoteMain: {
         main0: 'main0',
         main1: 'main1',

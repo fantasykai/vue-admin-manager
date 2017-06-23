@@ -103,11 +103,11 @@ const user = {
         //     let Oss = OSS.Wrapper;
         //
         //     let ossClient = new Oss({
-        //         region: 'oss-cn-beijing',
+        //         region: 'test',
         //         accessKeyId: state.ossSts.AccessKeyId,
         //         accessKeySecret: state.ossSts.AccessKeySecret,
         //         stsToken: state.ossSts.SecurityToken,
-        //         bucket: 'dianxinonline',
+        //         bucket: 'test',
         //     });
         //     commit('SET_OSS_CLIENT', ossClient);
         //     localStorage.setItem("ossClient", ossClient)

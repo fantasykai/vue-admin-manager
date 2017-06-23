@@ -96,77 +96,14 @@
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
 
+
                             </el-tag>
                         </div>
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column
-                label="发气泡">
-                <template scope="scope">
-                    <router-link
-                        :to="{ name: '用户聊天消息数量趋势',params: {userIds : scope.row._id, nickname: scope.row.nickname, previousPage: '/userManage'}}">
-                        {{ scope.row.send | formatSendNum }}
-
-                    </router-link>
-                </template>
+            <el-table-column prop="_created" label="注册时间" sortable>
             </el-table-column>
-            <el-table-column prop="recv" :formatter="formatRecvNum" label="收气泡" sortable>
-            </el-table-column>
-            <el-table-column label="客户端信息" sortable>
-                <template scope="scope">
-                    <el-popover title="用户手机信息" trigger="hover" placement="top">
-                        <p><strong>用户注册手机 ：</strong></p>
-                        <p> Android/ios : {{ 1 == scope.row.client.item0.src ? 'Android' : 'iOS' }}</p>
-                        <p> 注册APP版本 : {{ scope.row.client.item0.bluVer }}</p>
-                        <p> 品牌 : {{ scope.row.client.item0.brand }}</p>
-                        <p> 设备型号 : {{ scope.row.client.item0.deviceName }}</p>
-                        <p> 设备版本 : {{ scope.row.client.item0.sysVer }}</p>
-                        <p> 设备详情 : {{ scope.row.client.item0.sysDesc }}</p>
-                        <p><strong>用户当前在用手机 ：</strong></p>
-                        <p> 最近登录时间 : {{ scope.row.client | formattedClientLastLoginTime | formatBeijingDate}}</p>
-                        <p> 在用APP版本 : {{ scope.row.client | formattedClientLastBluVer}}</p>
-                        <p> 品牌 : {{ scope.row.client | formattedClientLastBrand}}</p>
-                        <p> 设备型号 : {{ scope.row.client | formattedClientLastDeviceName}}</p>
-                        <p> 设备版本 : {{ scope.row.client | formattedClientLastSysVer }}</p>
-                        <p> 设备详情 : {{ scope.row.client | formattedClientLastSysDesc}}</p>
-                        <div slot="reference" class="name-wrapper">
-                            <el-tag type="success">{{ scope.row.client.item0.deviceName }} </el-tag>
-                        </div>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <el-table-column label="用户来源" sortable>
-                <template scope="scope">
-                    <el-popover title="分享人" trigger="hover" placement="top" :content="shareUsers[scope.$index]">
-                        <!--<p> {{ scope.row | formattedFrom }}</p>-->
-                        <div slot="reference" class="name-wrapper">
-                            <el-tag type="success">{{ scope.row | formattedChannel }} </el-tag>
-                        </div>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <el-table-column label="加好友验证" sortable>
-                <template scope="scope">
-                    <el-popover trigger="hover" placement="top">
-                        <p>支持手机号搜索 : {{ 0 === scope.row.privacy.seachTel ? '不支持' : '支持' }}</p>
-                        <p>支持BludId搜索 : {{ 0 === scope.row.privacy.seachNum ? '不支持' : '支持' }}</p>
-                        <div slot="reference" class="name-wrapper">
-                            <el-tag type="primary">{{ 0 === scope.row.privacy.addVerify ? '不需要' : '需要' }} </el-tag>
-                        </div>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <!--<el-table-column-->
-            <!--label="操作">-->
-            <!--<template scope="scope">-->
-            <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
-            <!--&lt;!&ndash;<el-button size="small"&ndash;&gt;-->
-            <!--&lt;!&ndash;@click="cancelTimingTask(scope.row._id, scope.$index)">&ndash;&gt;-->
-            <!--&lt;!&ndash;删除&ndash;&gt;-->
-            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
-            <!--</template>-->
-            <!--</el-table-column>-->
         </el-table>
 
         <!--工具条-->
@@ -196,6 +133,7 @@
     export default {
         data() {
             return {
+                mock: true,
                 pickerOptions2: {
                     shortcuts: [{
                         text: '今天',
@@ -250,9 +188,6 @@
             };
         },
         filters: {
-            formatSendNum (sendNum) {
-                return sendNum ? sendNum : 0;
-            },
             formatuserId(row) {
                 let f_userId = ''
 
@@ -267,10 +202,6 @@
                 }
 
                 return f_userId;
-            },
-            // 格式化数字
-            timingTime(time) {
-                return moment(time).add(1, 'days').format('YYYY-MM-DD 08:00:00');
             },
             formatBeijingDate(date) {
 
@@ -289,18 +220,10 @@
                 }
                 return jsonStr;
             },
-            formatResultType(str) {
-                let type;
-                if (str) {
-                    type = 'success';
-                }
-                return type
-            },
             formattedConstellation(index) {
 
-                let constellationStrings = ["性感的白羊", "傲娇的金牛", "机智的双子", "温暖的巨蟹", "万人迷的狮子"
-                    , "高贵的处女", "美味的天秤", "魅惑的天蝎", "色色的射手", "硬核的摩羯", "鬼马的水瓶", "温柔的双鱼", "温柔的双鱼"];
-
+                let constellationStrings = ["白羊", "金牛", "双子", "巨蟹", "狮子"
+                    , "处女", "天秤", "天蝎", "射手", "摩羯", "水瓶", "双鱼", "双鱼"];
                 return constellationStrings[index];
 
             },
@@ -324,9 +247,9 @@
 
                 let sexualName = '不明'
                 if (1 === sexual) {
-                    sexualName = '来个汉子'
+                    sexualName = '汉子'
                 } else if (2 === sexual) {
-                    sexualName = '来个妹子'
+                    sexualName = '妹子'
                 } else if (3 === sexual) {
                     sexualName = '人类'
                 }
@@ -383,135 +306,8 @@
                 }
                 return jobName;
             },
-            formattedClientLastLoginTime(client) {
-
-                let lastLoginTime = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    lastLoginTime = last._created;
-                }
-
-                return lastLoginTime;
-            },
-
-            formattedClientLastBluVer(client) {
-
-                let bluVer = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    bluVer = last.bluVer;
-                }
-
-                return bluVer;
-            },
-
-            formattedClientLastBrand(client) {
-
-                let brand = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    brand = last.brand;
-                }
-                return brand;
-            },
-            formattedClientLastDeviceName(client) {
-
-                let deviceName = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    deviceName = last.deviceName;
-                }
-                return deviceName;
-            },
-            formattedClientLastSysVer(client) {
-
-                let sysVer = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    sysVer = last.sysVer;
-                }
-                return sysVer;
-            },
-            formattedClientLastSysDesc(client) {
-
-                let sysDesc = ''
-
-                let clientJson = JSON.stringify(client);
-
-                let {last} = JSON.parse(clientJson);
-
-                if (last) {
-                    sysDesc = last.sysDesc;
-                }
-                return sysDesc;
-            },
-            formattedChannel (row) {
-
-                let channelName = ''
-
-                let userInfo = JSON.stringify(row);
-
-                let {channel, from} = JSON.parse(userInfo);
-
-                if (channel) {
-
-                    channelName = null == channelCode[channel] ? channel : channelCode[channel]
-
-                } else if (from) {
-
-                    let channelId = from.channel
-
-                    if (channelId) {
-                        channelName = null == channelCode[channelId] ? channelId : channelCode[channel]
-                    }
-                }
-
-                return channelName;
-            },
-            formattedFrom (row) {
-
-                let userInfo = JSON.stringify(row);
-
-                let {from} = JSON.parse(userInfo);
-
-                let userId = ''
-
-                if (from) {
-                    userId = from.user_id
-                }
-                return userId;
-            },
         },
         methods: {
-            formatRecvNum (row) {
-                return row.recv ? row.recv : 0;
-            },
-            showuserId(row) {
-                if (row.userId) {
-                    return row.userId;
-                }
-                return row.seqid
-            },
             //初始化OSS 权限
             initOSSAuth(){
 
@@ -520,11 +316,11 @@
                 let Oss = OSS.Wrapper;
 
                 this.ossClient = new Oss({
-                    region: 'oss-cn-beijing',
+                    region: 'test',
                     accessKeyId: ossSts.AccessKeyId,
                     accessKeySecret: ossSts.AccessKeySecret,
                     stsToken: ossSts.SecurityToken,
-                    bucket: 'dianxinonline',
+                    bucket: 'test',
                 });
             },
             handleCurrentChange(val) {
@@ -534,11 +330,6 @@
             handleSizeChange(val) {
                 this.pageSize = val;
                 this.getUserList();
-            },
-            //显示编辑界面
-            handleEdit: function (index, row) {
-                this.editFormVisible = true;
-                this.editForm = Object.assign({}, row);
             },
             //获取消息记录信息
             getUserList() {
@@ -585,55 +376,43 @@
                 getUsersPage(para).then((res) => {
                     this.total = res.data._meta.total;
                     this.records = res.data._items;
+
+                    console.log("this.records : " + this.records);
+
                     this.listLoading = false;
-
                     for (let i = 0; i < this.records.length; i++) {
-//
-                        let {avatar, from} = this.records[i];
 
-                        if (avatar) {
+                        let {avatar} = this.records[i];
 
-                            avatar += '@!blu_web_show_avatar';
+                        console.log("avatar : " + avatar);
 
-                            var result = this.ossClient.signatureUrl(avatar, {
-                                response: {
-                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
-                                    'Content-Type': 'image/jpeg'
-                                }
-                            });
+                        if (this.mock) {
 
-                            this.avatarSrc[i] = result;
-                        }
+                            this.avatarSrc[i] = avatar;
 
-                        if (from) {
+                        } else {
 
-                            let {user_id} = from
+                            if (avatar) {
 
-                            if (user_id) {
-                                getNickname(user_id).then((res) => {
-                                    let {nickname, userId, seqid} = res;
+                                avatar += '@!web_show_avatar';
 
-                                    let shareUser = '昵称 : ' + nickname + ', userId : ';
-
-                                    if (userId) {
-                                        shareUser += userId;
-                                    } else {
-                                        shareUser += seqid;
+                                var result = this.ossClient.signatureUrl(avatar, {
+                                    response: {
+                                        // 'content-disposition': 'attachment; filename="' + filename + '"'
+                                        'Content-Type': 'image/jpeg'
                                     }
-
-                                    this.shareUsers[i] = shareUser;
                                 });
+
+                                this.avatarSrc[i] = result;
                             }
                         }
                     }
-                    //NProgress.done();
                 });
             },
         },
         mounted() {
             this.filters.defaultBeginTime = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
             this.filters.defaultEndTime = moment().format('YYYY-MM-DD 0:0:0');
-
             this.initOSSAuth();
             this.getUserList();
         }

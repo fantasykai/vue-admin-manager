@@ -129,11 +129,11 @@
                 let Oss = OSS.Wrapper;
 
                 this.ossClient = new Oss({
-                    region: 'oss-cn-beijing',
+                    region: 'test',
                     accessKeyId: ossSts.AccessKeyId,
                     accessKeySecret: ossSts.AccessKeySecret,
                     stsToken: ossSts.SecurityToken,
-                    bucket: 'dianxinonline',
+                    bucket: 'test',
                 });
             },
             handleCurrentChange(val) {
@@ -183,7 +183,7 @@
 
                         if (avatar) {
 
-                            avatar += '@!blu_web_show_avatar';
+                            avatar += '@!web_show_avatar';
 
                             var result = this.ossClient.signatureUrl(avatar, {
                                 response: {

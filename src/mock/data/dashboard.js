@@ -25,10 +25,10 @@ const TotalActive30 = {
     }]
 };
 const StatChannel = {
-    "result": [{"_id": {"channel": "google"}, "num": 13042123}, {
-        "_id": {"channel": "10006617"},
-        "num": 12
-    }, {"_id": {"channel": "AppStore"}, "num": 15125189}]
+    "result": [{"_id": {"channel": "20036812"}, "num": 10725191 },
+        {"_id": {"channel": "20036811"}, "num": 12325142 },
+        {"_id": {"channel": "AppStore"}, "num": 15125189},
+        {"_id": {"channel": "Google Play"}, "num": 16042123},]
 };
 const StatDeviceModel = {
     "result": [{
@@ -80,82 +80,82 @@ const StatSendMsg = {
     "result": [
         {
             "_id": {
-                "recv": 12023611,
-                "seqid": 1135234011,
+                "recv": 1202361112,
+                "seqid": 123456,
                 "nickname": "旋涡鸣人",
-                "send": 17023611
+                "send": 1135234011
             }
         },
         {
             "_id": {
-                "recv": 11023512,
-                "seqid": 1192150210,
+                "recv": 1102351292,
+                "seqid": 1323451,
                 "nickname": "幕府",
-                "send": 162236132
+                "send": 1192150210
             }
         },
         {
             "_id": {
-                "recv": 11013522,
-                "seqid": 1147172811,
+                "recv": 1101352231,
+                "seqid": 1147172,
                 "nickname": "仙人",
-                "send": 161233138
+                "send": 1147172811
             }
         },
         {
             "_id": {
-                "recv": 10013521,
-                "seqid": 1128418081,
+                "recv": 1001352187,
+                "seqid": 1128418,
                 "nickname": "Fant_",
-                "send": 159233128
+                "send": 1128418081
             }
         },
         {
             "_id": {
-                "recv": 16013225,
-                "seqid": 1118715284,
+                "recv": 1601322501,
+                "seqid": 11187152,
                 "nickname": "ViK123",
-                "send": 159033151
+                "send": 1590331512
             }
         },
         {
             "_id": {
-                "recv": 129033161,
+                "recv": 1290331614,
                 "seqid": 1161603201,
-                "nickname": "leecy",
-                "send": 157133155
+                "nickname": "letSts",
+                "send": 1571331557
             }
         },
         {
             "_id": {
-                "recv": 109033161,
-                "seqid": 1177300626,
+                "recv": 1243331513,
+                "seqid": 11773006,
                 "nickname": "HTTP.EFF",
-                "send": 154133131
+                "send": 1177300626
             }
         },
         {
             "_id": {
-                "recv": 102033135,
-                "seqid": 1101961540,
+                "recv": 1020331355,
+                "seqid": 110121540,
                 "nickname": ".S碎羽。",
-                "send": 150135132
+                "send": 1101961540
             }
         },
         {
             "_id": {
-                "recv": 92333129,
+                "recv": 1010352382,
                 "seqid": 10000282,
                 "nickname": "DA拿破仑",
-                "send": 148131129
+                "send": 1001961540
             }
         },
         {
             "_id": {
-                "recv": 911,
-                "seqid": 103353199,
+                "recv": 1000334615,
+                "seqid": 1033599,
                 "nickname": "路飞·D",
-                "send": 143183511
+                "send": 1000763156
             }
         }
     ]

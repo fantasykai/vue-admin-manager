@@ -1,150 +1,153 @@
 /**
  * Created by kai.fantasy on 2017/6/21 0021.
  */
+import moment from 'moment';
+import Mock from 'mockjs';
+
 const addUserTrend = {
     "result": [{
-        "_id": {"deviceType": 1, "day": "2017-06-14"},
+        "_id": {"deviceType": 1, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')},
         "num": 11827
-    }, {"_id": {"deviceType": 2, "day": "2017-06-14"}, "num": 10223}, {
-        "_id": {"deviceType": 2, "day": "2017-06-15"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')}, "num": 10223}, {
+        "_id": {"deviceType": 2, "day": moment().subtract(6, 'days').format('YYYY-MM-DD')},
         "num": 102251
-    }, {"_id": {"deviceType": 1, "day": "2017-06-15"}, "num": 12183}, {
-        "_id": {"deviceType": 1, "day": "2017-06-16"},
+    }, {"_id": {"deviceType": 1, "day": moment().subtract(6, 'days').format('YYYY-MM-DD')}, "num": 12183}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')},
         "num": 11234
-    }, {"_id": {"deviceType": 2, "day": "2017-06-16"}, "num": 18125}, {
-        "_id": {"deviceType": 1, "day": "2017-06-17"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')}, "num": 18125}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')},
         "num": 10121
-    }, {"_id": {"deviceType": 2, "day": "2017-06-17"}, "num": 16223}, {
-        "_id": {"deviceType": 1, "day": "2017-06-18"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')}, "num": 16223}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')},
         "num": 14291
-    }, {"_id": {"deviceType": 2, "day": "2017-06-18"}, "num": 11235}, {
-        "_id": {"deviceType": 1, "day": "2017-06-19"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')}, "num": 11235}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')},
         "num": 12217
-    }, {"_id": {"deviceType": 2, "day": "2017-06-19"}, "num": 14257}, {
-        "_id": {"deviceType": 2, "day": "2017-06-20"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')}, "num": 14257}, {
+        "_id": {"deviceType": 2, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')},
         "num": 13625
-    }, {"_id": {"deviceType": 1, "day": "2017-06-20"}, "num": 19225}]
+    }, {"_id": {"deviceType": 1, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')}, "num": 19225}]
 };
 
 const ActiveUserTrend = {
     "result": [{
-        "_id": {"deviceType": 1, "day": "2017-06-14"},
+        "_id": {"deviceType": 1, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')},
         "num": 111847
-    }, {"_id": {"deviceType": 2, "day": "2017-06-14"}, "num": 1105223}, {
-        "_id": {"deviceType": 2, "day": "2017-06-15"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')}, "num": 1105223}, {
+        "_id": {"deviceType": 2, "day": moment().subtract(6, 'days').format('YYYY-MM-DD')},
         "num": 1102251
-    }, {"_id": {"deviceType": 1, "day": "2017-06-15"}, "num": 112583}, {
-        "_id": {"deviceType": 1, "day": "2017-06-16"},
+    }, {"_id": {"deviceType": 1, "day": moment().subtract(6, 'days').format('YYYY-MM-DD')}, "num": 112583}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')},
         "num": 111234
-    }, {"_id": {"deviceType": 2, "day": "2017-06-16"}, "num": 119125}, {
-        "_id": {"deviceType": 1, "day": "2017-06-17"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')}, "num": 119125}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')},
         "num": 110121
-    }, {"_id": {"deviceType": 2, "day": "2017-06-17"}, "num": 116513}, {
-        "_id": {"deviceType": 1, "day": "2017-06-18"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')}, "num": 116513}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')},
         "num": 114291
-    }, {"_id": {"deviceType": 2, "day": "2017-06-18"}, "num": 115237}, {
-        "_id": {"deviceType": 1, "day": "2017-06-19"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')}, "num": 115237}, {
+        "_id": {"deviceType": 1, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')},
         "num": 114217
-    }, {"_id": {"deviceType": 2, "day": "2017-06-19"}, "num": 114255}, {
-        "_id": {"deviceType": 2, "day": "2017-06-20"},
+    }, {"_id": {"deviceType": 2, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')}, "num": 114255}, {
+        "_id": {"deviceType": 2, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')},
         "num": 113635
-    }, {"_id": {"deviceType": 1, "day": "2017-06-20"}, "num": 120215}]
+    }, {"_id": {"deviceType": 1, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')}, "num": 120215}]
 };
 
 const UserRelationThrend = {
     "result": [{
-        "_id": {"state": 3, "secret": 0, "day": "2017-06-14"},
+        "_id": {"state": 3, "secret": 0, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')},
         "num": 20315
-    }, {"_id": {"state": 0, "day": "2017-06-14"}, "num": 4150}, {
-        "_id": {"state": 1, "day": "2017-06-14"},
+    }, {"_id": {"state": 0, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')}, "num": 4150}, {
+        "_id": {"state": 1, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')},
         "num": 10321
-    }, {"_id": {"state": 0, "secret": 0, "day": "2017-06-14"}, "num": 3152}, {
-        "_id": {"state": 3, "day": "2017-06-14"},
+    }, {"_id": {"state": 0, "secret": 0, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')}, "num": 3152}, {
+        "_id": {"state": 3, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')},
         "num": 21367
-    }, {"_id": {"state": 2, "secret": 0, "day": "2017-06-14"}, "num": 10317}, {
+    }, {"_id": {"state": 2, "secret": 0, "day": moment().subtract(7, 'days').format('YYYY-MM-DD')}, "num": 10317}, {
         "_id": {
             "state": 3,
             "secret": 0,
-            "day": "2017-06-15"
+            "day": moment().subtract(6, 'days').format('YYYY-MM-DD')
         }, "num": 31363
-    }, {"_id": {"state": 3, "day": "2017-06-15"}, "num": 22317}, {
-        "_id": {"state": 3, "day": "2017-06-16"},
+    }, {"_id": {"state": 3, "day": moment().subtract(6, 'days').format('YYYY-MM-DD')}, "num": 22317}, {
+        "_id": {"state": 3, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')},
         "num": 12317
-    }, {"_id": {"state": 3, "secret": 0, "day": "2017-06-16"}, "num": 20337}, {
-        "_id": {"state": 3, "day": "2017-06-17"},
+    }, {"_id": {"state": 3, "secret": 0, "day": moment().subtract(5, 'days').format('YYYY-MM-DD')}, "num": 20337}, {
+        "_id": {"state": 3, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')},
         "num": 11317
-    }, {"_id": {"state": 3, "secret": 0, "day": "2017-06-17"}, "num": 19367}, {
-        "_id": {"state": 0, "day": "2017-06-18"},
+    }, {"_id": {"state": 3, "secret": 0, "day": moment().subtract(4, 'days').format('YYYY-MM-DD')}, "num": 19367}, {
+        "_id": {"state": 0, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')},
         "num": 12317
-    }, {"_id": {"state": 0, "secret": 0, "day": "2017-06-18"}, "num": 12332}, {
-        "_id": {"state": 3, "day": "2017-06-18"},
+    }, {"_id": {"state": 0, "secret": 0, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')}, "num": 12332}, {
+        "_id": {"state": 3, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')},
         "num": 19157
-    }, {"_id": {"state": 3, "secret": 0, "day": "2017-06-18"}, "num": 19127}, {
-        "_id": {"state": 3, "day": "2017-06-19"},
+    }, {"_id": {"state": 3, "secret": 0, "day": moment().subtract(3, 'days').format('YYYY-MM-DD')}, "num": 19127}, {
+        "_id": {"state": 3, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')},
         "num": 12317
-    }, {"_id": {"state": 3, "secret": 0, "day": "2017-06-19"}, "num": 21351}, {
-        "_id": {"state": 3, "day": "2017-06-20"},
+    }, {"_id": {"state": 3, "secret": 0, "day": moment().subtract(2, 'days').format('YYYY-MM-DD')}, "num": 21351}, {
+        "_id": {"state": 3, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')},
         "num": 11351
-    }, {"_id": {"state": 2, "secret": 0, "day": "2017-06-20"}, "num": 10527}, {
-        "_id": {"state": 1, "day": "2017-06-20"},
+    }, {"_id": {"state": 2, "secret": 0, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')}, "num": 10527}, {
+        "_id": {"state": 1, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')},
         "num": 11351
-    }, {"_id": {"state": 3, "secret": 0, "day": "2017-06-20"}, "num": 16351}]
+    }, {"_id": {"state": 3, "secret": 0, "day": moment().subtract(1, 'days').format('YYYY-MM-DD')}, "num": 16351}]
 };
 
 const UserMsgThrend = {
     "result": [{
-        "_id": {"day": "2017-06-14", "objectName": "app:receiptMedia"},
-        "num": 1231234
-    }, {"_id": {"day": "2017-06-14", "objectName": "app:screenshoot"}, "num": 131234}, {
+        "_id": {"day": moment().subtract(7, 'days').format('YYYY-MM-DD'), "objectName": "app:receiptMedia"},
+        "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(7, 'days').format('YYYY-MM-DD'), "objectName": "app:screenshoot"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-14",
+            "day": moment().subtract(7, 'days').format('YYYY-MM-DD'),
             "objectName": "app:video"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-14", "objectName": "app:image"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(7, 'days').format('YYYY-MM-DD'), "objectName": "app:image"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-15",
+            "day": moment().subtract(6, 'days').format('YYYY-MM-DD'),
             "objectName": "app:receiptMedia"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-15", "objectName": "app:image"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(6, 'days').format('YYYY-MM-DD'), "objectName": "app:image"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-15",
+            "day": moment().subtract(6, 'days').format('YYYY-MM-DD'),
             "objectName": "app:video"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-16", "objectName": "app:video"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(5, 'days').format('YYYY-MM-DD'), "objectName": "app:video"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-16",
+            "day": moment().subtract(5, 'days').format('YYYY-MM-DD'),
             "objectName": "app:image"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-16", "objectName": "app:receiptMedia"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(5, 'days').format('YYYY-MM-DD'), "objectName": "app:receiptMedia"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-16",
+            "day": moment().subtract(5, 'days').format('YYYY-MM-DD'),
             "objectName": "app:screenshoot"
-        }, "num": 1
-    }, {"_id": {"day": "2017-06-17", "objectName": "app:receiptMedia"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(4, 'days').format('YYYY-MM-DD'), "objectName": "app:receiptMedia"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-17",
+            "day": moment().subtract(4, 'days').format('YYYY-MM-DD'),
             "objectName": "app:image"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-17", "objectName": "app:video"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(4, 'days').format('YYYY-MM-DD'), "objectName": "app:video"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-18",
+            "day": moment().subtract(3, 'days').format('YYYY-MM-DD'),
             "objectName": "app:image"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-19", "objectName": "app:image"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(2, 'days').format('YYYY-MM-DD'), "objectName": "app:image"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-19",
+            "day": moment().subtract(2, 'days').format('YYYY-MM-DD'),
             "objectName": "app:receiptMedia"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-19", "objectName": "app:video"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(2, 'days').format('YYYY-MM-DD'), "objectName": "app:video"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-20",
+            "day": moment().subtract(1, 'days').format('YYYY-MM-DD'),
             "objectName": "app:video"
-        }, "num": 1231234
-    }, {"_id": {"day": "2017-06-20", "objectName": "app:image"}, "num": 1231234}, {
+        }, "num": Mock.Random.integer(100000,99999999)
+    }, {"_id": {"day": moment().subtract(1, 'days').format('YYYY-MM-DD'), "objectName": "app:image"}, "num": Mock.Random.integer(100000,99999999)}, {
         "_id": {
-            "day": "2017-06-20",
+            "day": moment().subtract(1, 'days').format('YYYY-MM-DD'),
             "objectName": "app:receiptMedia"
-        }, "num": 1231234
+        }, "num": Mock.Random.integer(100000,99999999)
     }]
 };
 
