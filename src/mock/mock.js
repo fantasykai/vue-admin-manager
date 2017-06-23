@@ -7,6 +7,8 @@ import fetch from '../utils/fetch';
 import MockAdapter from 'axios-mock-adapter';
 import {Token, LoginUsers, Users} from './data/users';
 let _Users = Users;
+import  {MsgData} from './data/msgData';
+let _MsgData = MsgData;
 import {StsToken} from './data/ststoken';
 import {
     TotalALL,
@@ -176,6 +178,26 @@ export default  {
                         _items: mockUsers
                     }]);
                 }, 5000);
+            });
+        });
+
+        // 消息记录查询
+        mock_fetch.onGet('/api/v1/messages').reply(config => {
+            let {page} = config.params;
+            let mockMsgs = _MsgData
+            let total = _MsgData.length;
+            mockMsgs = mockMsgs.filter((u, index) => index < 20 * page && index >= 20 * (page - 1));
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        _meta: {
+                            max_results: 20,
+                            total: total,
+                            page: page
+                        },
+                        _items: mockMsgs
+                    }]);
+                }, 1000);
             });
         });
     }

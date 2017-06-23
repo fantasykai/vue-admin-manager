@@ -29,13 +29,12 @@
                         <p> {{ scope.row.rets | formattedJson }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag :type="scope.row.rets | formatResultType">{{ scope.row.fromUserId.nickname }}
-
                             </el-tag>
                         </div>
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column prop="fromUserId.telphone" label="手机号" width="160" sortable>
+            <el-table-column prop="fromUserId.userId" label="userId" width="160" sortable>
             </el-table-column>
             <el-table-column prop="msgTimestamp" label="消息时间" width="200" sortable>
             </el-table-column>
@@ -90,14 +89,8 @@
     import moment from 'moment';
     import config from '../../config';
     import showVideo from '../common/ShowVideo.vue';
-//    import {
-//        getChatRecordPage,
-//        setMsgTimingTask,
-//        cancelMsgTimingTask
-//    } from '../../api';
-
-    import { getChatRecordPage } from '../../api/messages';
-    import { setMsgTimingTask,cancelMsgTimingTask } from '../../api/manage';
+    import {getChatRecordPage} from '../../api/messages';
+    import {setMsgTimingTask, cancelMsgTimingTask} from '../../api/manage';
 
     export default {
         components: {
@@ -105,6 +98,7 @@
         },
         data() {
             return {
+                mock: true,
                 ossClient: Object,
                 submitted: [],
                 filters: {
@@ -210,32 +204,37 @@
 
                         let {path, thumbnail} = record.content;
 
-                        if (path) {
+                        if (this.mock) {
+                            this.videoSrc[i] = path;
+                            this.thumbnailSrc[i] = thumbnail;
+                        } else {
+                            if (path) {
 
-                            if ('image/jpeg' === contentType) {
-                                path += '@!web_show_blu';
+                                if ('image/jpeg' === contentType) {
+                                    path += '@!web_show_blu';
+                                }
+
+                                var result = this.ossClient.signatureUrl(path, {
+                                    response: {
+                                        // 'content-disposition': 'attachment; filename="' + filename + '"'
+                                        'Content-Type': contentType
+                                    }
+                                });
+
+                                this.videoSrc[i] = result;
                             }
+                            if (thumbnail) {
 
-                            var result = this.ossClient.signatureUrl(path, {
-                                response: {
-                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
-                                    'Content-Type': contentType
-                                }
-                            });
+                                thumbnail += '@!web_show_blu';
 
-                            this.videoSrc[i] = result;
-                        }
-                        if (thumbnail) {
-
-                            thumbnail += '@!web_show_blu';
-
-                            var thumbnailResult = this.ossClient.signatureUrl(thumbnail, {
-                                response: {
-                                    // 'content-disposition': 'attachment; filename="' + filename + '"'
-                                    'Content-Type': contentType
-                                }
-                            });
-                            this.thumbnailSrc[i] = thumbnailResult;
+                                var thumbnailResult = this.ossClient.signatureUrl(thumbnail, {
+                                    response: {
+                                        // 'content-disposition': 'attachment; filename="' + filename + '"'
+                                        'Content-Type': contentType
+                                    }
+                                });
+                                this.thumbnailSrc[i] = thumbnailResult;
+                            }
                         }
                     }
                 });
@@ -251,7 +250,7 @@
                 var taskTime = document.getElementsByName("timing-" + index)[0].value;
 
                 let params = {
-                    "batch_process":"star_user_timer",
+                    "batch_process": "star_user_timer",
                     "message_id": messageId,
                     "task_starttime": taskTime
                 }
