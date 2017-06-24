@@ -95,14 +95,22 @@
                         <p> {{ scope.row.constellation | formattedConstellation }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
-
-
                             </el-tag>
                         </div>
                     </el-popover>
                 </template>
             </el-table-column>
             <el-table-column prop="_created" label="注册时间" sortable>
+            </el-table-column>
+            <el-table-column
+                label="操作">
+                <template scope="scope">
+                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <!--<el-button size="small"-->
+                    <!--@click="cancelTimingTask(scope.row._id, scope.$index)">-->
+                    <!--删除-->
+                    <!--</el-button>-->
+                </template>
             </el-table-column>
         </el-table>
 
@@ -119,6 +127,48 @@
                 style="float:right;">
             </el-pagination>
         </el-col>
+
+        <!--编辑界面-->
+        <el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
+            <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+                <el-form-item label="bluId">
+                    <el-input v-model="editForm.bluid" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="昵称" prop="nickname">
+                    <el-input v-model="editForm.nickname" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                    <el-radio-group v-model="editForm.sex">
+                        <el-radio :label=0>不明</el-radio>
+                        <el-radio :label=1>男</el-radio>
+                        <el-radio :label=2>女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="恋爱倾向">
+                    <el-radio-group v-model="editForm.sexual">
+                        <el-radio :label=0>不明</el-radio>
+                        <el-radio :label=1>男</el-radio>
+                        <el-radio :label=2>女</el-radio>
+                        <el-radio :label=3>人类就行</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="用户类型">
+                    <el-radio-group v-model="editForm.usertype">
+                        <el-radio-button :label=0>用户</el-radio-button>
+                        <el-radio-button :label=2>主播</el-radio-button>
+                        <el-radio-button :label=9 :disabled="true">管理员</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="签名">
+                    <el-input type="textarea" v-model="editForm.sign"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="editFormVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+            </div>
+        </el-dialog>
+
     </section>
 </template>
 
@@ -128,7 +178,7 @@
     import channelCode from '../../../static/channelCode.json';
     import config from '../../config';
     //    import {getUsersPage, getNickname} from '../../api';
-    import {getUsersPage, getNickname} from '../../api/users';
+    import {getUsersPage, getNickname, updateUserInfo} from '../../api/users';
 
     export default {
         data() {
@@ -185,6 +235,24 @@
                 listLoading: false,
                 avatarSrc: [],
                 shareUsers: [],
+                editFormVisible: false,//编辑界面是否显示
+                editLoading: false,
+                editFormRules: {
+                    nickname: [
+                        {required: true, message: '请输入昵称', trigger: 'blur'}
+                    ]
+                },
+                //编辑界面数据
+                editForm: {
+                    _id: '',
+                    seqid: 0,
+                    bluid: 0,
+                    nickname: '',
+                    sex: 0,
+                    sexual: 0,
+                    usertype: 0,
+                    sign: '',
+                },
             };
         },
         filters: {
@@ -331,6 +399,22 @@
                 this.pageSize = val;
                 this.getUserList();
             },
+            //显示编辑界面
+            handleEdit: function (index, row) {
+                this.editFormVisible = true;
+//                this.editForm = Object.assign({}, row);
+
+                this.editForm = {
+                    _id: row._id,
+                    seqid: row.seqid,
+                    bluid: row.bluid ? row.bluid : row.seqid,
+                    nickname: row.nickname,
+                    sex: row.sex ? row.sex : 0,
+                    sexual: row.sexual ? row.sexual : 0,
+                    usertype: row.usertype,
+                    sign: row.sign ? row.sign : '',
+                }
+            },
             //获取消息记录信息
             getUserList() {
 
@@ -402,10 +486,64 @@
                                         'Content-Type': 'image/jpeg'
                                     }
                                 });
-
                                 this.avatarSrc[i] = result;
                             }
                         }
+                    }
+                });
+            },
+            //编辑
+            editSubmit: function () {
+                this.$refs.editForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交更新吗？', '提示', {}).then(() => {
+                            this.editLoading = true;
+
+                            let reqParams = {
+                                "nickname": this.editForm.nickname,
+                                "sex": this.editForm.sex,
+                                "sexual": this.editForm.sexual,
+                                "usertype": this.editForm.usertype,
+                                "sign": this.editForm.sign,
+                            };
+
+                            if (this.editForm.seqid !== this.editForm.bluid) {
+                                reqParams = Object.assign({"bluid": this.editForm.bluid}, reqParams);
+                            }
+
+                            let params = {
+                                uri: `${config.serverURI}/bluapi/v1/users/` + this.editForm._id,
+                                patchBody: reqParams
+                            };
+                            updateUserInfo(params)
+                                .then(data => {
+                                    this.editLoading = false;
+                                    let {_status, _error} = data
+                                    if (_status) {
+                                        this.$message({
+                                            message: '更新成功',
+                                            type: 'success'
+                                        });
+                                        this.$refs['editForm'].resetFields();
+                                        this.editFormVisible = false;
+//                            this.submitted[index] = false;
+                                        this.getUserList();
+                                    } else if (!_status) {
+                                        this.$message({
+                                            message: null != _error ? _error.message : 'Error!',
+                                            type: 'error'
+                                        });
+                                    }
+                                }).catch((e) => {
+                                this.editLoading = false;
+                                let {_error} = e
+
+                                this.$message({
+                                    message: null != _error ? _error.message : 'Error!',
+                                    type: 'error'
+                                });
+                            });
+                        });
                     }
                 });
             },

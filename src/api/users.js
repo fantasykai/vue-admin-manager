@@ -27,6 +27,20 @@ export function getUsersPage(params) {
 }
 
 /**
+ * 更新用户信息
+ * @param data
+ * @returns {*|Promise.<TResult>}
+ */
+export function updateUserInfo(params) {
+    let data = params.patchBody;
+    return fetch({
+        url: params.uri,
+        method: 'patch',
+        data
+    }).then(res => res.data);
+}
+
+/**
  * 根据用户userId/seqid/tel 查询用户的uid
  * @param params
  * @returns {*}
