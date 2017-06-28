@@ -13,7 +13,6 @@
                         :picker-options="pickerOptions2">
                     </el-date-picker>
                     -
-
                     <el-date-picker
                         v-model="filters.endTime"
                         type="date"
@@ -23,7 +22,6 @@
                         :picker-options="pickerOptions2">
                     </el-date-picker>
                     |
-
                     <el-input v-model="filters.userId" placeholder="tel/userId/SeqId"
                               style="width: 20%;"></el-input>
                     <el-button type="primary" v-on:click="getUserList">查询</el-button>
@@ -290,8 +288,8 @@
             },
             formattedConstellation(index) {
 
-                let constellationStrings = ["白羊", "金牛", "双子", "巨蟹", "狮子"
-                    , "处女", "天秤", "天蝎", "射手", "摩羯", "水瓶", "双鱼", "双鱼"];
+                let constellationStrings = ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座"
+                    , "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", "双鱼座"];
                 return constellationStrings[index];
 
             },
@@ -418,19 +416,21 @@
             //获取消息记录信息
             getUserList() {
 
+                let _this = this;
+
                 let userIdParam = ''
 
-                if (this.filters.userId) {
+                if (_this.filters.userId) {
                     userIdParam = ''
-                    if (this.filters.userId.match(this.regex.userIdRe)) {
-                        userIdParam = '"userId":"' + this.filters.userId + '"'
-                    } else if (this.filters.userId.match(this.regex.seqIdRe)) {
-                        userIdParam = '"seqid":' + this.filters.userId
-                    } else if (this.filters.userId.match(this.regex.tel)) {
-                        userIdParam = '"telphone":"' + this.filters.userId + '"'
+                    if (_this.filters.userId.match(_this.regex.userIdRe)) {
+                        userIdParam = '"userId":"' + _this.filters.userId + '"'
+                    } else if (_this.filters.userId.match(_this.regex.seqIdRe)) {
+                        userIdParam = '"seqid":' + _this.filters.userId
+                    } else if (this.filters.userId.match(_this.regex.tel)) {
+                        userIdParam = '"telphone":"' + _this.filters.userId + '"'
                     }
                     else {
-                        this.$message({
+                        _this.$message({
                             message: '参数格式校验失败',
                             type: 'error'
                         });
@@ -438,7 +438,7 @@
                     }
                 }
 
-                let dateParam = ('' != this.filters.beginTime && '' != this.filters.endTime ) ? '"_created":{"$gt":"' + moment(this.filters.beginTime).format('YYYY-MM-DD 0:0:0') + '","$lt":"' + moment(this.filters.endTime).format('YYYY-MM-DD 0:0:0') + '"}}' : '}';
+                let dateParam = ('' != _this.filters.beginTime && '' != _this.filters.endTime ) ? '"_created":{"$gt":"' + moment(_this.filters.beginTime).subtract(8,'hours').format('YYYY-MM-DD HH:mm:ss') + '","$lt":"' + moment(_this.filters.endTime).add(16, 'hours').format('YYYY-MM-DD HH:mm:ss') + '"}}' : '}';
 
                 if ('' !== userIdParam) {
                     if ('}' === dateParam) {
