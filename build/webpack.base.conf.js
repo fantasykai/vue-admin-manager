@@ -28,6 +28,7 @@ module.exports = {
       'assets': path.resolve(__dirname, '../src/assets'),
       'api': path.resolve(__dirname, '../src/api'),
       'utils': path.resolve(__dirname, '../src/utils'),
+      'vendor': path.resolve(__dirname, '../src/vendor'),
       'static': path.resolve(__dirname, '../static'),
     }
   },

@@ -957,43 +957,45 @@
             },
             initData: function () {
 
-                this.pie.legend.data = []
-                this.pie.series[0].data = []
-                this.pie_radius.legend.data = []
-                this.pie_radius.series[0].data = []
+                this.pie.legend.data = [];
+                this.pie.series[0].data = [];
+                this.pie_radius.legend.data = [];
+                this.pie_radius.series[0].data = [];
 
-                this.chartBar.yAxis.data = []
-                this.chartBar.series[0].data = []
+                this.chartBar.yAxis.data = [];
+                this.chartBar.series[0].data = [];
 
-                this.bar.legend.data = []
-                this.bar.yAxis.data = []
-                this.bar.series[0].data = []
-                this.bar.series[1].data = []
+                this.bar.legend.data = [];
+                this.bar.yAxis.data = [];
+                this.bar.series[0].data = [];
+                this.bar.series[1].data = [];
 
-                this.pie_class.legend.data = []
-                this.pie_class.series[1].data = []
-                this.pie_class.series[0].data = []
+                this.pie_class.legend.data = [];
+                this.pie_class.series[1].data = [];
+                this.pie_class.series[0].data = [];
 
 
-                this.phoneBrand_chartBar.yAxis.data = []
-                this.phoneBrand_chartBar.series[0].data = []
+                this.phoneBrand_chartBar.yAxis.data = [];
+                this.phoneBrand_chartBar.series[0].data = [];
 
-                this.app_version.series[0].data = []
-                this.app_version.series[1].data = []
-                this.app_version.legend.data = []
+                this.app_version.series[0].data = [];
+                this.app_version.series[1].data = [];
+                this.app_version.legend.data = [];
 
-                this.app_use_version.series[0].data = []
-                this.app_use_version.series[1].data = []
-                this.app_use_version.legend.data = []
+                this.app_use_version.series[0].data = [];
+                this.app_use_version.series[1].data = [];
+                this.app_use_version.legend.data = [];
 
             },
             statAll: function (statType) {
 
+                let _this = this;
+
                 // 统计前初始化数据先，新增统计需要在此配置好初始化
-                this.initData();
+                _this.initData();
 
                 // Android和ios的总数占比
-                this.devTypeStat(false, null, null, 0);
+                _this.devTypeStat(false, null, null, 0);
 
                 let starttime1 = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
 
@@ -1058,45 +1060,45 @@
                 }
 
                 // Android和ios 昨天的占比
-                this.devTypeStat(false, starttime1, endtime, 1);
+                _this.devTypeStat(false, starttime1, endtime, 1);
 
                 // Android和ios 一周内的占比
-                this.devTypeStat(false, starttime7, endtime, 7);
+                _this.devTypeStat(false, starttime7, endtime, 7);
 
                 // Android和ios 一个月的占比
-                this.devTypeStat(false, starttime30, endtime, 30);
+                _this.devTypeStat(false, starttime30, endtime, 30);
 
                 // Android和ios 90天的活跃用户统计
-                this.devTypeStat(true, starttime90, endtime, 190);
+                _this.devTypeStat(true, starttime90, endtime, 190);
 
                 // Android和ios 昨天的活跃用户统计
-                this.devTypeStat(true, starttime1, endtime, 11);
+                _this.devTypeStat(true, starttime1, endtime, 11);
 
                 // Android和ios 一周内的活跃用户统计
-                this.devTypeStat(true, starttime7, endtime, 17);
+                _this.devTypeStat(true, starttime7, endtime, 17);
 
                 // Android和ios 一个月的活跃用户统计
-                this.devTypeStat(true, starttime30, endtime, 130);
+                _this.devTypeStat(true, starttime30, endtime, 130);
 
 //                ------------------------------------------------------------------------
 
                 // 注册渠道占比统计 渠道统计最早从4-1日开始
-                this.channalStat(beginDate, currentDate, statInterval);
+                _this.channalStat(beginDate, currentDate, statInterval);
 
                 // 手机型号TOP 20
-                this.phoneModelStat(activeStat, beginDate, currentDate, statInterval);
+                _this.phoneModelStat(activeStat, beginDate, currentDate, statInterval);
 
                 // 按发送消息数最多的 TOP 10
-                this.sendMsgCountRank(beginDate, currentDate, statInterval);
+                _this.sendMsgCountRank(beginDate, currentDate, statInterval);
 
                 // 手机品牌统计 TOP 20
-                this.phoneBrandStat(activeStat, beginDate, currentDate, statInterval);
+                _this.phoneBrandStat(activeStat, beginDate, currentDate, statInterval);
 
                 // app 注册版本统计
-                this.appVersionlStat(beginDate, currentDate, statInterval);
+                _this.appVersionlStat(beginDate, currentDate, statInterval);
 
                 // app 在用版本统计
-                this.appUseVersionlStat(beginDate, currentDate, statInterval);
+                _this.appUseVersionlStat(beginDate, currentDate, statInterval);
             }
         },
         mounted: function () {

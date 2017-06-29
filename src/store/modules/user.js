@@ -57,17 +57,19 @@ const user = {
         //获取管理员昵称
         GetUserInfo({commit, state}) {
 
-            return new Promise((resolve, reject) => {
-                 getNickname(state.account).then((res) => {
-                    let {nickname} = res;
-                    if (nickname) {
-                        commit('SET_NICKNAME', nickname);
-                        localStorage.setItem("nickname", nickname)
-                    }
-                }).catch(error => {
-                    reject(error);
+            if (state.account) {
+                return new Promise((resolve, reject) => {
+                    getNickname(state.account).then((res) => {
+                        let {nickname} = res;
+                        if (nickname) {
+                            commit('SET_NICKNAME', nickname);
+                            localStorage.setItem("nickname", nickname)
+                        }
+                    }).catch(error => {
+                        reject(error);
+                    });
                 });
-            });
+            }
         },
         // 获取OSS的访问OSS的临时访问权限
         GetStsToken({commit}) {
