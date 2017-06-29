@@ -311,7 +311,7 @@
             },
             formattedSexual(sexual) {
 
-                let sexualName = '不明'
+                let sexualName = '不明';
                 if (1 === sexual) {
                     sexualName = '汉子'
                 } else if (2 === sexual) {
