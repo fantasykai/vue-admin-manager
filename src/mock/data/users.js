@@ -25,7 +25,7 @@ for (let i = 0; i < 99; i++) {
         nickname: Mock.Random.cname(),
         avatar: Mock.Random.dataImage('48x48', 'Avatar'),
         seqid: Mock.Random.integer(10000000, 99999999),
-        bluid: Mock.Random.first(),
+        userId: Mock.Random.first(),
         telphone: /^1[0-9]{10}$/,
         sex: Mock.Random.integer(0, 2),
         sexual: Mock.Random.integer(0, 3),

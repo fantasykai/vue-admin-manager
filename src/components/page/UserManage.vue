@@ -25,6 +25,9 @@
                     <el-input v-model="filters.userId" placeholder="tel/userId/SeqId"
                               style="width: 20%;"></el-input>
                     <el-button type="primary" v-on:click="getUserList">查询</el-button>
+                    <el-button style='margin-bottom:20px;float:right' type="primary" icon="document"
+                               @click="handleDownload">导出excel
+                    </el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -74,6 +77,7 @@
                         :to="{ name: 'Sys好友管理',params: {userId : scope.row.telphone, currMenu: '/userManage'}}">
                         {{ scope.row.telphone }}
 
+
                     </router-link>
                 </template>
             </el-table-column>
@@ -93,6 +97,7 @@
                         <p> {{ scope.row.constellation | formattedConstellation }}</p>
                         <div slot="reference" class="name-wrapper">
                             <el-tag type="gray" v-show="scope.row.birthday">{{ scope.row.birthday | formattedBirthday }}
+
                             </el-tag>
                         </div>
                     </el-popover>
@@ -438,7 +443,7 @@
                     }
                 }
 
-                let dateParam = ('' != _this.filters.beginTime && '' != _this.filters.endTime ) ? '"_created":{"$gt":"' + moment(_this.filters.beginTime).subtract(8,'hours').format('YYYY-MM-DD HH:mm:ss') + '","$lt":"' + moment(_this.filters.endTime).add(16, 'hours').format('YYYY-MM-DD HH:mm:ss') + '"}}' : '}';
+                let dateParam = ('' != _this.filters.beginTime && '' != _this.filters.endTime ) ? '"_created":{"$gt":"' + moment(_this.filters.beginTime).subtract(8, 'hours').format('YYYY-MM-DD HH:mm:ss') + '","$lt":"' + moment(_this.filters.endTime).add(16, 'hours').format('YYYY-MM-DD HH:mm:ss') + '"}}' : '}';
 
                 if ('' !== userIdParam) {
                     if ('}' === dateParam) {
@@ -547,6 +552,19 @@
                     }
                 });
             },
+            handleDownload() {
+                require.ensure([], () => {
+                    const {export_json_to_excel} = require('vendor/Export2Excel');
+                    const tHeader = ['userId', '昵称', '手机号', '性别', '生日', '注册时间'];
+                    const filterVal = ['seqid', 'nickname', 'telphone', 'sex', 'birthday', '_created'];
+                    const list = this.records;
+                    const data = this.formatJson(filterVal, list);
+                    export_json_to_excel(tHeader, data, '用户信息excel');
+                })
+            },
+            formatJson(filterVal, jsonData) {
+                return jsonData.map(v => filterVal.map(j => v[j]))
+            }
         },
         mounted() {
             this.filters.defaultBeginTime = moment().subtract(1, 'days').format('YYYY-MM-DD 0:0:0');
