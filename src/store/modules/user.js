@@ -8,7 +8,7 @@ import {getSTSToken} from '../../api/sts';
 const user = {
     state: {
         token: localStorage.getItem('token'),
-        account: '',
+        account: localStorage.getItem('account'),
         expiration: '',
         nickname: localStorage.getItem('nickname'),
         avatar: '',
@@ -56,20 +56,17 @@ const user = {
     actions: {
         //获取管理员昵称
         GetUserInfo({commit, state}) {
-
-            if (state.account) {
-                return new Promise((resolve, reject) => {
-                    getNickname(state.account).then((res) => {
-                        let {nickname} = res;
-                        if (nickname) {
-                            commit('SET_NICKNAME', nickname);
-                            localStorage.setItem("nickname", nickname)
-                        }
-                    }).catch(error => {
-                        reject(error);
-                    });
+            return new Promise((resolve, reject) => {
+                getNickname(state.account).then((res) => {
+                    let {nickname} = res;
+                    if (nickname) {
+                        commit('SET_NICKNAME', nickname);
+                        localStorage.setItem("nickname", nickname)
+                    }
+                }).catch(error => {
+                    reject(error);
                 });
-            }
+            });
         },
         // 获取OSS的访问OSS的临时访问权限
         GetStsToken({commit}) {
