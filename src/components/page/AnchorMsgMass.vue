@@ -167,14 +167,16 @@
             //获取消息记录信息
             getChatMsgRecordAll() {
 
-                let dateParam = ('' != this.filters.beginTime && '' != this.filters.endTime ) ? ',"msgTimestamp":{"$gt":"' + this.filters.beginTime + '","$lt":"' + this.filters.endTime + '"}}' : '}';
+                let _this = this;
+
+                let dateParam = ('' != _this.filters.beginTime && '' != _this.filters.endTime ) ? ',"msgTimestamp":{"$gt":"' + _this.filters.beginTime + '","$lt":"' + _this.filters.endTime + '"}}' : '}';
 
                 let
                     para = {
                         where: `{"toUserId":"${config.msgStatToUserId}"` + dateParam,
                         sort: '-msgTimestamp',
                         max_results: '20',
-                        page: this.page
+                        page: _this.page
                     };
                 this.listLoading = true;
                 //NProgress.start();

@@ -1019,41 +1019,41 @@
                     case 1:
                         beginDate = starttime1;
                         currentDate = endtime;
-                        statInterval = '(昨天)'
+                        statInterval = '(昨天)';
                         break;
                     case 7:
                         beginDate = starttime7;
                         currentDate = endtime;
-                        statInterval = '(7天)'
+                        statInterval = '(7天)';
                         break;
                     case 30:
                         beginDate = starttime30;
                         currentDate = endtime;
-                        statInterval = '(30天)'
+                        statInterval = '(30天)';
                         break;
                     case 190:
                         activeStat = true;
                         beginDate = starttime90;
                         currentDate = endtime;
-                        statInterval = '(90天)'
+                        statInterval = '(90天)';
                         break;
                     case 11:
                         activeStat = true;
                         beginDate = starttime1;
                         currentDate = endtime;
-                        statInterval = '(昨天)'
+                        statInterval = '(昨天)';
                         break;
                     case 17:
                         activeStat = true;
                         beginDate = starttime7;
                         currentDate = endtime;
-                        statInterval = '(7天)'
+                        statInterval = '(7天)';
                         break;
                     case 130:
                         activeStat = true;
                         beginDate = starttime30;
                         currentDate = endtime;
-                        statInterval = '(30天)'
+                        statInterval = '(30天)';
                         break;
                     default:
                         break;

@@ -132,34 +132,40 @@
         },
         methods: {
             initDate: function () {
-                this.cycle_mix.xAxis.data = [];
+
+                let _this = this;
+
+                _this.cycle_mix.xAxis.data = [];
 
                 // android的用户数
-                this.cycle_mix.series[0].data = [];
+                _this.cycle_mix.series[0].data = [];
 
                 // ios的用户数ios
-                this.cycle_mix.series[1].data = [];
+                _this.cycle_mix.series[1].data = [];
 
                 // android 及 ios的用户数
-                this.cycle_mix.series[2].data = [];
+                _this.cycle_mix.series[2].data = [];
             },
             /**
              * 统计7天内的用户增长情况
              */
             cycleLoggedUserNumsStat: function () {
-                let params = loggedUserNumsReq;
-                if (null != this.beginTime && null != this.endTime) {
 
-                    let starttime = moment(this.beginTime).format('YYYY-MM-DD 0:0:0');
-                    let endtime = moment(this.endTime).format('YYYY-MM-DD 0:0:0');
+                let _this = this;
+
+                let params = loggedUserNumsReq;
+                if (null != _this.beginTime && null != _this.endTime) {
+
+                    let starttime = moment(_this.beginTime).format('YYYY-MM-DD 0:0:0');
+                    let endtime = moment(_this.endTime).format('YYYY-MM-DD 0:0:0');
 
 
                     params = Object.assign({'starttime': starttime, 'endtime': endtime}, params)
                 }
-                if (this.mock) {
+                if (_this.mock) {
                     params = Object.assign({'statFunc': 'cycleLoggedUserNumsStat', 'type': 0}, params)
                 }
-                this.initDate();
+                _this.initDate();
                 aggregate(params)
                     .then(data => {
                         this.cycle_mix.legend.data = ['Android', 'ios', '总数'];

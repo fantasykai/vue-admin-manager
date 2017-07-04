@@ -141,16 +141,19 @@
         },
         methods: {
             initDate: function () {
-                this.cycle_mix.xAxis.data = [];
+
+                let _this = this;
+
+                _this.cycle_mix.xAxis.data = [];
 
                 // android的用户数
-                this.cycle_mix.series[0].data = [];
+                _this.cycle_mix.series[0].data = [];
 
                 // ios的用户数ios
-                this.cycle_mix.series[1].data = [];
+                _this.cycle_mix.series[1].data = [];
 
                 // android 及 ios的用户数
-                this.cycle_mix.series[2].data = [];
+                _this.cycle_mix.series[2].data = [];
             },
             /**
              * 统计7天内的用户增长情况
