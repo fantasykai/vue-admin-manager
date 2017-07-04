@@ -14,14 +14,14 @@ import Mock from './mock';
 Mock.bootstrap();
 
 
-Vue.use(ElementUI)
-Vue.use(VueRouter)
-Vue.use(Vuex)
-Vue.use(VueVideoPlayer)
+Vue.use(ElementUI);
+Vue.use(VueRouter);
+Vue.use(Vuex);
+Vue.use(VueVideoPlayer);
 
 const router = new VueRouter({
     routes
-})
+});
 
 // Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
@@ -41,14 +41,14 @@ router.beforeEach((to, from, next) => {
     else {
         next()
     }
-})
+});
 
-sync(store, router)
+sync(store, router);
 
 
 new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');
 
