@@ -79,7 +79,6 @@ npm run build:prod
 
 ### 工具集
 
-- vue-core-image-upload
 - vue-datasource
 - vue-echarts-v3
 - vue-quill-editor
