@@ -96,21 +96,6 @@ const user = {
 
             });
         },
-        //初始化 OSS 客户端
-        // initOssClient({commit, state}) {
-        //
-        //     let Oss = OSS.Wrapper;
-        //
-        //     let ossClient = new Oss({
-        //         region: 'test',
-        //         accessKeyId: state.ossSts.AccessKeyId,
-        //         accessKeySecret: state.ossSts.AccessKeySecret,
-        //         stsToken: state.ossSts.SecurityToken,
-        //         bucket: 'test',
-        //     });
-        //     commit('SET_OSS_CLIENT', ossClient);
-        //     localStorage.setItem("ossClient", ossClient)
-        // },
     }
 };
 export default user;

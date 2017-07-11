@@ -33,13 +33,13 @@ router.beforeEach((to, from, next) => {
         localStorage.removeItem('nickname');
     }
     let token = localStorage.getItem('token');
-    if (!token && to.path != '/login') {
+    if (!token && to.path !== '/login') {
         next({path: '/login'})
     } else if (token && to.path === '/') {
         next({path: '/dashboard'})
     }
     else {
-        next()
+        next();
     }
 });
 
