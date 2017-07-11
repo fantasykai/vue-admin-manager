@@ -25,15 +25,6 @@ export default {
     }
 }
 
-// /**
-//  * 获取错误码
-//  * @param params
-//  * @returns {AxiosPromise}
-//  */
-// export const getErrCodeCn = params => {
-//     return axios.get(`${config.serverURI}/static/locale/errCode_cn.json`, {params: params});
-// };
-
 /**
  * 登录接口
  * @param params
@@ -56,7 +47,7 @@ export const login = params => {
     return axios.create({
         auth: params.credentials,
         timeout: 2000,
-    }).post(`${config.serverURI}/api/v1/tokens`,params.postBody).then(res => res.data);
+    }).post(`${config.serverURI}/api/v1/tokens`, params.postBody).then(res => res.data);
 };
 
 /**
@@ -108,8 +99,6 @@ export const getNickname = params => {
 export const aggregate = params => {
     return axios.post(`${config.serverURI}/charts/v1/aggregate`, params, getToken()).then(res => res.data.result);
 };
-
-// {{api2url}}/api/v1/messages?where={"fromUserId":"58b3a7bafd6614053052e823","msgTimestamp":{"$gt": "2017-04-16 0:0:0","$lt":"2017-04-17 18:30:0"}}&embedded={"fromUserId":1}&sort=-_updated&page=1&max_results=20
 
 /**
  * 根据用户userId/seqid 查询用户的uid
