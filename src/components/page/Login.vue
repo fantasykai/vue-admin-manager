@@ -1,5 +1,4 @@
 <template>
-    <!--login-wrap-->
     <div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="0px"
                  class="demo-ruleForm login-container">
@@ -63,17 +62,15 @@
                                 deviceid: userAgent,
                                 src: 3
                             }
-//                            deviceId: "SysAdmin"
-                        }
+                        };
 
-//                        requestLogin(params).then((data) => {
                         login(params).then((data) => {
                             this.logining = false;
                             let {_status, _error, account, expiration, token} = data;
 
-                            if (null != _status && !_status) {
+                            if (null !== _status && !_status) {
                                 this.$message({
-                                    message: null != _error ? errCodeCN[_error.code] : 'Error!',
+                                    message: null !== _error ? errCodeCN[_error.code] : 'Error!',
                                     type: 'error'
                                 });
                             } else {
@@ -86,16 +83,12 @@
                                 self.$router.push('/dashboard');
                             }
                         }).catch((e) => {
-
-                            let {_error} = e
-
+                            let {_error} = e;
                             this.$message({
-                                message: null != _error ? _error.message : 'Error!',
+                                message: null !== _error ? _error.message : 'Error!',
                                 type: 'error'
                             });
                         });
-//                        localStorage.setItem('ms_username', self.ruleForm.username);
-//                        self.$router.push('/dashboard');
                     } else {
                         return false;
                     }
@@ -103,7 +96,6 @@
             }
         },
         mounted: function () {
-            // 加载错误码
 //            this.getErrCodeAll();
         }
     };
