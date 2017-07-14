@@ -20,9 +20,7 @@
 </template>
 
 <script>
-    //错误码对应中文
     import errCodeCN from '../../../static/errCodeCN.json';
-    //    import {requestLogin}  from '../../api';
     import {login}  from '../../api';
 
     export default {
