@@ -87,10 +87,10 @@
 <script>
     // 时间处理
     import moment from 'moment';
-    import config from '../../config';
-    import showVideo from '../common/ShowVideo.vue';
-    import {getChatRecordPage} from '../../api/messages';
-    import {setMsgTimingTask, cancelMsgTimingTask} from '../../api/manage';
+    import config from '../../../config';
+    import showVideo from '../../common/ShowVideo.vue';
+    import {getChatRecordPage} from 'api/messages';
+    import {setMsgTimingTask, cancelMsgTimingTask} from 'api/manage';
 
     export default {
         components: {

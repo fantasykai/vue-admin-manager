@@ -5,7 +5,7 @@ import Home from './components/common/HomeMenu.vue';
 import Dashboard from './components/page/dashboard/Dashboard.vue';
 import CycleCharts from './components/page/userDataStat/UserNumCycleCharts.vue';
 import LoggedUserNumCharts from './components/page/userDataStat/LoggedUserNumCycleCharts.vue';
-import AnchorMsgMass from './components/page/AnchorMsgMass.vue';
+import AnchorMsgMass from './components/page/operation/AnchorMsgMass.vue';
 import UserManage from './components/page/userManage/UserManage.vue';
 import FriendsManage from './components/page/friends/FriendsManage.vue';
 import FirendInRow from './components/page/friends/FriendsInRow.vue';
