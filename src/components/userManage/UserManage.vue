@@ -178,7 +178,7 @@
 <script>
     // 时间处理
     import moment from 'moment';
-    import channelCode from '../../../static/channelCode.json';
+    import channelCode from 'static/channelCode.json';
     import config from '../../config';
     //    import {getUsersPage, getNickname} from '../../api';
     import {getUsersPage, getNickname, updateUserInfo} from '../../api/users';

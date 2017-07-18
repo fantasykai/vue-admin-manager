@@ -48,7 +48,7 @@
     import IEcharts from 'vue-echarts-v3/src/full.vue';
     //    import {aggregate}  from '../../api';
     import {aggregate} from 'api/aggregate';
-    import monthUserNumsReq from '../../../static/requestList/cycleUserNum.json';
+    import monthUserNumsReq from 'static/requestList/cycleUserNum.json';
     // 时间处理
     import moment from 'moment';
     export default {

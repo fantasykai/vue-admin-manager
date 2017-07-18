@@ -43,7 +43,6 @@
                 </div>
             </div>
         </section>
-
         <section class="content">
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
@@ -70,7 +69,6 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-teal" @click="statAll(17)"><i
                         class="ion ion-arrow-graph-up-right"></i></span>
-
                     <div class="info-box-content">
                         <span class="info-box-text">最近7天活跃</span>
                         <span class="info-box-number">{{ weekActiveTotal | numFormat }}</span>
@@ -80,7 +78,6 @@
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box">
                     <span class="info-box-icon bg-olive" @click="statAll(130)"><i class="fa fa-industry"></i></span>
-
                     <div class="info-box-content">
                         <span class="info-box-text">最近30天活跃</span>
                         <span class="info-box-number">{{ monthActiveTotal | numFormat }}</span>
@@ -166,22 +163,20 @@
 
 <script>
     import IEcharts from 'vue-echarts-v3/src/full.vue';
-    //    import {aggregate}  from '../../api';
-    import {aggregate} from '../../api/aggregate';
-    import devTypebyDate from '../../../static/requestList/devType.json';
-    import phoneModel from '../../../static/requestList/phoneModel.json';
-    import sendMsgCountReq from '../../../static/requestList/sendMsgCount.json';
-    import channelReq from '../../../static/requestList/channel.json';
-    import channelCode from '../../../static/channelCode.json';
-    import phoneBrandReq from '../../../static/requestList/phoneBrand.json';
+    import {aggregate} from 'api/aggregate';
+    import devTypebyDate from 'static/requestList/devType.json';
+    import phoneModel from 'static/requestList/phoneModel.json';
+    import sendMsgCountReq from 'static/requestList/sendMsgCount.json';
+    import channelReq from 'static/requestList/channel.json';
+    import channelCode from 'static/channelCode.json';
+    import phoneBrandReq from 'static/requestList/phoneBrand.json';
     // 用户注册版本统计
-    import appVersion from '../../../static/requestList/appVersion.json';
-
+    import appVersion from 'static/requestList/appVersion.json';
     // 活跃信息统计
-    import activeDevType from '../../../static/requestList/activeDevType.json';
-    import activeAppVersion from '../../../static/requestList/activeAppVersion.json';
-    import activePhoneBrand from '../../../static/requestList/activePhoneBrand.json';
-    import activePhoneModel from '../../../static/requestList/activePhoneModel.json';
+    import activeDevType from 'static/requestList/activeDevType.json';
+    import activeAppVersion from 'static/requestList/activeAppVersion.json';
+    import activePhoneBrand from 'static/requestList/activePhoneBrand.json';
+    import activePhoneModel from 'static/requestList/activePhoneModel.json';
 
     // 时间处理
     import moment from 'moment';
