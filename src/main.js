@@ -9,6 +9,7 @@ import Vuex from 'vuex'
 import routes from './routes'
 import {sync} from 'vuex-router-sync'
 import VueVideoPlayer from 'vue-video-player'
+import * as filters from './filters'; // 全局vue filter
 
 import Mock from './mock';
 Mock.bootstrap();
@@ -18,6 +19,11 @@ Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueVideoPlayer);
+
+// register global utility filters.
+Object.keys(filters).forEach(key => {
+    Vue.filter(key, filters[key])
+});
 
 const router = new VueRouter({
     routes
