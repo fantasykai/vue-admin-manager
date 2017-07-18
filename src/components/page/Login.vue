@@ -49,7 +49,7 @@
                     if (valid) {
                         this.logining = true;
 
-                        let userAgent = navigator.userAgent
+                        let userAgent = navigator.userAgent;
 
                         let params = {
                             credentials: {
@@ -66,9 +66,9 @@
                             this.logining = false;
                             let {_status, _error, account, expiration, token} = data;
 
-                            if (null !== _status && !_status) {
+                            if (null != _status && !_status) {
                                 this.$message({
-                                    message: null !== _error ? errCodeCN[_error.code] : 'Error!',
+                                    message: null != _error ? errCodeCN[_error.code] : 'Error!',
                                     type: 'error'
                                 });
                             } else {
@@ -83,7 +83,7 @@
                         }).catch((e) => {
                             let {_error} = e;
                             this.$message({
-                                message: null !== _error ? _error.message : 'Error!',
+                                message: null != _error ? _error.message : 'Error!',
                                 type: 'error'
                             });
                         });
