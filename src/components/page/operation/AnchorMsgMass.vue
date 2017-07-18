@@ -118,26 +118,6 @@
             };
         },
         filters: {
-            // 格式化数字
-            timingTime(time) {
-                return moment(time).add(1, 'days').format('YYYY-MM-DD 08:00:00');
-            },
-            formattedJson(str) {
-                let jsonStr
-                if (str) {
-                    jsonStr = JSON.stringify(str)
-                } else {
-                    jsonStr = '无'
-                }
-                return jsonStr;
-            },
-            formatResultType(str) {
-                let type;
-                if (str) {
-                    type = 'success';
-                }
-                return type
-            }
         },
         methods: {
             //初始化OSS 权限

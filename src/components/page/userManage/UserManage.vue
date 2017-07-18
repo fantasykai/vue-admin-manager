@@ -50,7 +50,7 @@
                     <el-popover title="接口报文" trigger="hover" placement="top">
                         <p> {{ scope.row | formattedJson }}</p>
                         <div slot="reference" class="name-wrapper">
-                            <el-tag type="gray">{{ scope.row | formatuserId }} </el-tag>
+                            <el-tag type="gray">{{ scope.row | formatUserId }} </el-tag>
                         </div>
                     </el-popover>
                 </template>
@@ -259,38 +259,6 @@
             };
         },
         filters: {
-            formatuserId(row) {
-                let f_userId = ''
-
-                let userInfo = JSON.stringify(row);
-
-                let {userId, seqid} = JSON.parse(userInfo);
-
-                if (userId) {
-                    f_userId = userId
-                } else {
-                    f_userId = seqid
-                }
-
-                return f_userId;
-            },
-            formatBeijingDate(date) {
-
-                let beijingDate = ''
-                if (date) {
-                    beijingDate = moment(date).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
-                }
-                return beijingDate;
-            },
-            formattedJson(str) {
-                let jsonStr
-                if (str) {
-                    jsonStr = JSON.stringify(str)
-                } else {
-                    jsonStr = '无'
-                }
-                return jsonStr;
-            },
             formattedConstellation(index) {
 
                 let constellationStrings = ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座"

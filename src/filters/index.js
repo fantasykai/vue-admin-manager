@@ -3,38 +3,20 @@
  */
 import moment from 'moment';
 import channelCode from 'static/channelCode.json';
-/**
- *
- * 发送消息数，不存在则展示0
- * @param sendNum
- * @returns {number}
- */
-export function formatSendNum(sendNum) {
-    return sendNum ? sendNum : 0;
-}
-/**
- * 格式化化bluid，如果存在bluid，则展示bluid，不存在，则展示seqid
- *
- * @param row
- * @returns {string}
- */
-export function formatBluId(row) {
-    let bluId = '';
+
+export function formatUserId(row) {
+    let f_userId = '';
     let userInfo = JSON.stringify(row);
-    let {bluid, seqid} = JSON.parse(userInfo);
-    if (bluid) {
-        bluId = bluid
+    let {userId, seqid} = JSON.parse(userInfo);
+
+    if (userId) {
+        f_userId = userId
     } else {
-        bluId = seqid
+        f_userId = seqid
     }
-    return bluId;
+    return f_userId;
 }
 
-/**
- * 格式化为北京时间
- * @param date
- * @returns {string}
- */
 export function formatBeijingDate(date) {
     let beijingDate = '';
     if (date) {
@@ -43,11 +25,6 @@ export function formatBeijingDate(date) {
     return beijingDate;
 }
 
-/**
- * 将字符串转为json格式展示
- * @param str
- * @returns {*}
- */
 export function formattedJson(str) {
     let jsonStr;
     if (str) {
@@ -57,6 +34,7 @@ export function formattedJson(str) {
     }
     return jsonStr;
 }
+
 
 /**
  * 格式化结果类型
@@ -81,8 +59,8 @@ export function formatResultType(str) {
  */
 export function formattedConstellation(index) {
 
-    let constellationStrings = ["性感的白羊", "傲娇的金牛", "机智的双子", "温暖的巨蟹", "万人迷的狮子"
-        , "高贵的处女", "美味的天秤", "魅惑的天蝎", "色色的射手", "硬核的摩羯", "鬼马的水瓶", "温柔的双鱼", "温柔的双鱼"];
+    let constellationStrings = ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座"
+        , "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座"];
 
     return constellationStrings[index];
 

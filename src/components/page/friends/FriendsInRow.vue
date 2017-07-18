@@ -86,15 +86,6 @@
             };
         },
         filters: {
-            formattedJson(str) {
-                let jsonStr
-                if (str) {
-                    jsonStr = JSON.stringify(str)
-                } else {
-                    jsonStr = '无'
-                }
-                return jsonStr;
-            },
         },
         methods: {
             formatBeijingDate(row) {
