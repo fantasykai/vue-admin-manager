@@ -348,25 +348,14 @@
                     this.total = res.data._meta.total;
                     this.records = res.data._items;
 
-                    console.log("this.records : " + this.records);
-
                     this.listLoading = false;
                     for (let i = 0; i < this.records.length; i++) {
-
                         let {avatar} = this.records[i];
-
-                        console.log("avatar : " + avatar);
-
                         if (this.mock) {
-
                             this.avatarSrc[i] = avatar;
-
                         } else {
-
                             if (avatar) {
-
                                 avatar += '@!web_show_avatar';
-
                                 var result = this.ossClient.signatureUrl(avatar, {
                                     response: {
                                         // 'content-disposition': 'attachment; filename="' + filename + '"'
