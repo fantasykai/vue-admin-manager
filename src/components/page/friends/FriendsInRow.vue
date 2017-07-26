@@ -8,7 +8,6 @@
                         返回
                     </router-link>
                 </P>
-                <!--<el-button @click.native.prevent="handlePreStep" >返回</el-button>-->
                 <!--列表-->
                 <el-table :data="friendsRecords" highlight-current-row v-loading="listLoading"
                           style="width: 100%;">
@@ -59,7 +58,6 @@
     // 时间处理
     import moment from 'moment';
     import config from '../../../config';
-//    import {getFriendsInRow} from '../../../api';
     import {getFriendsInRow} from '../../../api/users';
 
     export default {
@@ -90,7 +88,7 @@
         methods: {
             formatBeijingDate(row) {
 
-                let beijingDate = ''
+                let beijingDate = '';
                 if (row._created) {
                     beijingDate = moment(row._created).add(8, 'hours').format('YYYY-MM-DD HH:mm:ss')
                 }
@@ -134,12 +132,12 @@
             // 获取分组内的好友
             queryFriendsInRow() {
 
-                let ids = ''
+                let ids = '';
 
                 if (this.friendIds) {
 
                     for (let i = 0; i < this.friendIds.length; i++) {
-                        ids += '"' + this.friendIds[i] + '"'
+                        ids += '"' + this.friendIds[i] + '"';
 
                         if (i < this.friendIds.length - 1) {
                             ids += ","
