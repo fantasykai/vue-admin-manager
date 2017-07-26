@@ -1,16 +1,5 @@
 <template>
     <section>
-        <!--工具条-->
-        <!--<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">-->
-        <!--<el-form :inline="true" :model="filters">-->
-        <!--<el-form-item>-->
-        <!--<el-input v-model="filters.userId" placeholder="tel/userId/SeqId"-->
-        <!--style="width: 50%;"></el-input>-->
-        <!--<el-button type="primary" v-on:click="getProfileUser">查询</el-button>-->
-        <!--<el-button type="primary" icon="arrow-left"></el-button>-->
-        <!--</el-form-item>-->
-        <!--</el-form>-->
-        <!--</el-col>-->
         <p></p>
         <P><strong>个人资料</strong> /
             <router-link :to="{ path: filters.previousPage }">返回

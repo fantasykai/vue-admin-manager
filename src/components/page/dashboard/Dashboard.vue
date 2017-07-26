@@ -683,42 +683,42 @@
                         for (let i = 0; i < data.length; i++) {
                             let value = data[i].num;
                             let devType = data[i]._id.deviceType;
-                            if (1 == devType) {
+                            if (1 === devType) {
                                 devType = 'Android';
                                 switch (type) {
                                     case 0:
-                                        this.total.androidNum = value
+                                        this.total.androidNum = value;
                                         break;
                                     case 1:
-                                        this.total.android1Num = value
+                                        this.total.android1Num = value;
                                         break;
                                     case 7:
-                                        this.total.android7Num = value
+                                        this.total.android7Num = value;
                                         break;
                                     case 30:
-                                        this.total.android30Num = value
+                                        this.total.android30Num = value;
                                         break;
                                     case 190:
-                                        this.activeTotal.android90Num = value
+                                        this.activeTotal.android90Num = value;
                                         break;
                                     case 11:
-                                        this.activeTotal.android1Num = value
+                                        this.activeTotal.android1Num = value;
                                         break;
                                     case 17:
-                                        this.activeTotal.android7Num = value
+                                        this.activeTotal.android7Num = value;
                                         break;
                                     case 130:
-                                        this.activeTotal.android30Num = value
+                                        this.activeTotal.android30Num = value;
                                         break;
                                     default:
-                                        this.total.androidNum = value
+                                        this.total.androidNum = value;
                                 }
 
-                            } else if (2 == devType) {
+                            } else if (2 === devType) {
                                 devType = 'ios';
                                 switch (type) {
                                     case 0:
-                                        this.total.iosNum = value
+                                        this.total.iosNum = value;
                                         break;
                                     case 1:
                                         this.total.ios1Num = value
