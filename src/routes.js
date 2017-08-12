@@ -13,6 +13,7 @@ import OperatingAccountManage from './components/page/operation/OperatingAccount
 import AutoReplyCfg from './components/page/operation/AutoReplyCfg.vue';
 import FrisNumCycleCharts from './components/page/friends/stat/FrisNumCycleCharts.vue';
 import MsgNumCycleCharts from './components/page/msg/stat/MsgNumCycleCharts.vue';
+import GeoUserNumCityRanked from './components/page/userDataStat/GeoUserNumCityRanked.vue';
 
 
 let routes = [
@@ -54,7 +55,8 @@ let routes = [
             {path: '/cycleCharts', component: CycleCharts, name: '注册用户趋势'},
             {path: '/loggedUserNumCharts', component: LoggedUserNumCharts, name: '活跃用户趋势'},
             {path: '/frisNumCycleCharts', component: FrisNumCycleCharts, name: '用户关系趋势'},
-            {path: '/msgNumCycleCharts', component: MsgNumCycleCharts, name: '用户聊天消息数量趋势'}
+            {path: '/msgNumCycleCharts', component: MsgNumCycleCharts, name: '用户聊天消息数量趋势'},
+            {path: '/geoUserNumCityRanked', component: GeoUserNumCityRanked, name: '城市用户分布图'},
         ]
     },
     {

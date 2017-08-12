@@ -1,0 +1,38 @@
+{
+     "pipeline": [
+        {
+            "$match": {
+                "operate": "operate"
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                    "city": "$geo.city",
+                    "latitude": "$geo.latitude",
+                    "longitude": "$geo.longitude",
+                    "userId": "$user_id"
+                }
+            }
+        },
+        {
+            "$group": {
+                "_id": {
+                    "city": "$_id.city",
+                    "latitude": "$_id.latitude",
+                    "longitude": "$_id.longitude"
+                },
+                "num": {
+                    "$sum": 1
+                }
+            }
+        },
+        {
+            "$sort": {
+                "num": -1
+            }
+        }
+    ],
+    "starttime":"2017-07-28 02:30:00",
+    "collections": "collections"
+}
