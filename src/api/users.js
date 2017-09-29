@@ -8,7 +8,7 @@ import fetch from '../utils/fetch'
  */
 export function getNickname(uid) {
     return fetch({
-        url: `/api/v1/users/` + uid + `?projection={"nickname":1}`,
+        url: `/api/v1/users/` + uid + `?projection={"nickname":1,"usertype":1,"manage":1}`,
         method: 'get'
     }).then(res => res.data);
 }

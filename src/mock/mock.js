@@ -45,7 +45,7 @@ export default  {
             });
         });
 
-        mock_fetch.onGet('/api/v1/users/56abcdef12345678?projection={"nickname":1}').reply(config => {
+        mock_fetch.onGet('/api/v1/users/56abcdef12345678?projection={"nickname":1,"usertype":1,"manage":1}').reply(config => {
 
             return new Promise((resolve, reject) => {
                 setTimeout(() => {

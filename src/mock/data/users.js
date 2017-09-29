@@ -12,6 +12,11 @@ const Token = {
 const LoginUsers = {
     "_id": "56abcdef12345678",
     "nickname": "Sys管理员",
+    "usertype": 9,
+    "manage": {
+        "remark": "admin",
+        "agent": "admin"
+    },
 };
 
 
