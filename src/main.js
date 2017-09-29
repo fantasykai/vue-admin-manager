@@ -13,6 +13,10 @@ import {sync} from 'vuex-router-sync'
 import VueVideoPlayer from 'vue-video-player'
 import * as filters from './filters'; // 全局vue filter
 
+// 开启Mock测试
+import Mock from './mock';
+Mock.bootstrap();
+
 Vue.component('icon-svg', IconSvg);
 Vue.use(ElementUI);
 Vue.use(VueVideoPlayer);
