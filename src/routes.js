@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import Router from 'vue-router';
 import Login from './components/page/Login.vue';
 import NotFoundView from './components/common/error/404.vue';
 import NotPermission from './components/common/error/401.vue';
@@ -15,8 +17,9 @@ import FrisNumCycleCharts from './components/page/friends/stat/FrisNumCycleChart
 import MsgNumCycleCharts from './components/page/msg/stat/MsgNumCycleCharts.vue';
 import GeoUserNumCityRanked from './components/page/userDataStat/GeoUserNumCityRanked.vue';
 
+Vue.use(Router);
 
-let routes = [
+export const defaultRouterMap = [
     {
         path: '/login',
         component: Login,
@@ -40,16 +43,27 @@ let routes = [
         path: '/',
         component: Home,
         name: '',
-        iconCls: 'el-icon-star-on',
+        // iconCls: 'el-icon-star-on',
+        icon: 'favorfill',
         leaf: true,//只有一个节点
         children: [
             {path: '/dashboard', component: Dashboard, name: '应用概况'}
         ]
-    },
+    }
+];
+
+export default new Router({
+    // mode: 'history', //后端支持可开
+    scrollBehavior: () => ({y: 0}),
+    routes: defaultRouterMap
+});
+
+export const asyncRouterMap = [
     {
         path: '/',
         component: Home,
         name: '数据趋势',
+        meta: {role: ['admin']},
         iconCls: 'el-icon-menu',
         children: [
             {path: '/cycleCharts', component: CycleCharts, name: '注册用户趋势'},
@@ -63,6 +77,7 @@ let routes = [
         path: '/',
         component: Home,
         name: '用户管理',
+        meta: {role: ['admin']},
         iconCls: 'el-icon-star-off',
         children: [
             {path: '/userManage', component: UserManage, name: 'Sys用户管理'},
@@ -84,6 +99,7 @@ let routes = [
         path: '/',
         component: Home,
         name: '运营数据',
+        meta: {role: ['admin']},
         iconCls: 'el-icon-date',
         children: [
             // {path: '/videoTest', component: VideoTest, name: '视频播放测试'},
@@ -104,4 +120,3 @@ let routes = [
     }
 ];
 
-export default routes;
