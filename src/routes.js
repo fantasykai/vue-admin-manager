@@ -64,7 +64,8 @@ export const asyncRouterMap = [
         component: Home,
         name: '数据趋势',
         meta: {role: ['admin']},
-        iconCls: 'el-icon-menu',
+        // iconCls: 'el-icon-menu',
+        icon: 'statsbars',
         children: [
             {path: '/cycleCharts', component: CycleCharts, name: '注册用户趋势'},
             {path: '/loggedUserNumCharts', component: LoggedUserNumCharts, name: '活跃用户趋势'},
@@ -78,7 +79,8 @@ export const asyncRouterMap = [
         component: Home,
         name: '用户管理',
         meta: {role: ['admin']},
-        iconCls: 'el-icon-star-off',
+        // iconCls: 'el-icon-star-off',
+        icon: 'users',
         children: [
             {path: '/userManage', component: UserManage, name: 'Sys用户管理'},
             {
@@ -100,7 +102,8 @@ export const asyncRouterMap = [
         component: Home,
         name: '运营数据',
         meta: {role: ['admin']},
-        iconCls: 'el-icon-date',
+        // iconCls: 'el-icon-date',
+        icon: 'unie67e',
         children: [
             // {path: '/videoTest', component: VideoTest, name: '视频播放测试'},
             {path: '/anchorMsgMass', component: AnchorMsgMass, name: '消息转发管理'},
