@@ -4,7 +4,7 @@ import Login from './components/page/Login.vue';
 import NotFoundView from './components/common/error/404.vue';
 import NotPermission from './components/common/error/401.vue';
 import Home from './components/common/HomeMenu.vue';
-import Dashboard from './components/page/dashboard/Dashboard.vue';
+import Dashboard from './components/page/dashboard/index.vue';
 import CycleCharts from './components/page/userDataStat/UserNumCycleCharts.vue';
 import LoggedUserNumCharts from './components/page/userDataStat/LoggedUserNumCycleCharts.vue';
 import AnchorMsgMass from './components/page/operation/AnchorMsgMass.vue';
