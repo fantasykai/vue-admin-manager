@@ -9,13 +9,24 @@ const Token = {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 };
 
-const LoginUsers = {
+const LoginAdminUsers = {
     "_id": "56abcdef12345678",
     "nickname": "Sys管理员",
     "usertype": 9,
     "manage": {
         "remark": "admin",
         "agent": "admin"
+    },
+};
+
+// intern
+const LoginInternUsers = {
+    "_id": "56abcdef12345678",
+    "nickname": "见习领航员",
+    "usertype": 9,
+    "manage": {
+        "remark": "intern",
+        "agent": "水星~"
     },
 };
 
@@ -83,4 +94,4 @@ for (let i = 0; i < 99; i++) {
     }));
 }
 
-export {Token, LoginUsers, Users};
+export {Token, LoginAdminUsers,LoginInternUsers, Users};
