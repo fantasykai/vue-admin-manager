@@ -9,27 +9,27 @@ const Token = {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
 };
 
-const LoginAdminUsers = {
-    "_id": "56abcdef12345678",
-    "nickname": "Sys管理员",
-    "usertype": 9,
-    "manage": {
-        "remark": "admin",
-        "agent": "admin"
+const LoginMap = {
+    admin: {
+        "_id": "56abcdef12345678",
+        "nickname": "Sys管理员",
+        "usertype": 9,
+        "manage": {
+            "remark": "admin",
+            "agent": "admin"
+        },
     },
+    // intern
+    intern: {
+        "_id": "56abcdef12345678",
+        "nickname": "见习领航员",
+        "usertype": 9,
+        "manage": {
+            "remark": "intern",
+            "agent": "水星~"
+        },
+    }
 };
-
-// intern
-const LoginInternUsers = {
-    "_id": "56abcdef12345678",
-    "nickname": "见习领航员",
-    "usertype": 9,
-    "manage": {
-        "remark": "intern",
-        "agent": "水星~"
-    },
-};
-
 
 const Users = [];
 
@@ -94,4 +94,4 @@ for (let i = 0; i < 99; i++) {
     }));
 }
 
-export {Token, LoginAdminUsers,LoginInternUsers, Users};
+export {Token, LoginMap, Users};
