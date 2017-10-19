@@ -5,9 +5,11 @@
 import axios from 'axios';
 import fetch from '../utils/fetch';
 import MockAdapter from 'axios-mock-adapter';
-import {Token, LoginUsers, Users} from './data/users';
+import {Token, LoginMap, Users} from './data/users';
+
 let _Users = Users;
-import  {MsgData} from './data/msgData';
+import {MsgData} from './data/msgData';
+
 let _MsgData = MsgData;
 import {StsToken} from './data/ststoken';
 import {
@@ -29,15 +31,18 @@ import {
 
 import {addUserTrend, ActiveUserTrend, UserRelationThrend, UserMsgThrend} from './data/trendData';
 
-export default  {
+export default {
     /**
      * mock bootstrap
      */
     bootstrap() {
         let mock = new MockAdapter(axios);
         let mock_fetch = new MockAdapter(fetch);
+        let loginName = 'intern';
         //登录
         mock.onPost('/api/v1/tokens').reply(config => {
+
+            loginName  = config.auth.username;
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, Token]);
@@ -45,11 +50,11 @@ export default  {
             });
         });
 
-        mock_fetch.onGet('/api/v1/users/56abcdef12345678?projection={"nickname":1}').reply(config => {
+        mock_fetch.onGet('/api/v1/users/56abcdef12345678?projection={"nickname":1,"usertype":1,"manage":1}').reply(config => {
 
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    resolve([200, LoginUsers]);
+                    resolve([200, LoginMap[loginName]]);
                 }, 1000);
             });
         });

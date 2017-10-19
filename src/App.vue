@@ -45,6 +45,14 @@ body {
 	margin-right: 10px;
 }
 
+.svg-icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
 .toolbar {
 	/*background: #f2f2f2;*/
 	padding: 10px;
